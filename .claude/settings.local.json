@@ -3,7 +3,8 @@
     "allow": [
       "Bash(rm:*)",
       "Bash(python:*)",
-      "Bash(prompt-eval run:*)"
+      "Bash(prompt-eval run:*)",
+      "Bash(echo:*)"
     ]
   }
 }

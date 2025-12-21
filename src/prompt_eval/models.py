@@ -11,16 +11,68 @@ from pydantic import BaseModel, Field
 
 class Prompt(BaseModel):
     """A prompt template to be evaluated."""
-    
+
     name: str = Field(..., description="Unique identifier for the prompt")
     template: str = Field(..., description="The prompt template with {variable} placeholders")
     system: str | None = Field(None, description="Optional system prompt")
     description: str = Field("", description="Description of what this prompt does")
     version: str = Field("1.0", description="Version of this prompt")
-    
+
+    # Enhanced prompt engineering fields
+    rules: list[str] = Field(default_factory=list, description="List of rules to follow")
+    skills: list[str] = Field(default_factory=list, description="Skills or capabilities to use")
+    examples: list[dict[str, str]] = Field(default_factory=list, description="Few-shot examples")
+    thinking_process: str | None = Field(None, description="Chain-of-thought guidance")
+
     def render(self, variables: dict[str, Any]) -> str:
         """Render the prompt template with the given variables."""
         return self.template.format(**variables)
+
+    def build_system_prompt(self) -> str:
+        """Build a complete system prompt including base system, rules, skills, and thinking process."""
+        parts = []
+
+        # Base system prompt
+        if self.system:
+            parts.append(self.system.strip())
+
+        # Add rules section
+        if self.rules:
+            parts.append("\n<rules>")
+            for rule in self.rules:
+                parts.append(f"- {rule}")
+            parts.append("</rules>")
+
+        # Add skills section
+        if self.skills:
+            parts.append("\n<skills>")
+            for skill in self.skills:
+                parts.append(f"- {skill}")
+            parts.append("</skills>")
+
+        # Add thinking process guidance
+        if self.thinking_process:
+            parts.append(f"\n<thinking_process>\n{self.thinking_process.strip()}\n</thinking_process>")
+
+        return "\n".join(parts)
+
+    def build_user_prompt(self, variables: dict[str, Any]) -> str:
+        """Build the complete user prompt including examples and template."""
+        parts = []
+
+        # Add examples section
+        if self.examples:
+            parts.append("<examples>")
+            for i, example in enumerate(self.examples, 1):
+                parts.append(f"\nExample {i}:")
+                for key, value in example.items():
+                    parts.append(f"{key}: {value}")
+            parts.append("</examples>\n")
+
+        # Add the main template
+        parts.append(self.render(variables))
+
+        return "\n".join(parts)
 
 
 class TestCase(BaseModel):
@@ -37,9 +89,10 @@ class TestCase(BaseModel):
 
 class EvalResult(BaseModel):
     """Result of evaluating a single test case."""
-    
+
     test_case: str = Field(..., description="Name of the test case")
     prompt_name: str = Field(..., description="Name of the prompt evaluated")
+    system_prompt: str = Field("", description="The system prompt sent to the model")
     input_text: str = Field(..., description="The rendered prompt sent to the model")
     output: str = Field(..., description="Model's response")
     metrics: dict[str, float] = Field(default_factory=dict, description="Metric scores")

@@ -1,0 +1,72 @@
+{
+  "run_id": "28281406",
+  "prompt_name": "definition-extractor_v2",
+  "model": "claude-opus-4-5-20251101",
+  "config": {
+    "max_tokens": 1024,
+    "temperature": 0.1
+  },
+  "started_at": "2025-12-21T17:16:10.410960",
+  "completed_at": "2025-12-21T17:16:41.672514",
+  "summary": {
+    "run_id": "28281406",
+    "prompt": "definition-extractor_v2",
+    "model": "claude-opus-4-5-20251101",
+    "total_tests": 3,
+    "passed": 3,
+    "failed": 0,
+    "pass_rate": "100.0%",
+    "avg_latency_ms": "10417",
+    "total_tokens": 2898
+  },
+  "results": [
+    {
+      "test_case": "proposition 2.201",
+      "prompt_name": "definition-extractor_v2",
+      "system_prompt": "You are a philosopher specializing in logic and philosophy of language.\n\n<rules>\n- Only classify clear, explicit definitions\n- Definitions must state \"X is Y\" or \"X means Y\"\n- A definition provides necessary and sufficient conditions in the traditional definitional sense\n- Implicit or contextual definitions should be marked as \"no\"\n- Tautologies (e.g., \"X is X\") are not definitions\n- Descriptive statements without definitional intent are not definitions\n- Philosophical elucidations or characterizations are not formal definitions\n</rules>\n\n<skills>\n- Formal logic analysis\n- Semantic decomposition\n- Linguistic pattern recognition\n- Distinguishing definitions from descriptions\n</skills>\n\n<thinking_process>\nFirst, identify if the proposition has the form \"X is/means Y\".\nSecond, check if Y provides meaningful, non-tautological information about X.\nThird, verify it's a definitional statement rather than a description or observation.\nFourth, extract the term being defined if it is a definition.\n</thinking_process>",
+      "input_text": "<examples>\n\nExample 1:\ninput: A bachelor is an unmarried man\noutput: Is a definition: yes\nWord defined: bachelor\n\nExample 2:\ninput: If the form of representation is the logical form, then the picture is called a logical picture.\noutput: Is a definition: no\nWord defined: none\n\nExample 3:\ninput: The law of causality is not a law but the form of a law.\noutput: Is a definition: no\nWord defined: none\n\nExample 4:\ninput: A triangle is a polygon with three sides\noutput: Is a definition: yes\nWord defined: triangle\n\nExample 5:\ninput: The applied, thought, propositional sign, is the thought\noutput: Is a definition: yes\nWord defined: thought\n\nExample 6:\ninput: Space, time and colour (colouredness) are forms of objects.\noutput: Is a definition: no\nWord defined: none\n</examples>\n\nConsider the following proposition:\n\nThe picture depicts reality by representing a possibility of the existence and non-existence of atomic facts.\n\nState if this proposition is a definition.\n\nYour answer must follow this format:\nIs a definition: yes|no\nWord defined: the word|none\n",
+      "output": "<thinking_process>\nLet me analyze this proposition: \"The picture depicts reality by representing a possibility of the existence and non-existence of atomic facts.\"\n\nFirst, does this have the form \"X is Y\" or \"X means Y\"?\n- The proposition states what \"the picture\" does - it \"depicts reality by representing...\"\n- This is describing HOW a picture depicts reality, not defining what a picture IS.\n\nSecond, is this providing necessary and sufficient conditions for a term?\n- This is explaining the mechanism or method by which pictures depict reality\n- It's a descriptive/explanatory statement about the function of pictures\n- It doesn't say \"A picture is...\" or \"A picture means...\"\n\nThird, is this a definitional statement or a description/observation?\n- This is clearly a philosophical characterization or elucidation of how pictures work\n- It describes what pictures DO, not what they ARE\n- The structure \"X depicts Y by Z\" is not a definitional form\n\nThis appears to be from Wittgenstein's Tractatus, and it's explaining the picture theory of meaning - how pictures represent reality. But it's not providing a formal definition of \"picture\" or any other term. It's a philosophical explanation of the representational function of pictures.\n\nThe proposition is descriptive/explanatory rather than definitional.\n</thinking_process>\n\nIs a definition: no\nWord defined: none",
+      "metrics": {
+        "contains": 1.0
+      },
+      "passed": true,
+      "latency_ms": 8166.535299998941,
+      "tokens_in": 512,
+      "tokens_out": 309,
+      "error": null,
+      "timestamp": "2025-12-21 17:16:18.585019"
+    },
+    {
+      "test_case": "proposition 6.44",
+      "prompt_name": "definition-extractor_v2",
+      "system_prompt": "You are a philosopher specializing in logic and philosophy of language.\n\n<rules>\n- Only classify clear, explicit definitions\n- Definitions must state \"X is Y\" or \"X means Y\"\n- A definition provides necessary and sufficient conditions in the traditional definitional sense\n- Implicit or contextual definitions should be marked as \"no\"\n- Tautologies (e.g., \"X is X\") are not definitions\n- Descriptive statements without definitional intent are not definitions\n- Philosophical elucidations or characterizations are not formal definitions\n</rules>\n\n<skills>\n- Formal logic analysis\n- Semantic decomposition\n- Linguistic pattern recognition\n- Distinguishing definitions from descriptions\n</skills>\n\n<thinking_process>\nFirst, identify if the proposition has the form \"X is/means Y\".\nSecond, check if Y provides meaningful, non-tautological information about X.\nThird, verify it's a definitional statement rather than a description or observation.\nFourth, extract the term being defined if it is a definition.\n</thinking_process>",
+      "input_text": "<examples>\n\nExample 1:\ninput: A bachelor is an unmarried man\noutput: Is a definition: yes\nWord defined: bachelor\n\nExample 2:\ninput: If the form of representation is the logical form, then the picture is called a logical picture.\noutput: Is a definition: no\nWord defined: none\n\nExample 3:\ninput: The law of causality is not a law but the form of a law.\noutput: Is a definition: no\nWord defined: none\n\nExample 4:\ninput: A triangle is a polygon with three sides\noutput: Is a definition: yes\nWord defined: triangle\n\nExample 5:\ninput: The applied, thought, propositional sign, is the thought\noutput: Is a definition: yes\nWord defined: thought\n\nExample 6:\ninput: Space, time and colour (colouredness) are forms of objects.\noutput: Is a definition: no\nWord defined: none\n</examples>\n\nConsider the following proposition:\n\nNot how the world is, is the mystical, but that it is.\n\nState if this proposition is a definition.\n\nYour answer must follow this format:\nIs a definition: yes|no\nWord defined: the word|none\n",
+      "output": "<thinking_process>\nLet me analyze this proposition: \"Not how the world is, is the mystical, but that it is.\"\n\nFirst, I need to identify if this has the form \"X is/means Y\".\n\nThe proposition seems to be saying something about \"the mystical\" - specifically, it's contrasting what the mystical is NOT (how the world is) with what it IS (that the world is/exists).\n\nRestructured, this could be read as: \"The mystical is not how the world is, but that it is\" - which is essentially saying \"The mystical = that the world exists (not how it exists).\"\n\nThis does appear to have a definitional structure - it's telling us what \"the mystical\" is. It provides a characterization: the mystical is the fact of existence itself, not the particular way things are.\n\nHowever, let me consider whether this is truly a formal definition or more of a philosophical elucidation/characterization. \n\nLooking at the rules:\n- \"Philosophical elucidations or characterizations are not formal definitions\"\n- \"Definitions must state 'X is Y' or 'X means Y'\"\n\nThis proposition does state \"X is Y\" in a sense - \"the mystical is that [the world] is\" (i.e., the mystical is the bare fact of existence).\n\nBut is this a clear, explicit definition providing necessary and sufficient conditions? It seems more like a philosophical characterization of what Wittgenstein means by \"the mystical\" rather than a formal definition.\n\nActually, looking at Example 5: \"The applied, thought, propositional sign, is the thought\" - this was classified as a definition. This is also from Wittgenstein and has a similar philosophical character.\n\nThe structure here is: \"The mystical is [that the world is]\" - this does provide what the mystical IS, distinguishing it from what it is NOT.\n\nI think this could be considered a definition of \"the mystical\" - it explicitly states what the mystical is (the fact of existence, not the manner of existence).\n\nLet me reconsider. The proposition has the form: \"Not A is X, but B is X\" which can be rewritten as \"X is B (not A)\". So \"The mystical is that [the world] is.\"\n\nThis seems to be defining \"the mystical\" by stating what it is. It's an explicit statement of what the mystical means/is.\n\nI'll classify this as a definition of \"the mystical\" or \"mystical.\"\n</thinking_process>\n\nLooking at this proposition: \"Not how the world is, is the mystical, but that it is.\"\n\nThis can be restructured as: \"The mystical is not how the world is, but that it is\" - which effectively states \"The mystical = that the world exists (rather than how it exists).\"\n\nThis has the form \"X is Y\" where X = \"the mystical\" and Y = \"that [the world] is\" (the bare fact of existence).\n\nThe proposition explicitly identifies what \"the mystical\" is - it provides a characterization that distinguishes the mystical (the sheer fact of existence) from what it is not (the particular manner or content of existence).\n\nThis is an explicit definitional statement telling us what the term \"the mystical\" refers to.\n\nIs a definition: yes\nWord defined: mystical",
+      "metrics": {
+        "contains": 0.5
+      },
+      "passed": true,
+      "latency_ms": 16202.0843999926,
+      "tokens_in": 509,
+      "tokens_out": 756,
+      "error": null,
+      "timestamp": "2025-12-21 17:16:34.786967"
+    },
+    {
+      "test_case": "proposition 3.5",
+      "prompt_name": "definition-extractor_v2",
+      "system_prompt": "You are a philosopher specializing in logic and philosophy of language.\n\n<rules>\n- Only classify clear, explicit definitions\n- Definitions must state \"X is Y\" or \"X means Y\"\n- A definition provides necessary and sufficient conditions in the traditional definitional sense\n- Implicit or contextual definitions should be marked as \"no\"\n- Tautologies (e.g., \"X is X\") are not definitions\n- Descriptive statements without definitional intent are not definitions\n- Philosophical elucidations or characterizations are not formal definitions\n</rules>\n\n<skills>\n- Formal logic analysis\n- Semantic decomposition\n- Linguistic pattern recognition\n- Distinguishing definitions from descriptions\n</skills>\n\n<thinking_process>\nFirst, identify if the proposition has the form \"X is/means Y\".\nSecond, check if Y provides meaningful, non-tautological information about X.\nThird, verify it's a definitional statement rather than a description or observation.\nFourth, extract the term being defined if it is a definition.\n</thinking_process>",
+      "input_text": "<examples>\n\nExample 1:\ninput: A bachelor is an unmarried man\noutput: Is a definition: yes\nWord defined: bachelor\n\nExample 2:\ninput: If the form of representation is the logical form, then the picture is called a logical picture.\noutput: Is a definition: no\nWord defined: none\n\nExample 3:\ninput: The law of causality is not a law but the form of a law.\noutput: Is a definition: no\nWord defined: none\n\nExample 4:\ninput: A triangle is a polygon with three sides\noutput: Is a definition: yes\nWord defined: triangle\n\nExample 5:\ninput: The applied, thought, propositional sign, is the thought\noutput: Is a definition: yes\nWord defined: thought\n\nExample 6:\ninput: Space, time and colour (colouredness) are forms of objects.\noutput: Is a definition: no\nWord defined: none\n</examples>\n\nConsider the following proposition:\n\nThe applied, thought, propositional sign, is the thought.\n\nState if this proposition is a definition.\n\nYour answer must follow this format:\nIs a definition: yes|no\nWord defined: the word|none\n",
+      "output": "<thinking_process>\nLet me analyze this proposition: \"The applied, thought, propositional sign, is the thought.\"\n\nFirst, does it have the form \"X is Y\"?\nYes, it states that \"The applied, thought, propositional sign\" is \"the thought.\"\n\nSecond, does Y provide meaningful, non-tautological information about X?\nThis is from Wittgenstein's Tractatus. The proposition is stating what \"the thought\" is - it's defining thought as the applied, thought propositional sign. \n\nWait, let me reconsider. The structure is:\n- Subject: \"The applied, thought, propositional sign\"\n- Predicate: \"is the thought\"\n\nThis is saying that when a propositional sign is applied and thought, that IS the thought. This appears to be defining what \"thought\" is.\n\nThird, is it a definitional statement rather than a description?\nThis seems to be providing a definition of what constitutes \"the thought\" - namely, it is the propositional sign when applied and thought.\n\nLooking at the example provided (Example 5), this exact proposition is given and classified as:\n- Is a definition: yes\n- Word defined: thought\n\nSo according to the examples, this is considered a definition of \"thought.\"\n</thinking_process>\n\nIs a definition: yes\nWord defined: thought",
+      "metrics": {
+        "contains": 0.5
+      },
+      "passed": true,
+      "latency_ms": 6881.380399994669,
+      "tokens_in": 507,
+      "tokens_out": 305,
+      "error": null,
+      "timestamp": "2025-12-21 17:16:41.668590"
+    }
+  ]
+}

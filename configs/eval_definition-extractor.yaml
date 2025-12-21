@@ -1,15 +1,15 @@
 # Complete evaluation configuration
 # Run with: prompt-eval run configs/eval_config.yaml
 
-model: claude-sonnet-4-20250514
-max_tokens: 256
-temperature: 0.0
+model: claude-opus-4-5-20251101
+max_tokens: 1024
+temperature: 0.1
 
 # Reference prompt variants from the prompts/ directory
 prompts:
-  - ../prompts/definition-extractor/definition-extractor_v1.yaml
+#   - ../prompts/definition-extractor/definition-extractor_v1.yaml
   - ../prompts/definition-extractor/definition-extractor_v2.yaml
-  - ../prompts/definition-extractor/definition-extractor_v3.yaml
+#   - ../prompts/definition-extractor/definition-extractor_v3.yaml
 
 # Test cases for evaluation
 test_cases:

@@ -23,7 +23,7 @@ class Evaluator:
     
     def __init__(
         self,
-        model: str = "claude-sonnet-4-20250514",
+        model: str = "claude-opus-4-5-20251101",
         client: Anthropic | None = None,
         max_tokens: int = 1024,
         temperature: float = 0.0,
@@ -43,15 +43,18 @@ class Evaluator:
         metrics: list[Metric] | None = None,
     ) -> EvalResult:
         """Evaluate a single test case against a prompt."""
-        
+
         metrics = metrics or [Contains()]
-        
-        # Render the prompt with test inputs
-        rendered_prompt = prompt.render(test_case.inputs)
-        
+
+        # Build the complete system prompt with rules, skills, etc.
+        system_prompt = prompt.build_system_prompt()
+
+        # Build the complete user prompt with examples and template
+        user_prompt = prompt.build_user_prompt(test_case.inputs)
+
         # Build messages
-        messages = [{"role": "user", "content": rendered_prompt}]
-        
+        messages = [{"role": "user", "content": user_prompt}]
+
         # Call the API
         start_time = time.perf_counter()
         try:
@@ -59,16 +62,16 @@ class Evaluator:
                 model=self.model,
                 max_tokens=self.max_tokens,
                 temperature=self.temperature,
-                system=prompt.system or "",
+                system=system_prompt,
                 messages=messages,
             )
             latency_ms = (time.perf_counter() - start_time) * 1000
-            
+
             output = response.content[0].text
             tokens_in = response.usage.input_tokens
             tokens_out = response.usage.output_tokens
             error = None
-            
+
         except Exception as e:
             latency_ms = (time.perf_counter() - start_time) * 1000
             output = ""
@@ -92,7 +95,8 @@ class Evaluator:
         return EvalResult(
             test_case=test_case.name,
             prompt_name=prompt.name,
-            input_text=rendered_prompt,
+            system_prompt=system_prompt,
+            input_text=user_prompt,
             output=output,
             metrics=metric_scores,
             passed=passed,

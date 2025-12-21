@@ -60,6 +60,8 @@ Results are saved to `results/` in multiple formats (JSON, CSV, Markdown, HTML).
 
 Create individual prompt files in the `prompts/` directory:
 
+#### Basic Prompt Format
+
 ```yaml
 # prompts/qa_assistant.yaml
 name: qa_assistant
@@ -70,6 +72,55 @@ template: |
   Answer the following question in a {style} manner:
 
   {question}
+```
+
+#### Enhanced Prompt Format (with rules, skills, examples)
+
+```yaml
+# prompts/definition_extractor.yaml
+name: definition_extractor_v2
+description: Identifies if a proposition is a definition
+version: "2.0"
+system: You are a philosopher specializing in logic and philosophy of language.
+
+# Rules the model should follow
+rules:
+  - Only classify clear, explicit definitions
+  - Definitions must state "X is Y" or "X means Y"
+  - Implicit or contextual definitions should be marked as "no"
+  - Tautologies are not definitions
+
+# Skills to apply
+skills:
+  - Formal logic analysis
+  - Semantic decomposition
+  - Linguistic pattern recognition
+
+# Few-shot examples (optional)
+examples:
+  - input: "A bachelor is an unmarried man"
+    output: "Is a definition: yes\nWord defined: bachelor"
+  - input: "He walked slowly down the street"
+    output: "Is a definition: no\nWord defined: none"
+  - input: "Freedom is freedom"
+    output: "Is a definition: no\nWord defined: none"
+
+# Chain-of-thought guidance (optional)
+thinking_process: |
+  First, identify if the proposition has the form "X is/means Y".
+  Second, check if Y provides meaningful information about X.
+  Third, verify it's not a tautology or contextual description.
+
+template: |
+  Consider the following proposition:
+
+  {text}
+
+  State if this proposition is a definition.
+
+  Your answer must follow this format:
+  Is a definition: yes|no
+  Word defined: the word|none
 ```
 
 ### Complete Evaluation Configuration

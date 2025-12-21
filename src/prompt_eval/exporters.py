@@ -121,6 +121,11 @@ class ResultsExporter:
                 lines.extend([
                     f"### {result.test_case}",
                     "",
+                    "**System Prompt:**",
+                    "```",
+                    result.system_prompt,
+                    "```",
+                    "",
                     "**Input:**",
                     "```",
                     result.input_text,
@@ -232,6 +237,8 @@ class ResultsExporter:
             for result in failures:
                 html += f"""    <div class="details">
         <h3>{result.test_case}</h3>
+        <p><strong>System Prompt:</strong></p>
+        <pre>{result.system_prompt}</pre>
         <p><strong>Input:</strong></p>
         <pre>{result.input_text}</pre>
         <p><strong>Output:</strong></p>
