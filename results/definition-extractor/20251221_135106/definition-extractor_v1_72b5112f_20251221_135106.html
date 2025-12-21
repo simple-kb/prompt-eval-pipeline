@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Eval Report: definition-extractor_v3</title>
+    <title>Eval Report: definition-extractor_v1</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 40px; }
         h1 { color: #333; }
@@ -16,12 +16,12 @@
         .pass { color: #22c55e; }
         .fail { color: #ef4444; }
         .details { background: #fefefe; border: 1px solid #e5e7eb; padding: 15px; margin: 10px 0; border-radius: 4px; }
-        pre { background: #f3f4f6; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        pre { background: #f3f4f6; padding: 10px; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word; }
     </style>
 </head>
 <body>
-    <h1>Evaluation Report: definition-extractor_v3</h1>
-    <p><strong>Run ID:</strong> 1cbc2e9f | <strong>Model:</strong> claude-sonnet-4-20250514 | <strong>Date:</strong> 2025-12-21 13:29:32</p>
+    <h1>Evaluation Report: definition-extractor_v1</h1>
+    <p><strong>Run ID:</strong> 72b5112f | <strong>Model:</strong> claude-sonnet-4-20250514 | <strong>Date:</strong> 2025-12-21 13:50:08</p>
     
     <div class="summary">
         <div class="summary-grid">
@@ -34,7 +34,7 @@
                 <div class="metric-label">Tests Passed</div>
             </div>
             <div class="metric">
-                <div class="metric-value">6376 ms</div>
+                <div class="metric-value">6637 ms</div>
                 <div class="metric-label">Avg Latency</div>
             </div>
         </div>
@@ -55,21 +55,21 @@
             <tr>
                 <td>proposition 2.201</td>
                 <td class="pass">✅</td>
-                <td>6720 ms</td>
+                <td>7164 ms</td>
                 <td>250</td>
                 <td>contains=1.00</td>
             </tr>
             <tr>
                 <td>proposition 6.44</td>
                 <td class="fail">❌</td>
-                <td>7505 ms</td>
+                <td>7590 ms</td>
                 <td>321</td>
                 <td>contains=0.00</td>
             </tr>
             <tr>
                 <td>proposition 3.5</td>
                 <td class="pass">✅</td>
-                <td>4904 ms</td>
+                <td>5158 ms</td>
                 <td>226</td>
                 <td>contains=1.00</td>
             </tr>
@@ -94,7 +94,12 @@ Word defined: the word|none
 
 This statement is making a substantive claim about the nature of the mystical - specifically that the mystical consists not in the particular way the world happens to be (its specific properties or states of affairs), but rather in the sheer fact of its existence. This is a philosophical thesis about what constitutes the mystical experience or dimension of reality.
 
-While the statement does tell us something a...</pre>
+While the statement does tell us something about what "the mystical" refers to, it's not functioning as a definition in the strict sense. Rather, it's making a claim about where we should locate the mystical - in existence itself rather than in any particular features of what exists. A definition would typically take the form "The mystical is..." or "By 'mystical' we mean..." and would aim to give necessary and sufficient conditions for the term's application.
+
+This appears to be a substantive philosophical claim (reminiscent of Wittgenstein's Tractus 6.44) rather than a definitional stipulation.
+
+Is a definition: no
+Word defined: none</pre>
         <p><strong>Metrics:</strong> {'contains': 0.0}</p>
     </div>
 </body>

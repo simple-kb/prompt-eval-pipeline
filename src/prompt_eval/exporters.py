@@ -123,12 +123,12 @@ class ResultsExporter:
                     "",
                     "**Input:**",
                     "```",
-                    result.input_text[:500] + ("..." if len(result.input_text) > 500 else ""),
+                    result.input_text,
                     "```",
                     "",
                     "**Output:**",
                     "```",
-                    result.output[:500] + ("..." if len(result.output) > 500 else ""),
+                    result.output,
                     "```",
                     "",
                     f"**Metrics:** {result.metrics}",
@@ -168,7 +168,7 @@ class ResultsExporter:
         .pass {{ color: #22c55e; }}
         .fail {{ color: #ef4444; }}
         .details {{ background: #fefefe; border: 1px solid #e5e7eb; padding: 15px; margin: 10px 0; border-radius: 4px; }}
-        pre {{ background: #f3f4f6; padding: 10px; border-radius: 4px; overflow-x: auto; }}
+        pre {{ background: #f3f4f6; padding: 10px; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word; }}
     </style>
 </head>
 <body>
@@ -233,9 +233,9 @@ class ResultsExporter:
                 html += f"""    <div class="details">
         <h3>{result.test_case}</h3>
         <p><strong>Input:</strong></p>
-        <pre>{result.input_text[:500]}{'...' if len(result.input_text) > 500 else ''}</pre>
+        <pre>{result.input_text}</pre>
         <p><strong>Output:</strong></p>
-        <pre>{result.output[:500]}{'...' if len(result.output) > 500 else ''}</pre>
+        <pre>{result.output}</pre>
         <p><strong>Metrics:</strong> {result.metrics}</p>
 """
                 if result.error:
