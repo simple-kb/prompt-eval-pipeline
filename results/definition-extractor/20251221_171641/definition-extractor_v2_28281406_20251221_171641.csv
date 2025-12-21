@@ -1,4 +1,0 @@
-run_id,prompt_name,test_case,passed,latency_ms,tokens_in,tokens_out,error,metric_contains
-28281406,definition-extractor_v2,proposition 2.201,True,8166.535299998941,512,309,,1.0
-28281406,definition-extractor_v2,proposition 6.44,True,16202.0843999926,509,756,,0.5
-28281406,definition-extractor_v2,proposition 3.5,True,6881.380399994669,507,305,,0.5
