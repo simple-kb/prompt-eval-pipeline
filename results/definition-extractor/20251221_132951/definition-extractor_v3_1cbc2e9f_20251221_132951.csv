@@ -1,0 +1,4 @@
+run_id,prompt_name,test_case,passed,latency_ms,tokens_in,tokens_out,error,metric_contains
+1cbc2e9f,definition-extractor_v3,proposition 2.201,True,6720.3324000001885,82,168,,1.0
+1cbc2e9f,definition-extractor_v3,proposition 6.44,False,7504.746999999043,79,242,,0.0
+1cbc2e9f,definition-extractor_v3,proposition 3.5,True,4903.927400009707,77,149,,1.0

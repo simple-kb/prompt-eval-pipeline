@@ -1,0 +1,4 @@
+run_id,prompt_name,test_case,passed,latency_ms,tokens_in,tokens_out,error,metric_contains
+433daa0c,definition-extractor_v2,proposition 2.201,True,6971.988299992518,82,168,,1.0
+433daa0c,definition-extractor_v2,proposition 6.44,False,7249.275200010743,79,242,,0.0
+433daa0c,definition-extractor_v2,proposition 3.5,True,4796.154900002875,77,149,,1.0

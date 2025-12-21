@@ -1,22 +1,22 @@
 {
-  "run_id": "cfbd0888",
+  "run_id": "ef2168f0",
   "prompt_name": "summarizer_v2",
   "model": "claude-sonnet-4-20250514",
   "config": {
     "max_tokens": 256,
     "temperature": 0.0
   },
-  "started_at": "2025-12-21T11:01:44.988904",
-  "completed_at": "2025-12-21T11:01:53.260055",
+  "started_at": "2025-12-21T12:11:57.663779",
+  "completed_at": "2025-12-21T12:12:05.259465",
   "summary": {
-    "run_id": "cfbd0888",
+    "run_id": "ef2168f0",
     "prompt": "summarizer_v2",
     "model": "claude-sonnet-4-20250514",
     "total_tests": 3,
     "passed": 3,
     "failed": 0,
     "pass_rate": "100.0%",
-    "avg_latency_ms": "2753",
+    "avg_latency_ms": "2530",
     "total_tokens": 476
   },
   "results": [
@@ -30,11 +30,11 @@
         "response_length": 1.0
       },
       "passed": true,
-      "latency_ms": 2604.7349000000395,
+      "latency_ms": 2534.7594000049867,
       "tokens_in": 96,
       "tokens_out": 37,
       "error": null,
-      "timestamp": "2025-12-21 11:01:47.602987"
+      "timestamp": "2025-12-21 12:12:00.201316"
     },
     {
       "test_case": "complex_topic",
@@ -46,11 +46,11 @@
         "response_length": 1.0
       },
       "passed": true,
-      "latency_ms": 2948.186200010241,
+      "latency_ms": 2540.0095999939367,
       "tokens_in": 121,
       "tokens_out": 53,
       "error": null,
-      "timestamp": "2025-12-21 11:01:50.550997"
+      "timestamp": "2025-12-21 12:12:02.741008"
     },
     {
       "test_case": "news_style",
@@ -62,11 +62,11 @@
         "response_length": 1.0
       },
       "passed": true,
-      "latency_ms": 2706.2627999985125,
+      "latency_ms": 2516.295599998557,
       "tokens_in": 113,
       "tokens_out": 56,
       "error": null,
-      "timestamp": "2025-12-21 11:01:53.257040"
+      "timestamp": "2025-12-21 12:12:05.257383"
     }
   ]
 }

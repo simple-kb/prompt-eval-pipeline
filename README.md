@@ -40,23 +40,17 @@ Get your API key at [console.anthropic.com/api-keys](https://console.anthropic.c
 
 ## Quick Start
 
-### 1. Create your directory structure
-
-```bash
-mkdir -p prompts configs results
-```
-
-### 2. Define your prompts and test cases
+### 1. Define your prompts and test cases
 
 See the [Configuration Files](#configuration-files) section below for examples.
 
-### 3. Run an evaluation
+### 2. Run an evaluation
 
 ```bash
-prompt-eval run configs/eval_config.yaml
+prompt-eval run configs/eval_summarizer.yaml
 ```
 
-### 4. View results
+### 3. View results
 
 Results are saved to `results/` in multiple formats (JSON, CSV, Markdown, HTML).
 
@@ -85,7 +79,7 @@ Create a full evaluation config that includes everything. You can reference exte
 #### Option 1: Reference External Prompt Files (Recommended)
 
 ```yaml
-# configs/eval_config.yaml
+# configs/eval_summarizer.yaml
 model: claude-sonnet-4-20250514
 max_tokens: 1024
 temperature: 0.0
@@ -117,7 +111,7 @@ metrics:
 #### Option 2: Inline Prompt Definitions
 
 ```yaml
-# configs/eval_config.yaml
+# configs/eval_summarizer.yaml
 model: claude-sonnet-4-20250514
 max_tokens: 1024
 temperature: 0.0
@@ -179,16 +173,16 @@ metrics:
 
 ```bash
 # Run evaluation with all settings from config file
-prompt-eval run configs/eval_config.yaml
+prompt-eval run configs/eval_summarizer.yaml
 
 # Specify output directory and format
-prompt-eval run configs/eval_config.yaml -o results/ -f all
+prompt-eval run configs/eval_summarizer.yaml -o results/ -f all
 
 # Override model from config
-prompt-eval run configs/eval_config.yaml -m claude-opus-4-5-20251101
+prompt-eval run configs/eval_summarizer.yaml -m claude-opus-4-5-20251101
 
 # Quiet mode (less output)
-prompt-eval run configs/eval_config.yaml --quiet
+prompt-eval run configs/eval_summarizer.yaml --quiet
 ```
 
 **Options:**

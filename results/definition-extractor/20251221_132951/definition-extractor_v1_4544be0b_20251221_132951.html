@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Eval Report: summarizer_v2</title>
+    <title>Eval Report: definition-extractor_v1</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 40px; }
         h1 { color: #333; }
@@ -20,21 +20,21 @@
     </style>
 </head>
 <body>
-    <h1>Evaluation Report: summarizer_v2</h1>
-    <p><strong>Run ID:</strong> cfbd0888 | <strong>Model:</strong> claude-sonnet-4-20250514 | <strong>Date:</strong> 2025-12-21 11:01:44</p>
+    <h1>Evaluation Report: definition-extractor_v1</h1>
+    <p><strong>Run ID:</strong> 4544be0b | <strong>Model:</strong> claude-sonnet-4-20250514 | <strong>Date:</strong> 2025-12-21 13:28:54</p>
     
     <div class="summary">
         <div class="summary-grid">
             <div class="metric">
-                <div class="metric-value">100.0%</div>
+                <div class="metric-value">66.7%</div>
                 <div class="metric-label">Pass Rate</div>
             </div>
             <div class="metric">
-                <div class="metric-value">3/3</div>
+                <div class="metric-value">2/3</div>
                 <div class="metric-label">Tests Passed</div>
             </div>
             <div class="metric">
-                <div class="metric-value">2753 ms</div>
+                <div class="metric-value">6473 ms</div>
                 <div class="metric-label">Avg Latency</div>
             </div>
         </div>
@@ -53,27 +53,49 @@
         </thead>
         <tbody>
             <tr>
-                <td>simple_facts</td>
+                <td>proposition 2.201</td>
                 <td class="pass">✅</td>
-                <td>2605 ms</td>
-                <td>133</td>
-                <td>contains=1.00, response_length=1.00</td>
+                <td>7115 ms</td>
+                <td>250</td>
+                <td>contains=1.00</td>
             </tr>
             <tr>
-                <td>complex_topic</td>
-                <td class="pass">✅</td>
-                <td>2948 ms</td>
-                <td>174</td>
-                <td>contains=1.00, response_length=1.00</td>
+                <td>proposition 6.44</td>
+                <td class="fail">❌</td>
+                <td>7341 ms</td>
+                <td>321</td>
+                <td>contains=0.00</td>
             </tr>
             <tr>
-                <td>news_style</td>
+                <td>proposition 3.5</td>
                 <td class="pass">✅</td>
-                <td>2706 ms</td>
-                <td>169</td>
-                <td>contains=1.00, response_length=1.00</td>
+                <td>4961 ms</td>
+                <td>226</td>
+                <td>contains=1.00</td>
             </tr>
         </tbody>
     </table>
+    <h2>Failed Tests Details</h2>
+    <div class="details">
+        <h3>proposition 6.44</h3>
+        <p><strong>Input:</strong></p>
+        <pre>Please consider the following proposition:
+
+Not how the world is, is the mystical, but that it is.
+
+State if this proposition is a definition.
+
+Your answer must follow this format:
+Is a definition: yes|no
+Word defined: the word|none
+</pre>
+        <p><strong>Output:</strong></p>
+        <pre>Looking at this proposition: "Not how the world is, is the mystical, but that it is."
+
+This statement is making a substantive claim about the nature of the mystical - specifically that the mystical consists not in the particular way the world happens to be (its specific properties or states of affairs), but rather in the sheer fact of its existence. This is a philosophical thesis about what constitutes the mystical experience or dimension of reality.
+
+While the statement does tell us something a...</pre>
+        <p><strong>Metrics:</strong> {'contains': 0.0}</p>
+    </div>
 </body>
 </html>

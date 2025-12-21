@@ -1,0 +1,48 @@
+# Complete evaluation configuration
+# Run with: prompt-eval run configs/eval_config.yaml
+
+model: claude-sonnet-4-20250514
+max_tokens: 256
+temperature: 0.0
+
+# Reference prompt variants from the prompts/ directory
+prompts:
+  - ../prompts/definition-extractor/definition-extractor_v1.yaml
+  - ../prompts/definition-extractor/definition-extractor_v2.yaml
+  - ../prompts/definition-extractor/definition-extractor_v3.yaml
+
+# Test cases for evaluation
+test_cases:
+  - name: proposition 2.201
+    inputs:
+      text: "The picture depicts reality by representing a possibility of the existence and non-existence of atomic facts."
+    expected_contains:
+      - "Is a definition: no"
+      - "Word defined: none"
+
+  - name: proposition 6.44
+    inputs:
+      text: "Not how the world is, is the mystical, but that it is."
+    expected_contains:
+      - "Is a definition: yes"
+      - "Word defined: the mystical"
+
+  - name: proposition 3.5
+    inputs:
+      text: "The applied, thought, propositional sign, is the thought."
+    expected_contains:
+      - "Is a definition: yes"
+      - "Word defined: the thought"
+
+# Metrics to evaluate
+metrics:
+  - type: contains
+    case_sensitive: false
+  
+  # Uncomment to add LLM-based evaluation (uses more API calls)
+  # - type: llm_judge
+  #   criteria: |
+  #     Evaluate the summary on:
+  #     1. Accuracy - Does it capture the main points?
+  #     2. Conciseness - Is it appropriately brief?
+  #     3. Clarity - Is it easy to understand?

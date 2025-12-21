@@ -3,7 +3,7 @@
 This package provides a YAML-based declarative approach to evaluating and comparing
 LLM prompts. Use the CLI command to run evaluations:
 
-    prompt-eval run configs/eval_config.yaml
+    prompt-eval run configs/eval_summarizer.yaml
 
 All classes and functions are internal implementation details.
 External interaction should be through the CLI or YAML configuration files.

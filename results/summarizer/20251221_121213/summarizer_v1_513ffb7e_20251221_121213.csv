@@ -1,0 +1,4 @@
+run_id,prompt_name,test_case,passed,latency_ms,tokens_in,tokens_out,error,metric_contains,metric_response_length
+513ffb7e,summarizer_v1,simple_facts,True,2082.4732999899425,72,36,,1.0,1.0
+513ffb7e,summarizer_v1,complex_topic,True,2703.8772000087192,97,52,,1.0,1.0
+513ffb7e,summarizer_v1,news_style,True,2334.7967000008794,89,49,,1.0,1.0

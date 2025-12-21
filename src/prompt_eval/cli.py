@@ -59,15 +59,23 @@ def main():
 @main.command()
 @click.argument("config_file", type=click.Path(exists=True))
 @click.option("--output", "-o", type=click.Path(), help="Output directory for results")
-@click.option("--format", "-f", type=click.Choice(["json", "csv", "markdown", "html", "all"]), 
+@click.option("--format", "-f", type=click.Choice(["json", "csv", "markdown", "html", "all"]),
               default="all", help="Output format")
 @click.option("--model", "-m", help="Override model from config")
 @click.option("--verbose/--quiet", "-v/-q", default=True, help="Verbose output")
 def run(config_file: str, output: str | None, format: str, model: str | None, verbose: bool):
     """Run evaluation from a config file."""
-    
+
     console.print(f"[bold]Loading config from {config_file}...[/bold]")
     config = load_eval_config(config_file)
+
+    # Extract prompt name from config file path (e.g., "configs/eval_summarizer.yaml" -> "summarizer")
+    config_path = Path(config_file)
+    config_filename = config_path.stem  # Get filename without extension
+    if config_filename.startswith("eval_"):
+        prompt_name = config_filename[5:]  # Remove "eval_" prefix
+    else:
+        prompt_name = config_filename
     
     # Override model if specified
     if model:
@@ -101,9 +109,14 @@ def run(config_file: str, output: str | None, format: str, model: str | None, ve
     for prompt in prompts:
         run_result = evaluator.evaluate(prompt, test_cases, metrics)
         runs.append(run_result)
-    
-    # Export results
-    output_dir = output or "results"
+
+    # Export results - create subdirectory based on prompt_name and timestamp
+    if output:
+        output_dir = output
+    else:
+        from datetime import datetime
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        output_dir = f"results/{prompt_name}/{timestamp}"
     exporter = ResultsExporter(output_dir)
     
     for run_result in runs:

@@ -7,9 +7,9 @@ temperature: 0.0
 
 # Reference prompt variants from the prompts/ directory
 prompts:
-  - ../prompts/summarizer_v1.yaml
-  - ../prompts/summarizer_v2.yaml
-  - ../prompts/summarizer_v3.yaml
+  - ../prompts/summarizer/summarizer_v1.yaml
+  - ../prompts/summarizer/summarizer_v2.yaml
+  - ../prompts/summarizer/summarizer_v3.yaml
 
 # Test cases for evaluation
 test_cases:

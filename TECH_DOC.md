@@ -35,7 +35,7 @@ The Prompt Evaluation Pipeline is a declarative YAML-based framework for testing
    - Pydantic models for type safety and validation
    - Core entities: `Prompt`, `TestCase`, `EvalResult`, `EvalRun`
 
-## Command Flow: `prompt-eval run configs/eval_config.yaml`
+## Command Flow: `prompt-eval run configs/eval_summarizer.yaml`
 
 ### Sequence Diagram
 
@@ -50,7 +50,7 @@ sequenceDiagram
     participant Exporter as exporters.py
     participant FileSystem as File System
 
-    User->>CLI: prompt-eval run configs/eval_config.yaml
+    User->>CLI: prompt-eval run configs/eval_summarizer.yaml
 
     Note over CLI: 1. Configuration Loading Phase
     CLI->>Loader: load_eval_config(config_file)
@@ -141,7 +141,7 @@ sequenceDiagram
 
 ### 1. Configuration Loading
 
-**Input:** `configs/eval_config.yaml`
+**Input:** `configs/eval_summarizer.yaml`
 
 ```yaml
 model: claude-sonnet-4-20250514
@@ -262,7 +262,7 @@ prompt-eval-pipeline/
 │   ├── summarizer_v2.yaml
 │   └── summarizer_v3.yaml
 ├── configs/                  # Evaluation configurations
-│   └── eval_config.yaml
+│   └── eval_summarizer.yaml
 ├── results/                  # Generated reports (git-ignored)
 │   ├── {prompt}_{run_id}_{timestamp}.json
 │   ├── {prompt}_{run_id}_{timestamp}.csv
@@ -565,19 +565,19 @@ prompt-eval run <config_file> [OPTIONS]
 **Examples:**
 ```bash
 # Basic usage
-prompt-eval run configs/eval_config.yaml
+prompt-eval run configs/eval_summarizer.yaml
 
 # Custom output directory
-prompt-eval run configs/eval_config.yaml -o my_results/
+prompt-eval run configs/eval_summarizer.yaml -o my_results/
 
 # Only JSON export
-prompt-eval run configs/eval_config.yaml -f json
+prompt-eval run configs/eval_summarizer.yaml -f json
 
 # Override model
-prompt-eval run configs/eval_config.yaml -m claude-opus-4-5-20251101
+prompt-eval run configs/eval_summarizer.yaml -m claude-opus-4-5-20251101
 
 # Quiet mode
-prompt-eval run configs/eval_config.yaml --quiet
+prompt-eval run configs/eval_summarizer.yaml --quiet
 ```
 
 ## Troubleshooting
