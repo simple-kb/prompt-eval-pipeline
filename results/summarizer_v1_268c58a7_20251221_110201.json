@@ -1,0 +1,72 @@
+{
+  "run_id": "268c58a7",
+  "prompt_name": "summarizer_v1",
+  "model": "claude-sonnet-4-20250514",
+  "config": {
+    "max_tokens": 256,
+    "temperature": 0.0
+  },
+  "started_at": "2025-12-21T11:01:37.492083",
+  "completed_at": "2025-12-21T11:01:44.982905",
+  "summary": {
+    "run_id": "268c58a7",
+    "prompt": "summarizer_v1",
+    "model": "claude-sonnet-4-20250514",
+    "total_tests": 3,
+    "passed": 3,
+    "failed": 0,
+    "pass_rate": "100.0%",
+    "avg_latency_ms": "2494",
+    "total_tokens": 395
+  },
+  "results": [
+    {
+      "test_case": "simple_facts",
+      "prompt_name": "summarizer_v1",
+      "input_text": "Please summarize the following text in 2 sentences or fewer:\n\nPython is a popular programming language created by Guido van Rossum. It was first released in 1991. Python is known for its simple, readable syntax.\n",
+      "output": "Python is a popular programming language created by Guido van Rossum and first released in 1991. It is known for its simple, readable syntax.",
+      "metrics": {
+        "contains": 1.0,
+        "response_length": 1.0
+      },
+      "passed": true,
+      "latency_ms": 2505.9058999904664,
+      "tokens_in": 72,
+      "tokens_out": 36,
+      "error": null,
+      "timestamp": "2025-12-21 11:01:40.002107"
+    },
+    {
+      "test_case": "complex_topic",
+      "prompt_name": "summarizer_v1",
+      "input_text": "Please summarize the following text in 2 sentences or fewer:\n\nQuantum computing leverages quantum mechanical phenomena like superposition and entanglement to process information. Unlike classical computers that use bits (0 or 1), quantum computers use qubits that can exist in multiple states simultaneously. This allows them to solve certain problems exponentially faster than traditional computers.\n",
+      "output": "Quantum computers use qubits that can exist in multiple states simultaneously through quantum phenomena like superposition and entanglement, unlike classical computers that use binary bits. This capability allows quantum computers to solve certain problems exponentially faster than traditional computers.",
+      "metrics": {
+        "contains": 1.0,
+        "response_length": 1.0
+      },
+      "passed": true,
+      "latency_ms": 2685.3952999954345,
+      "tokens_in": 97,
+      "tokens_out": 52,
+      "error": null,
+      "timestamp": "2025-12-21 11:01:42.687425"
+    },
+    {
+      "test_case": "news_style",
+      "prompt_name": "summarizer_v1",
+      "input_text": "Please summarize the following text in 2 sentences or fewer:\n\nTesla announced record quarterly earnings yesterday, beating analyst expectations by 15%. The electric vehicle maker reported revenue of $25 billion, driven by strong Model Y sales in Europe and China. CEO Elon Musk attributed the success to improved manufacturing efficiency.\n",
+      "output": "Tesla announced record quarterly earnings that exceeded analyst expectations by 15%, with revenue reaching $25 billion driven by strong Model Y sales in Europe and China. CEO Elon Musk credited the success to improved manufacturing efficiency.",
+      "metrics": {
+        "contains": 1.0,
+        "response_length": 1.0
+      },
+      "passed": true,
+      "latency_ms": 2289.923300006194,
+      "tokens_in": 89,
+      "tokens_out": 49,
+      "error": null,
+      "timestamp": "2025-12-21 11:01:44.978000"
+    }
+  ]
+}

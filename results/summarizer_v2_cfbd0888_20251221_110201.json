@@ -1,0 +1,72 @@
+{
+  "run_id": "cfbd0888",
+  "prompt_name": "summarizer_v2",
+  "model": "claude-sonnet-4-20250514",
+  "config": {
+    "max_tokens": 256,
+    "temperature": 0.0
+  },
+  "started_at": "2025-12-21T11:01:44.988904",
+  "completed_at": "2025-12-21T11:01:53.260055",
+  "summary": {
+    "run_id": "cfbd0888",
+    "prompt": "summarizer_v2",
+    "model": "claude-sonnet-4-20250514",
+    "total_tests": 3,
+    "passed": 3,
+    "failed": 0,
+    "pass_rate": "100.0%",
+    "avg_latency_ms": "2753",
+    "total_tokens": 476
+  },
+  "results": [
+    {
+      "test_case": "simple_facts",
+      "prompt_name": "summarizer_v2",
+      "input_text": "Task: Summarize the following text.\nConstraint: Use exactly 2 sentence(s).\nStyle: Clear, factual, and concise.\n\nTEXT:\nPython is a popular programming language created by Guido van Rossum. It was first released in 1991. Python is known for its simple, readable syntax.\n\nSUMMARY:\n",
+      "output": "Python is a popular programming language created by Guido van Rossum and first released in 1991. The language is known for its simple, readable syntax.",
+      "metrics": {
+        "contains": 1.0,
+        "response_length": 1.0
+      },
+      "passed": true,
+      "latency_ms": 2604.7349000000395,
+      "tokens_in": 96,
+      "tokens_out": 37,
+      "error": null,
+      "timestamp": "2025-12-21 11:01:47.602987"
+    },
+    {
+      "test_case": "complex_topic",
+      "prompt_name": "summarizer_v2",
+      "input_text": "Task: Summarize the following text.\nConstraint: Use exactly 2 sentence(s).\nStyle: Clear, factual, and concise.\n\nTEXT:\nQuantum computing leverages quantum mechanical phenomena like superposition and entanglement to process information. Unlike classical computers that use bits (0 or 1), quantum computers use qubits that can exist in multiple states simultaneously. This allows them to solve certain problems exponentially faster than traditional computers.\n\nSUMMARY:\n",
+      "output": "Quantum computers use qubits that can exist in multiple states simultaneously through quantum mechanical phenomena like superposition and entanglement, unlike classical computers that use binary bits. This capability enables quantum computers to solve certain problems exponentially faster than traditional computers.",
+      "metrics": {
+        "contains": 1.0,
+        "response_length": 1.0
+      },
+      "passed": true,
+      "latency_ms": 2948.186200010241,
+      "tokens_in": 121,
+      "tokens_out": 53,
+      "error": null,
+      "timestamp": "2025-12-21 11:01:50.550997"
+    },
+    {
+      "test_case": "news_style",
+      "prompt_name": "summarizer_v2",
+      "input_text": "Task: Summarize the following text.\nConstraint: Use exactly 2 sentence(s).\nStyle: Clear, factual, and concise.\n\nTEXT:\nTesla announced record quarterly earnings yesterday, beating analyst expectations by 15%. The electric vehicle maker reported revenue of $25 billion, driven by strong Model Y sales in Europe and China. CEO Elon Musk attributed the success to improved manufacturing efficiency.\n\nSUMMARY:\n",
+      "output": "Tesla reported record quarterly earnings yesterday, exceeding analyst expectations by 15% with $25 billion in revenue. The strong performance was driven by robust Model Y sales in Europe and China, along with improved manufacturing efficiency according to CEO Elon Musk.",
+      "metrics": {
+        "contains": 1.0,
+        "response_length": 1.0
+      },
+      "passed": true,
+      "latency_ms": 2706.2627999985125,
+      "tokens_in": 113,
+      "tokens_out": 56,
+      "error": null,
+      "timestamp": "2025-12-21 11:01:53.257040"
+    }
+  ]
+}

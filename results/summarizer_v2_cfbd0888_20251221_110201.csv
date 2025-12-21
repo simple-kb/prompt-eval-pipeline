@@ -1,0 +1,4 @@
+run_id,prompt_name,test_case,passed,latency_ms,tokens_in,tokens_out,error,metric_contains,metric_response_length
+cfbd0888,summarizer_v2,simple_facts,True,2604.7349000000395,96,37,,1.0,1.0
+cfbd0888,summarizer_v2,complex_topic,True,2948.186200010241,121,53,,1.0,1.0
+cfbd0888,summarizer_v2,news_style,True,2706.2627999985125,113,56,,1.0,1.0
