@@ -109,39 +109,38 @@ class ResultsExporter:
             metrics_str = ", ".join(f"{k}={v:.2f}" for k, v in result.metrics.items())
             lines.append(f"| {result.test_case} | {status} | {result.latency_ms:.0f} | {metrics_str} |")
         
-        # Failed tests details
-        failures = [r for r in run.results if not r.passed]
-        if failures:
+        # Test details for all tests
+        lines.extend([
+            "",
+            "## Test Details",
+            "",
+        ])
+        for result in run.results:
+            status_icon = "✅" if result.passed else "❌"
             lines.extend([
+                f"### {result.test_case} {status_icon}",
                 "",
-                "## Failed Tests Details",
+                "**System Prompt:**",
+                "```",
+                result.system_prompt,
+                "```",
+                "",
+                "**Input:**",
+                "```",
+                result.input_text,
+                "```",
+                "",
+                "**Output:**",
+                "```",
+                result.output,
+                "```",
+                "",
+                f"**Metrics:** {result.metrics}",
                 "",
             ])
-            for result in failures:
-                lines.extend([
-                    f"### {result.test_case}",
-                    "",
-                    "**System Prompt:**",
-                    "```",
-                    result.system_prompt,
-                    "```",
-                    "",
-                    "**Input:**",
-                    "```",
-                    result.input_text,
-                    "```",
-                    "",
-                    "**Output:**",
-                    "```",
-                    result.output,
-                    "```",
-                    "",
-                    f"**Metrics:** {result.metrics}",
-                    "",
-                ])
-                if result.error:
-                    lines.append(f"**Error:** {result.error}")
-                    lines.append("")
+            if result.error:
+                lines.append(f"**Error:** {result.error}")
+                lines.append("")
         
         with open(path, "w", encoding="utf-8") as f:
             f.write("\n".join(lines))
@@ -229,14 +228,12 @@ class ResultsExporter:
     </table>
 """
         
-        # Add failure details
-        failures = [r for r in run.results if not r.passed]
-        if failures:
-            html += """    <h2>Failed Tests Details</h2>
+        # Add test details for all tests
+        html += """    <h2>Test Details</h2>
 """
-            for result in failures:
-                html += f"""    <div class="details">
-        <h3>{result.test_case}</h3>
+        for result in run.results:
+            html += f"""    <div class="details">
+        <h3>{result.test_case} {'✅' if result.passed else '❌'}</h3>
         <p><strong>System Prompt:</strong></p>
         <pre>{result.system_prompt}</pre>
         <p><strong>Input:</strong></p>
@@ -245,10 +242,10 @@ class ResultsExporter:
         <pre>{result.output}</pre>
         <p><strong>Metrics:</strong> {result.metrics}</p>
 """
-                if result.error:
-                    html += f"""        <p><strong>Error:</strong> {result.error}</p>
+            if result.error:
+                html += f"""        <p><strong>Error:</strong> {result.error}</p>
 """
-                html += """    </div>
+            html += """    </div>
 """
         
         html += """</body>

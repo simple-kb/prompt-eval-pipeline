@@ -1,0 +1,67 @@
+# Complete evaluation configuration
+# Run with: prompt-eval run configs/eval_config.yaml
+
+#model: claude-opus-4-5-20251101
+model: claude-sonnet-4-20250514
+max_tokens: 1024
+temperature: 0.1
+evaluation_threshold: 0.5
+
+# Reference prompt variants from the prompts/ directory
+prompts:
+  - ../prompts/implication-extractor/implication-extractor_v1.yaml
+
+# Test cases for evaluation
+test_cases:
+  - name: proposition 2.0124
+    inputs:
+      text: "2.0124. If all objects are given, then thereby are all *possible* atomic facts also given."
+    expected_contains:
+      - "Implication: yes"
+      - "Antecedent: all objects are given"
+      - "Consequent: all possible atomic facts are also given"
+
+  - name: proposition 3.328
+    inputs:
+      text: "3.328. If a sign is *not necessary* then it is meaningless. That is the meaning of Occam’s razor. (If everything in the symbolism works as though a sign had meaning, then it has meaning.)"
+    expected_contains:
+      - "Implication: yes"
+      - "Antecedent: a sign is not necessary"
+      - "Consequent: it is meaningless"
+
+  - name: proposition 5.14
+    inputs:
+      text: "5.14. If a proposition follows from another, then the latter says more than the former, the former less than the latter."
+    expected_contains:
+      - "Implication: yes"
+      - "Antecedent: a proposition follows from another"
+      - "Consequent: the latter says more than the former, the former less than the latter"
+
+  - name: propositions 2.151 and 2.1511
+    inputs:
+      text: "2.151. The form of representation is the possibility that the things are combined with one another as are the elements of the picture. 2.1511. Thus the picture is linked with reality; it reaches up to it."
+    expected_contains:
+      - "Implication: yes"
+      - "Antecedent: The form of representation is the possibility that things are combined with one another as are the elements of the picture"
+      - "Consequent: the picture is linked with reality"
+
+  - name: proposition 3.143
+    inputs:
+      text: "3.143. That the propositional sign is a fact is concealed by the ordinary form of expression, written or printed. (For in the printed proposition, for example, the sign of a proposition does not appear essentially different from a word. Thus it was possible for Frege to call the proposition a compounded name.)"
+    expected_contains:
+      - "Implication: yes"
+      - "Antecedent: the propositional sign is a fact is concealed by the ordinary form of expression, written or printed"
+      - "Consequent: it was possible for Frege to call the proposition a compounded name"
+
+# Metrics to evaluate
+metrics:
+  - type: contains
+    case_sensitive: false
+  
+  # Uncomment to add LLM-based evaluation (uses more API calls)
+  # - type: llm_judge
+  #   criteria: |
+  #     Evaluate the summary on:
+  #     1. Accuracy - Does it capture the main points?
+  #     2. Conciseness - Is it appropriately brief?
+  #     3. Clarity - Is it easy to understand?

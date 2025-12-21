@@ -1,10 +1,11 @@
 # Complete evaluation configuration
 # Run with: prompt-eval run configs/eval_config.yaml
 
-#model: claude-opus-4-5-20251101
-model: claude-sonnet-4-20250514
+model: claude-opus-4-5-20251101
+#model: claude-sonnet-4-20250514
 max_tokens: 1024
 temperature: 0.1
+evaluation_threshold: 0.7
 
 # Reference prompt variants from the prompts/ directory
 prompts:
@@ -69,6 +70,20 @@ test_cases:
     expected_contains:
       - "Is a definition: no"
       - "Word defined: none"
+
+  - name: proposition 2.024
+    inputs:
+      text: "2.024. Substance is what exists independently of what is the case."
+    expected_contains:
+      - "Is a definition: yes"
+      - "Word defined: Substance"
+
+  - name: proposition 2.04
+    inputs:
+      text: "2.04. The totality of existent atomic facts is the world."
+    expected_contains:
+      - "Is a definition: yes"
+      - "Word defined: The world"
 
 # Metrics to evaluate
 metrics:

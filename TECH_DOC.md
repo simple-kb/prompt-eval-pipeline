@@ -76,7 +76,7 @@ sequenceDiagram
     CLI->>Metrics: Instantiate metric objects
     Metrics-->>CLI: List of Metric instances
 
-    CLI->>Evaluator: new Evaluator(model, max_tokens, temperature)
+    CLI->>Evaluator: new Evaluator(model, max_tokens, temperature, evaluation_threshold)
 
     Note over CLI,Evaluator: 3. Evaluation Phase
     loop For each prompt in prompts
@@ -147,6 +147,7 @@ sequenceDiagram
 model: claude-sonnet-4-20250514
 max_tokens: 256
 temperature: 0.0
+evaluation_threshold: 0.5  # Minimum score for tests to pass (0.0-1.0)
 
 prompts:
   - ../prompts/summarizer_v1.yaml  # External reference
@@ -171,6 +172,7 @@ metrics:
     "model": "claude-sonnet-4-20250514",
     "max_tokens": 256,
     "temperature": 0.0,
+    "evaluation_threshold": 0.5,
     "prompts": [Prompt(...), Prompt(...)],        # Pydantic models
     "test_cases": [TestCase(...), TestCase(...)],  # Pydantic models
     "metrics_config": [{"type": "contains"}, ...]  # Raw config
@@ -225,7 +227,7 @@ EvalResult(
     prompt_name="summarizer_v1",
     output="Python is a programming language...",
     metrics={"contains": 1.0, "response_length": 1.0},
-    passed=True,  # All metrics >= 0.5
+    passed=True,  # All metrics >= evaluation_threshold (default 0.5)
     latency_ms=245.3,
     tokens_in=50,
     tokens_out=30
@@ -332,6 +334,62 @@ run = evaluator.evaluate(prompt, test_cases, metrics)
 ```
 
 ## Configuration Options
+
+### Global Configuration Parameters
+
+These parameters are set at the top level of your evaluation config file:
+
+```yaml
+# configs/eval_config.yaml
+model: claude-sonnet-4-20250514     # LLM model to use
+max_tokens: 1024                     # Maximum tokens in response
+temperature: 0.0                     # Sampling temperature (0.0 = deterministic)
+evaluation_threshold: 0.5            # Minimum score for tests to pass (0.0-1.0)
+```
+
+#### evaluation_threshold
+
+Controls how strict the evaluation is. Sets the minimum score (0.0 to 1.0) that **ALL** metrics must achieve for a test to pass.
+
+**Default:** `0.5` (50% match required)
+
+**How it works:**
+- Each metric returns a score between 0.0 (complete failure) and 1.0 (perfect match)
+- A test passes only if **ALL** metrics score >= `evaluation_threshold`
+- Different thresholds can be set for different evaluation configs
+
+**Example - Contains Metric:**
+```yaml
+test_cases:
+  - name: example
+    expected_contains:
+      - "string1"
+      - "string2"
+      - "string3"
+```
+
+If the output contains only 2 out of 3 strings:
+- Metric score: 0.667 (2/3 = 66.7%)
+- `evaluation_threshold: 0.5` → **PASS** (0.667 >= 0.5)
+- `evaluation_threshold: 1.0` → **FAIL** (0.667 < 1.0)
+
+**When to use strict thresholds (0.8-1.0):**
+- Extracting structured data where partial matches are incorrect
+- Validating exact output formats
+- Classification tasks requiring high precision
+- Critical business logic where accuracy is paramount
+
+**When to use lenient thresholds (0.5-0.7):**
+- General response quality validation
+- Testing that key concepts are present
+- Allowing flexibility in phrasing
+- Early-stage prompt development
+
+**Implementation:**
+```python
+# In evaluator.py
+passed = all(score >= self.evaluation_threshold for score in metric_scores.values())
+```
 
 ### Prompt Configuration
 

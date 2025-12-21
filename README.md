@@ -134,6 +134,7 @@ Create a full evaluation config that includes everything. You can reference exte
 model: claude-sonnet-4-20250514
 max_tokens: 1024
 temperature: 0.0
+evaluation_threshold: 0.5  # Minimum score (0.0-1.0) for tests to pass
 
 # Reference prompt variants from the prompts/ directory
 prompts:
@@ -166,6 +167,7 @@ metrics:
 model: claude-sonnet-4-20250514
 max_tokens: 1024
 temperature: 0.0
+evaluation_threshold: 0.5  # Minimum score (0.0-1.0) for tests to pass
 
 # Define multiple prompt variants inline
 prompts:
@@ -242,6 +244,36 @@ prompt-eval run configs/eval_summarizer.yaml --quiet
 - `-m, --model TEXT` - Override model from config
 - `-v, --verbose` - Verbose output
 - `-q, --quiet` - Minimal output
+
+## Evaluation Threshold
+
+The `evaluation_threshold` parameter controls how strict your evaluations are. It sets the minimum score (from 0.0 to 1.0) that all metrics must achieve for a test to pass.
+
+**Default:** `0.5` (tests pass if they score 50% or higher on all metrics)
+
+```yaml
+# configs/eval_config.yaml
+evaluation_threshold: 0.5  # Accepts partial matches (50%+)
+evaluation_threshold: 1.0  # Requires perfect matches (100%)
+evaluation_threshold: 0.8  # Requires 80%+ match
+```
+
+**How it works:**
+- Each metric returns a score between 0.0 (complete failure) and 1.0 (perfect match)
+- A test passes only if **ALL** metrics score >= `evaluation_threshold`
+- For the `contains` metric: if you have 3 expected strings and only 2 match, the score is 0.667 (66.7%)
+  - With `evaluation_threshold: 0.5` → test **passes** (0.667 >= 0.5)
+  - With `evaluation_threshold: 1.0` → test **fails** (0.667 < 1.0)
+
+**When to use strict thresholds (1.0):**
+- Critical extractions where partial matches are wrong (e.g., extracting structured data)
+- Validating exact formatting requirements
+- Testing classification tasks where precision matters
+
+**When to use lenient thresholds (0.5-0.7):**
+- Testing overall response quality
+- Validating that key concepts are present
+- Allowing some flexibility in phrasing
 
 ## Metrics Reference
 

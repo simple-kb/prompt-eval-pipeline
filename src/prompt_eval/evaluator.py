@@ -27,12 +27,14 @@ class Evaluator:
         client: Anthropic | None = None,
         max_tokens: int = 1024,
         temperature: float = 0.0,
+        evaluation_threshold: float = 0.5,
         verbose: bool = True,
     ):
         self.model = model
         self.client = client or Anthropic()
         self.max_tokens = max_tokens
         self.temperature = temperature
+        self.evaluation_threshold = evaluation_threshold
         self.verbose = verbose
         self.console = Console()
     
@@ -89,8 +91,8 @@ class Evaluator:
                 if self.verbose:
                     self.console.print(f"[yellow]Warning: Metric {metric.name} failed: {e}[/yellow]")
         
-        # Determine pass/fail (all metrics must pass with >= 0.5 threshold)
-        passed = all(score >= 0.5 for score in metric_scores.values()) and error is None
+        # Determine pass/fail (all metrics must pass with >= evaluation_threshold)
+        passed = all(score >= self.evaluation_threshold for score in metric_scores.values()) and error is None
         
         return EvalResult(
             test_case=test_case.name,
@@ -139,6 +141,7 @@ class Evaluator:
             config={
                 "max_tokens": self.max_tokens,
                 "temperature": self.temperature,
+                "evaluation_threshold": self.evaluation_threshold,
             }
         )
         
