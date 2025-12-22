@@ -23,11 +23,11 @@ class Evaluator:
     
     def __init__(
         self,
+        evaluation_threshold: float,
         model: str = "claude-opus-4-5-20251101",
         client: Anthropic | None = None,
         max_tokens: int = 1024,
         temperature: float = 0.0,
-        evaluation_threshold: float = 0.5,
         verbose: bool = True,
     ):
         self.model = model

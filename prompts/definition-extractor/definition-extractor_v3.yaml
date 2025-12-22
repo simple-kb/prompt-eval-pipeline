@@ -12,7 +12,7 @@ rules:
   - Implicit or contextual definitions should be marked as "no"
   - Tautologies (e.g., "X is X") are not definitions
   - Descriptive statements without definitional intent are not definitions
-  - Philosophical elucidations or characterizations are not formal definitions
+#  - Philosophical elucidations or characterizations are not formal definitions
 
 # Skills to apply
 skills:

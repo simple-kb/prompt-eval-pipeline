@@ -83,10 +83,10 @@ def run(config_file: str, output: str | None, format: str, model: str | None, ve
     
     # Build evaluator
     evaluator = Evaluator(
+        evaluation_threshold=config["evaluation_threshold"],
         model=config["model"],
         max_tokens=config["max_tokens"],
         temperature=config["temperature"],
-        evaluation_threshold=config.get("evaluation_threshold", 0.5),
         verbose=verbose,
     )
     

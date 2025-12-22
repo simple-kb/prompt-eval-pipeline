@@ -4,8 +4,8 @@
 #model: claude-opus-4-5-20251101
 model: claude-sonnet-4-20250514
 max_tokens: 1024
-temperature: 0.1
-evaluation_threshold: 0.5
+temperature: 0.05
+evaluation_threshold: 0.9
 
 # Reference prompt variants from the prompts/ directory
 prompts:
@@ -42,15 +42,15 @@ test_cases:
       text: "2.151. The form of representation is the possibility that the things are combined with one another as are the elements of the picture. 2.1511. Thus the picture is linked with reality; it reaches up to it."
     expected_contains:
       - "Implication: yes"
-      - "Antecedent: The form of representation is the possibility that things are combined with one another as are the elements of the picture"
-      - "Consequent: the picture is linked with reality"
+      - "Antecedent: The form of representation is the possibility that the things are combined with one another as are the elements of the picture"
+      - "Consequent: the picture is linked with reality; it reaches up to it"
 
   - name: proposition 3.143
     inputs:
       text: "3.143. That the propositional sign is a fact is concealed by the ordinary form of expression, written or printed. (For in the printed proposition, for example, the sign of a proposition does not appear essentially different from a word. Thus it was possible for Frege to call the proposition a compounded name.)"
     expected_contains:
       - "Implication: yes"
-      - "Antecedent: the propositional sign is a fact is concealed by the ordinary form of expression, written or printed"
+      - "Antecedent: in the printed proposition, the sign of a proposition does not appear essentially different from a word"
       - "Consequent: it was possible for Frege to call the proposition a compounded name"
 
 # Metrics to evaluate

@@ -51,6 +51,7 @@ def load_eval_config(path: str | Path) -> dict[str, Any]:
     model: claude-sonnet-4-20250514
     max_tokens: 1024
     temperature: 0.0
+    evaluation_threshold: 0.5  # REQUIRED
 
     prompts:
       - prompts/summarizer_v1.yaml  # File path reference
@@ -77,6 +78,7 @@ def load_eval_config(path: str | Path) -> dict[str, Any]:
         "model": data.get("model", "claude-sonnet-4-20250514"),
         "max_tokens": data.get("max_tokens", 1024),
         "temperature": data.get("temperature", 0.0),
+        "evaluation_threshold": data["evaluation_threshold"],  # Required parameter
     }
 
     # Load prompts (support both file paths and inline definitions)

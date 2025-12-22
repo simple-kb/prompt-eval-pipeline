@@ -134,7 +134,7 @@ Create a full evaluation config that includes everything. You can reference exte
 model: claude-sonnet-4-20250514
 max_tokens: 1024
 temperature: 0.0
-evaluation_threshold: 0.5  # Minimum score (0.0-1.0) for tests to pass
+evaluation_threshold: 0.5  # REQUIRED: Minimum score (0.0-1.0) for tests to pass
 
 # Reference prompt variants from the prompts/ directory
 prompts:
@@ -167,7 +167,7 @@ metrics:
 model: claude-sonnet-4-20250514
 max_tokens: 1024
 temperature: 0.0
-evaluation_threshold: 0.5  # Minimum score (0.0-1.0) for tests to pass
+evaluation_threshold: 0.5  # REQUIRED: Minimum score (0.0-1.0) for tests to pass
 
 # Define multiple prompt variants inline
 prompts:
@@ -249,7 +249,7 @@ prompt-eval run configs/eval_summarizer.yaml --quiet
 
 The `evaluation_threshold` parameter controls how strict your evaluations are. It sets the minimum score (from 0.0 to 1.0) that all metrics must achieve for a test to pass.
 
-**Default:** `0.5` (tests pass if they score 50% or higher on all metrics)
+**This parameter is REQUIRED** - you must explicitly set it in each evaluation configuration file.
 
 ```yaml
 # configs/eval_config.yaml

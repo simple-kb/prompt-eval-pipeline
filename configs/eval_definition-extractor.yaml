@@ -5,7 +5,7 @@ model: claude-opus-4-5-20251101
 #model: claude-sonnet-4-20250514
 max_tokens: 1024
 temperature: 0.1
-evaluation_threshold: 0.7
+evaluation_threshold: 0.9
 
 # Reference prompt variants from the prompts/ directory
 prompts:
@@ -34,7 +34,7 @@ test_cases:
       text: "The applied, thought, propositional sign, is the thought."
     expected_contains:
       - "Is a definition: yes"
-      - "Word defined: the thought"
+      - "Word defined: thought"
 
   - name: proposition 5.523
     inputs:
@@ -48,21 +48,21 @@ test_cases:
       text: "1. The world is everything that is the case."
     expected_contains:
       - "Is a definition: yes"
-      - "Word defined: The world"
+      - "Word defined: world"
 
   - name: proposition 1.1
     inputs:
       text: "1.1. The world is the totality of facts, not of things."
     expected_contains:
       - "Is a definition: yes"
-      - "Word defined: The world"
+      - "Word defined: world"
 
   - name: proposition 2.12
     inputs:
       text: "2.12. The picture is a model of reality."
     expected_contains:
-      - "Is a definition: yes"
-      - "Word defined: The picture"
+      - "Is a definition: no"
+      - "Word defined: none"
 
   - name: proposition 2.141
     inputs:
@@ -76,14 +76,14 @@ test_cases:
       text: "2.024. Substance is what exists independently of what is the case."
     expected_contains:
       - "Is a definition: yes"
-      - "Word defined: Substance"
+      - "Word defined: substance"
 
   - name: proposition 2.04
     inputs:
       text: "2.04. The totality of existent atomic facts is the world."
     expected_contains:
       - "Is a definition: yes"
-      - "Word defined: The world"
+      - "Word defined: world"
 
 # Metrics to evaluate
 metrics:

@@ -147,7 +147,7 @@ sequenceDiagram
 model: claude-sonnet-4-20250514
 max_tokens: 256
 temperature: 0.0
-evaluation_threshold: 0.5  # Minimum score for tests to pass (0.0-1.0)
+evaluation_threshold: 0.5  # REQUIRED: Minimum score for tests to pass (0.0-1.0)
 
 prompts:
   - ../prompts/summarizer_v1.yaml  # External reference
@@ -227,7 +227,7 @@ EvalResult(
     prompt_name="summarizer_v1",
     output="Python is a programming language...",
     metrics={"contains": 1.0, "response_length": 1.0},
-    passed=True,  # All metrics >= evaluation_threshold (default 0.5)
+    passed=True,  # All metrics >= evaluation_threshold
     latency_ms=245.3,
     tokens_in=50,
     tokens_out=30
@@ -344,14 +344,14 @@ These parameters are set at the top level of your evaluation config file:
 model: claude-sonnet-4-20250514     # LLM model to use
 max_tokens: 1024                     # Maximum tokens in response
 temperature: 0.0                     # Sampling temperature (0.0 = deterministic)
-evaluation_threshold: 0.5            # Minimum score for tests to pass (0.0-1.0)
+evaluation_threshold: 0.5            # REQUIRED: Minimum score for tests to pass (0.0-1.0)
 ```
 
 #### evaluation_threshold
 
 Controls how strict the evaluation is. Sets the minimum score (0.0 to 1.0) that **ALL** metrics must achieve for a test to pass.
 
-**Default:** `0.5` (50% match required)
+**This parameter is REQUIRED** - you must explicitly set it in each evaluation configuration file.
 
 **How it works:**
 - Each metric returns a score between 0.0 (complete failure) and 1.0 (perfect match)
