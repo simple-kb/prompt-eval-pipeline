@@ -1,0 +1,109 @@
+# Complete evaluation configuration
+# Run with: prompt-eval run configs/eval_narrative-function-extractor.yml
+
+# https://www.scriptslug.com/
+
+model: claude-opus-4-5-20251101
+#model: claude-sonnet-4-20250514
+max_tokens: 1024
+temperature: 0.1
+evaluation_threshold: 0.9
+
+# Reference prompt variants from the prompts/ directory
+prompts:
+  - ../prompts/narrative-function-extractor/narrative-function-extractor_v1.yaml
+
+# Test cases for evaluation
+test_cases:
+  - name: les évadés
+    inputs:
+      text: https://www.imdb.com/fr/title/tt0111161/plotsummary/?ref_=tt_stry_pl#synopsis
+    expected_contains:
+      - "TODO"
+      - "TODO"
+      - "TODO"
+
+  - name: le parrain
+    inputs:
+      text: https://www.imdb.com/fr/title/tt0068646/plotsummary/?ref_=tt_stry_pl#synopsis
+    expected_contains:
+      - "TODO"
+      - "TODO"
+      - "TODO"
+
+  - name: The Dark Knight Le Chevalier noir
+    inputs:
+      text: https://www.imdb.com/fr/title/tt0468569/plotsummary/?ref_=tt_stry_pl#synopsis
+    expected_contains:
+      - "TODO"
+      - "TODO"
+      - "TODO"
+
+  - name: Le Parrain, 2ᵉ partie
+    inputs:
+      text: https://www.imdb.com/fr/title/tt0071562/plotsummary/?ref_=tt_stry_pl#synopsis
+    expected_contains:
+      - "TODO"
+      - "TODO"
+      - "TODO"
+
+  - name: 12 hommes en colère
+    inputs:
+      text: https://www.imdb.com/fr/title/tt0050083/plotsummary/?ref_=tt_stry_pl#synopsis
+    expected_contains:
+      - "TODO"
+      - "TODO"
+      - "TODO"
+
+  - name: Le Seigneur des anneaux Le Retour du roi
+    inputs:
+      text: https://www.imdb.com/fr/title/tt0167260/plotsummary/?ref_=tt_stry_pl#synopsis
+    expected_contains:
+      - "TODO"
+      - "TODO"
+      - "TODO"
+
+  - name: La Liste de Schindler
+    inputs:
+      text: https://www.imdb.com/fr/title/tt0108052/plotsummary/?ref_=tt_stry_pl#synopsis
+    expected_contains:
+      - "TODO"
+      - "TODO"
+      - "TODO"
+
+  - name: Le Seigneur des anneaux La Communauté de l'anneau
+    inputs:
+      text: https://www.imdb.com/fr/title/tt0120737/plotsummary/?ref_=tt_stry_pl#synopsis
+    expected_contains:
+      - "TODO"
+      - "TODO"
+      - "TODO"
+
+  - name: Pulp Fiction
+    inputs:
+      text: https://www.imdb.com/fr/title/tt0110912/plotsummary/?ref_=tt_stry_pl#synopsis
+    expected_contains:
+      - "TODO"
+      - "TODO"
+      - "TODO"
+
+  - name: Le Bon, la Brute et le Truand
+    inputs:
+      text: https://www.imdb.com/fr/title/tt0060196/plotsummary/?ref_=tt_stry_pl#synopsis
+    expected_contains:
+      - "TODO"
+      - "TODO"
+      - "TODO"
+
+# Metrics to evaluate
+metrics:
+  - type: contains
+    case_sensitive: false
+  
+  # Uncomment to add LLM-based evaluation (uses more API calls)
+  # - type: llm_judge
+  #   criteria: |
+  #     Evaluate the summary on:
+  #     1. Accuracy - Does it capture the main points?
+  #     2. Conciseness - Is it appropriately brief?
+  #     3. Clarity - Is it easy to understand?

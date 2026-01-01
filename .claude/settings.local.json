@@ -4,7 +4,8 @@
       "Bash(rm:*)",
       "Bash(python:*)",
       "Bash(prompt-eval run:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(cat:*)"
     ]
   }
 }

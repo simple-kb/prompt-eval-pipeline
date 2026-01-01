@@ -1,0 +1,11 @@
+run_id,prompt_name,test_case,passed,latency_ms,tokens_in,tokens_out,error,metric_contains
+743499f3,definition-extractor_v3,proposition 2.201,True,7544.848200021079,531,256,,1.0
+743499f3,definition-extractor_v3,proposition 6.44,True,9278.256400022656,528,405,,1.0
+743499f3,definition-extractor_v3,proposition 3.5,True,10036.701300006825,526,409,,1.0
+743499f3,definition-extractor_v3,proposition 5.523,True,7087.454800028354,525,256,,1.0
+743499f3,definition-extractor_v3,proposition 1,True,7818.375800008653,523,316,,1.0
+743499f3,definition-extractor_v3,proposition 1.1,True,10439.019799989183,529,466,,1.0
+743499f3,definition-extractor_v3,proposition 2.12,True,9532.549299998209,524,383,,1.0
+743499f3,definition-extractor_v3,proposition 2.141,True,9508.613399986643,522,334,,1.0
+743499f3,definition-extractor_v3,proposition 2.024,True,9062.844100000802,528,337,,1.0
+743499f3,definition-extractor_v3,proposition 2.04,True,7983.61819999991,528,314,,1.0
