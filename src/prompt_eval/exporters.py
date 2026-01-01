@@ -203,23 +203,25 @@ class ResultsExporter:
                 <th>Test Case</th>
                 <th>Status</th>
                 <th>Latency</th>
-                <th>Tokens</th>
+                <th>Tokens In</th>
+                <th>Tokens Out</th>
                 <th>Metrics</th>
             </tr>
         </thead>
         <tbody>
 """
-        
+
         for result in run.results:
             status_class = "pass" if result.passed else "fail"
             status_icon = "✅" if result.passed else "❌"
             metrics_str = ", ".join(f"{k}={v:.2f}" for k, v in result.metrics.items())
-            
+
             html += f"""            <tr>
                 <td>{result.test_case}</td>
                 <td class="{status_class}">{status_icon}</td>
                 <td>{result.latency_ms:.0f} ms</td>
-                <td>{result.tokens_in + result.tokens_out}</td>
+                <td>{result.tokens_in}</td>
+                <td>{result.tokens_out}</td>
                 <td>{metrics_str}</td>
             </tr>
 """

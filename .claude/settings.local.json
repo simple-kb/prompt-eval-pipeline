@@ -5,7 +5,8 @@
       "Bash(python:*)",
       "Bash(prompt-eval run:*)",
       "Bash(echo:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(pip install:*)"
     ]
   }
 }

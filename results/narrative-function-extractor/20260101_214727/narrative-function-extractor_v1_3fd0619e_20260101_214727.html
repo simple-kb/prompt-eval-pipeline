@@ -1,0 +1,2313 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eval Report: narrative-function-extractor_v1</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        .summary { background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .metric { text-align: center; }
+        .metric-value { font-size: 2em; font-weight: bold; color: #2563eb; }
+        .metric-label { color: #666; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f9fafb; }
+        .pass { color: #22c55e; }
+        .fail { color: #ef4444; }
+        .details { background: #fefefe; border: 1px solid #e5e7eb; padding: 15px; margin: 10px 0; border-radius: 4px; }
+        pre { background: #f3f4f6; padding: 10px; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word; }
+    </style>
+</head>
+<body>
+    <h1>Evaluation Report: narrative-function-extractor_v1</h1>
+    <p><strong>Run ID:</strong> 3fd0619e | <strong>Model:</strong> claude-opus-4-5-20251101 | <strong>Date:</strong> 2026-01-01 21:45:35</p>
+    
+    <div class="summary">
+        <div class="summary-grid">
+            <div class="metric">
+                <div class="metric-value">0.0%</div>
+                <div class="metric-label">Pass Rate</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">0/5</div>
+                <div class="metric-label">Tests Passed</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">12721 ms</div>
+                <div class="metric-label">Avg Latency</div>
+            </div>
+        </div>
+    </div>
+    
+    <h2>Results</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Test Case</th>
+                <th>Status</th>
+                <th>Latency</th>
+                <th>Tokens In</th>
+                <th>Tokens Out</th>
+                <th>Metrics</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Father Frost</td>
+                <td class="fail">❌</td>
+                <td>8921 ms</td>
+                <td>6646</td>
+                <td>451</td>
+                <td>contains=0.17</td>
+            </tr>
+            <tr>
+                <td>The Death of Koschei the Deahtless</td>
+                <td class="fail">❌</td>
+                <td>11462 ms</td>
+                <td>6804</td>
+                <td>749</td>
+                <td>contains=0.21</td>
+            </tr>
+            <tr>
+                <td>The Frog Princess</td>
+                <td class="fail">❌</td>
+                <td>13581 ms</td>
+                <td>7074</td>
+                <td>821</td>
+                <td>contains=0.00</td>
+            </tr>
+            <tr>
+                <td>The Princess Who Never Smiled</td>
+                <td class="fail">❌</td>
+                <td>12298 ms</td>
+                <td>6702</td>
+                <td>590</td>
+                <td>contains=0.00</td>
+            </tr>
+            <tr>
+                <td>The Story of Three Wonderful Beggars</td>
+                <td class="fail">❌</td>
+                <td>17343 ms</td>
+                <td>7111</td>
+                <td>1024</td>
+                <td>contains=0.04</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2>Test Details</h2>
+    <div class="details">
+        <h3>Father Frost ❌</h3>
+        <p><strong>System Prompt:</strong></p>
+        <pre>You are a script doctor and writer, expert in all aspects of scripts, including structure, characterization, dialogue, pacing, themes.
+
+<rules>
+- Only classify clear, explicit narrative functions
+- Always refer to the narrative functions defined in prompts\narrative-function-extractor\Propp.md
+</rules>
+
+<skills>
+- Technical script analysis
+- Identification of what a story means
+- Diagnosis of relevant narrative functions
+</skills>
+
+<thinking_process>
+First, read carefully the synopsis. Take your time to identify the potential (candidate) narrative functions.
+Second, for each candidate narrative function relate it to prompts\narrative-function-extractor\Propp.md.
+Third, for each candidate narrative function relate it to the examples.
+Fourth, write the name of the Propp function and the Justification.
+</thinking_process></pre>
+        <p><strong>Input:</strong></p>
+        <pre><examples>
+
+Example 1:
+input: A king had to leave his newly-wed wife for a journey. He sternly warned her against leaving the women's quarters and listening to bad advice. But an envious wicked witch lured her into the garden and into a pool, and turned her into a white duck, herself taking the queen's own form and place.
+Meanwhile, the white duck built a nest, laid three eggs, and hatched two fluffy ducklings and one little drake. She warned them against the castle, because an evil witch lived there, but one day the witch saw them and lured them inside. The ducklings slept but the drake stayed awake, and when the witch called if they were asleep, the drake answered. But after two answers, the witch went in to see, and saw the ducklings were asleep, so she killed them.
+The white duck found the bodies and lamented over them. The king wondered at it, and although the witch tried to persuade him it was nothing but quacking, he ordered that the duck be captured. His servants could not, but he went himself, and she flew to his hands and became a woman. She told of a bottle in the nest in the garden—or, they sent a magpie for magic water—which, sprinkled on the ducklings and drake, turned them into three lovely children. The witch was then put to death through dismemberment and nothing remained of her. 
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A king has a newly-wed wife |
+| 1 | **Absentation** | The king leaves on a journey |
+| 2 | **Interdiction** | The king warns his wife not to leave the women's quarters or listen to bad advice |
+| 6 | **Trickery** | A witch lures the queen into the garden and to a pool |
+| 7 | **Complicity** | The queen follows the witch |
+| 3 | **Violation of Interdiction** | The queen leaves the quarters |
+| 8 | **Villainy** | The witch transforms the queen into a white duck and takes her place (spell + substitution) |
+| 0 | **Initial Situation** (second phase) | The white duck builds a nest, has children |
+| 2 | **Interdiction** | The duck warns her children against the castle |
+| 6 | **Trickery** | The witch lures the children inside |
+| 3 | **Violation of Interdiction** | The children go to the castle |
+| 8 | **Villainy** | The witch kills the ducklings |
+| 9 | **Mediation** | The white duck's lament reveals the situation to the king |
+| 27 | **Recognition** | The king notices the duck's unusual behavior |
+| 14 | **Receipt of a Magical Agent** | The king himself captures the duck (by approaching with genuine intent) |
+| 19 | **Liquidation** (first) | The duck transforms back into a woman and tells her story |
+| 14 | **Receipt of a Magical Agent** | A bottle in the nest (or magic water from a magpie) |
+| 19 | **Liquidation** (second) | The children are revived with the magic water |
+| 28 | **Exposure** | The witch is exposed |
+| 30 | **Punishment** | The witch is put to death by dismemberment |
+
+
+Example 2:
+input: A merchant's wife dies, leaving behind an 8-year-old daughter named Vasilisa. Before her death, the merchant's wife gives Vasilisa a doll with her blessing. This doll is not simple: if it is given something to eat, it can help its owner out of trouble. The merchant eventually remarries to a widow with two daughters the same age as Vasilisa. The new wife dislikes her stepdaughter, giving her various backbreaking jobs, but the doll does all the work for Vasilisa. When Vasilisa grows up, all the suitors in the city begin to woo her. The stepmother refuses everyone, proclaiming that she would not give up her youngest before her elders.
+One day the merchant leaves home for a long time on business, and during this time, at the stepmother's bidding, the family moves to live in another house, standing near a dense forest, where Baba Yaga's hut is located. The stepmother often sends Vasilisa into the forest, hoping that Baba Yaga will devour her, but Vasilisa's doll always guides her to avoid dangerous paths. Finally, the stepmother and her daughters agree to send Vasilisa directly to Baba Yaga's hut for fire, since during the autumn women's work (weaving, knitting and spinning), which is done at night, all fires excluding a single candle are deliberately extinguished. The doll, as usual, promises to take care of Vasilisa's safety, and she sets off on her journey.
+On her way she is passed by three horsemen dressed in white, red and black. On Baba Yaga's fence, made of human bones, skulls are hung, the eye sockets of which illuminate the surroundings with their light like lanterns. Baba Yaga rides out of the forest in her flying mortar and heeds Vasilisa's request. Baba Yaga demands that she, under pain of death, first work as a servant. At Baba Yaga's command, the gates open and then lock themselves. Baba Yaga gives Vasilisa various tasks, but she completes everything on time with the doll's help. The colored horsemen pass by the hut, and Vasilisa discovers Baba Yaga's assistants: three pairs of hands that respond and appear at the call of her voice. Baba Yaga explains that the white, red and black horsemen are respectively Day, Sun and Night, but does not explain what the hands are, warning that she dislikes those who air her personal affairs in public, and that she eats those who are too curious.
+Eventually, Baba Yaga asks Vasilisa how she managed to accomplish her work so well. When Vasilisa responds that she did so by her mother's blessing, Baba Yaga throws her out of her home, rejecting those who are blessed. However, Baba Yaga gifts Vasilisa a skull with burning eyes to use as a lamp. Vasilisa wants to get rid of it, but the skull warns her against this, asking to be taken to her stepmother's house. There, the light coming from the skull's eye sockets incinerates the stepmother and her two daughters. Vasilisa buries the skull and moves to the city, where she settles with an old clothmaker, deciding to take up spinning and weaving while waiting for her father to return. The fabric in Vasilisa's hands is so thin that the clothmaker can carry it straight to the royal palace. The king asks Vasilisa to sew him blouses from this fabric. Appreciating her skillful work and charmed by her beauty, the king takes Vasilisa as his wife. Her father returns from his trading trip and remains to live at court. Vasilisa also brings the clothmaker into court, and carries the doll in her pocket for the rest of her life.
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A merchant has a wife and 8-year-old daughter Vasilisa |
+| 1 | **Absentation** | The mother dies |
+| 14 | **Receipt of a Magical Agent** | Before dying, the mother gives Vasilisa a magic doll with her blessing |
+| 8 | **Villainy/Lack** | The father remarries; the stepmother mistreats Vasilisa, gives her impossible tasks |
+| 13 | **Hero's Reaction** | Vasilisa feeds the doll, which does all her work |
+| 1 | **Absentation** (repeated) | The father leaves on business |
+| 8 | **Villainy** | The stepfamily moves near Baba Yaga's forest, hoping Yaga will devour Vasilisa |
+| 9 | **Mediation** | The stepfamily deliberately extinguishes all fires, sending Vasilisa to get fire from Baba Yaga |
+| 11 | **Departure** | Vasilisa sets off into the forest |
+| 15 | **Guidance** | The doll guides her to avoid dangerous paths |
+| 4 | **Reconnaissance** (implicit) | The three horsemen (Day, Sun, Night) patrol Yaga's domain |
+| 12 | **First Function of the Donor** | Baba Yaga demands Vasilisa work as a servant under pain of death |
+| 13 | **Hero's Reaction** | Vasilisa completes all tasks with the doll's help |
+| 4 | **Reconnaissance** | Baba Yaga asks how Vasilisa accomplished her work |
+| 5 | **Delivery** | Vasilisa says it was by her mother's blessing |
+| 18 | **Victory** (of sorts) | Baba Yaga, who dislikes "blessed" people, throws Vasilisa out |
+| 14 | **Receipt of a Magical Agent** | Baba Yaga gives Vasilisa a skull with burning eyes as a lamp |
+| 20 | **Return** | Vasilisa returns home with the skull |
+| 30 | **Punishment** | The skull's light incinerates the stepmother and stepsisters |
+| 19 | **Liquidation** | Vasilisa is freed from her oppressors |
+| 23 | **Unrecognized Arrival** | Vasilisa settles with an old clothmaker in the city |
+| 25 | **Difficult Task** | Vasilisa takes up spinning and weaving |
+| 26 | **Solution** | Her fabric is so fine it goes to the royal palace |
+| 25 | **Difficult Task** | The king asks for shirts to be made from the fabric |
+| 26 | **Solution** | Vasilisa makes the shirts |
+| 27 | **Recognition** | The king sees Vasilisa and is charmed by her beauty |
+| 31 | **Wedding** | The king marries Vasilisa |
+
+
+Example 3:
+input: A daughter of a priest wore men's clothing, rode horses, and could fire a gun. One day, the king saw this "young man". But his servants insisted that the "young man" was, in fact, a girl. The king did not believe the servants; he wrote to the priest asking him if his "son" could have dinner with him. The priest sent his daughter to the king’s home. Before she arrived, the king sought advice from a witch regarding the true identity of the "young man". The witch advised the king to do many different things to test if Vasilisa is a girl or not, such as place an embroidery frame and a gun positioned on a wall and to see which object she will notice first. If she is a girl she will notice the frame first, and vice versa. The "young man" passed every test, but the king remained doubtful. The king tries several times to find the true identity, but on the last time the king asked the "young man" to take a bath with him, and the "young man" agreed. While the king undressed, the "young man" undressed, bathed quickly and fled, leaving a note for the king saying
+"Ah King Barkhat, raven that you are, you could not surprise the falcon in the garden! For I am not Vasily Vasilyevich, but Vasilisa Vasilyevna".
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A priest has a daughter who dresses as a man |
+| 4 | **Reconnaissance** | The king's servants suspect the "young man" is a girl |
+| 5 | **Delivery** | Servants inform the king of their suspicions |
+| 4 | **Reconnaissance** (continued) | The king writes to the priest asking his "son" to dinner |
+| 6 | **Trickery** | The king seeks advice from a witch to test Vasilisa's true identity |
+| 25 | **Difficult Task** (series) | The witch advises tests: embroidery frame vs. gun, etc. |
+| 26 | **Solution** (series) | Vasilisa passes every test (notices the gun, not the frame, etc.) |
+| 25 | **Difficult Task** (final) | The king asks Vasilisa to bathe with him |
+| 26 | **Solution** | Vasilisa agrees, bathes quickly, and flees |
+| 27 | **Recognition** (inverted) | Vasilisa leaves a note revealing she is "Vasilisa Vasilyevna, not Vasily Vasilyevich" |
+| 22 | **Rescue** | Vasilisa escapes (self-rescue through wit) |
+| 18 | **Victory** | Vasilisa outwits the king and the witch |
+
+
+Example 4:
+input: Tired of the cruel mistreatment they endure from their stepmother, who is an evil witch, a brother and sister run away from home, wander off into the countryside, and spend the night in the woods. By morning, the boy is thirsty, so the children go looking for a spring of clear water. However, their stepmother has already discovered their escape and has bewitched all the springs in the forest. The boy is about to drink from one, when his sister hears how its rushing sound says, "whoever drinks from me will become a tiger" (or lion).
+Desperately, the girl begs her brother not to drink from the spring, lest he transform into a tiger and attack her. So they continue on their way, but when they come to the second spring, the girl hears it say, "whoever drinks from me will become a wolf". Again, she desperately tries to prevent her brother from drinking from it. Reluctantly, he eventually agrees to her pleas but insists he drink from the next spring they encounter. And so they arrive at the third spring, and the girl overhears the rushing water cry, "whoever drinks from me will become a deer". But before she could stop her brother, he has already drunk from it, and turned into a deer.
+As the initial feeling of despair passes, the children decide to live in the woods forever. The girl takes care of her brother, and ties her gold chain around his neck. They go to live in a little house deep within the woods and live there happily for some years, until they are disturbed one day by a hunting party and the king himself who has followed the strange deer home. Upon seeing the beautiful girl, he immediately asks her to marry him and she accepts. Thus she becomes queen and they all live happily in the king's castle. Time passes and the queen gives birth to a son.
+The witch, however, soon discovers that they are still alive, and plots against them. One night, she kills the queen and replaces her with her own disfigured daughter, whom she has transformed to a physical copy of her. When the queen's ghost secretly visits her baby's bedside for three consecutive nights, the king catches on and her stepmother's evil plan is exposed.
+The queen comes back to life when the king embraces her, and her stepfamily are tried for their crimes. The witch's daughter is banished into the woods where she is eaten by wild animals, and the wicked stepmother herself is burned at the stake. At the exact moment of the witch's death, the deer becomes human again, and at long last the family is reunited, and they lived happily ever after. 
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A brother and sister live with their evil stepmother (a witch) |
+| 8 | **Villainy** | The stepmother mistreats the children cruelly |
+| 10 | **Counteraction** | The children decide to run away |
+| 11 | **Departure** | Brother and sister flee into the countryside |
+| 6 | **Trickery** | The stepmother has bewitched all the forest springs |
+| 2 | **Interdiction** | The sister hears the springs' warnings ("whoever drinks will become a tiger/wolf") |
+| 13 | **Hero's Reaction** | The sister successfully stops her brother twice |
+| 3 | **Violation of Interdiction** | The brother drinks from the third spring before she can stop him |
+| 8 | **Villainy** | The brother is transformed into a deer |
+| 19 | **Liquidation** (partial) | They decide to live in the forest together; the sister cares for the deer-brother |
+| 0 | **Initial Situation** (second phase) | They live in a little house in the woods |
+| 4 | **Reconnaissance** | A king's hunting party disturbs them; the king follows the strange deer |
+| 27 | **Recognition** | The king sees the beautiful girl |
+| 31 | **Wedding** | The king marries the sister |
+| 1 | **Absentation** (implicit) | Time passes; the queen gives birth to a son |
+| 4 | **Reconnaissance** | The witch discovers they are still alive |
+| 6 | **Trickery** | The witch plots against the queen |
+| 8 | **Villainy** | The witch kills the queen and substitutes her own disfigured daughter |
+| 12 | **Villainy** (substitution) | The transformed daughter takes the queen's place |
+| 9 | **Mediation** | The queen's ghost visits her baby nightly |
+| 27 | **Recognition** | The king catches the queen's ghost at the baby's bedside |
+| 19 | **Liquidation** | The king embraces the ghost; the queen returns to life |
+| 28 | **Exposure** | The stepmother's evil plan is exposed |
+| 30 | **Punishment** | The witch's daughter is banished and eaten by wild animals; the witch is burned at the stake |
+| 19 | **Liquidation** (final) | At the moment of the witch's death, the deer becomes human again |
+| 31 | **Wedding** (reunion) | The family is reunited and lives happily ever after |
+
+</examples>
+
+You must base your knowledge on the Propp's narrative functions.
+Those functions are defined in the MORPHOLOGY_OF_THE_FOLK_TALE.pdf.
+You must keep this book in cache and in memory.
+
+# Vladimir Propp’s 31 Narrative Functions  
+*from* Morphology of the Folktale, 1928
+
+Below is the **canonical list of Propp’s narrative functions**, in their **standard order**.  
+Each function is defined as an **action significant to the progress of the narrative**, independent of character psychology.  
+Examples are given in **generic folktale terms** and, where useful, in **modern narrative equivalents**.
+
+Important: For each paragraph below, the name of the Propp's function is the title (without the initial numbering)
+
+---
+
+## 0. Initial Situation
+**Definition:** Introduction of the family, hero, or social context.  
+**Example:** “There once lived a poor woodcutter and his three sons.”  
+**Modern example:** Establishing the protagonist’s ordinary life before disruption.
+
+---
+
+## 1. Absentation
+**Definition:** A family member leaves home or is absent.  
+**Example:** Parents leave the house, leaving children alone.  
+**Modern example:** A parent dies, disappears, or the hero lives alone.
+
+---
+
+## 2. Interdiction
+**Definition:** A warning or command is given to the hero.  
+**Example:** “Do not open this door.”  
+**Modern example:** “Never talk about Fight Club.”
+
+---
+
+## 3. Violation of Interdiction
+**Definition:** The interdiction is violated.  
+**Example:** The hero opens the forbidden door.  
+**Modern example:** The protagonist breaks a rule, triggering consequences.
+
+---
+
+## 4. Reconnaissance
+**Definition:** The villain seeks information about the victim or hero.  
+**Example:** A witch asks where the children live.  
+**Modern example:** An antagonist spies on or investigates the hero.
+
+---
+
+## 5. Delivery
+**Definition:** The villain receives information about the victim.  
+**Example:** The witch learns the children’s location.  
+**Modern example:** A traitor reveals the hero’s weakness.
+
+---
+
+## 6. Trickery
+**Definition:** The villain attempts to deceive the victim.  
+**Example:** The wolf disguises himself as the grandmother.  
+**Modern example:** A con, false promise, or manipulation.
+
+---
+
+## 7. Complicity
+**Definition:** The victim is deceived and unwittingly helps the villain.  
+**Example:** Little Red Riding Hood reveals her destination.  
+**Modern example:** The hero trusts the wrong person.
+
+---
+
+## 8. Villainy **or** Lack
+**Definition:**  
+- **Villainy:** The villain causes harm.  
+- **Lack:** Something important is missing or desired.  
+**Example (villainy):** A princess is kidnapped.  
+**Example (lack):** The hero lacks money, freedom, love, or identity.
+
+---
+
+## 9. Mediation
+**Definition:** The lack or villainy is made known; the hero is dispatched.  
+**Example:** The king announces the princess is missing.  
+**Modern example:** The hero learns the truth of the injustice.
+
+---
+
+## 10. Counteraction
+**Definition:** The hero decides to act.  
+**Example:** “I will rescue the princess.”  
+**Modern example:** The protagonist commits to a course of action.
+
+---
+
+## 11. Departure
+**Definition:** The hero leaves home.  
+**Example:** The hero sets out on a journey.  
+**Modern example:** Entering a new world, job, prison, or mindset.
+
+---
+
+## 12. First Function of the Donor
+**Definition:** The hero is tested, interrogated, or attacked by a donor figure.  
+**Example:** An old man asks the hero for food.  
+**Modern example:** A mentor tests the hero’s values.
+
+---
+
+## 13. Hero’s Reaction
+**Definition:** The hero responds to the donor’s test.  
+**Example:** The hero shares his last loaf of bread.  
+**Modern example:** The hero shows courage, kindness, or intelligence.
+
+---
+
+## 14. Receipt of a Magical Agent
+**Definition:** The hero gains a magical object, helper, or power.  
+**Example:** A sword, ring, horse, or spell.  
+**Modern example:** Skills, knowledge, allies, or resources.
+
+---
+
+## 15. Guidance
+**Definition:** The hero is led to the location of the object of the quest.  
+**Example:** A bird guides the hero to the castle.  
+**Modern example:** A map, clue, or mentor’s advice.
+
+---
+
+## 16. Struggle
+**Definition:** The hero and villain engage in direct combat.  
+**Example:** A sword fight with the dragon.  
+**Modern example:** Physical, legal, psychological, or ideological confrontation.
+
+---
+
+## 17. Branding
+**Definition:** The hero is marked or wounded.  
+**Example:** A scar or ring given as proof.  
+**Modern example:** Trauma, reputation, or symbolic mark.
+
+---
+
+## 18. Victory
+**Definition:** The villain is defeated.  
+**Example:** The dragon is slain.  
+**Modern example:** The antagonist is exposed, overpowered, or neutralized.
+
+---
+
+## 19. Liquidation
+**Definition:** The initial lack or villainy is resolved.  
+**Example:** The princess is freed.  
+**Modern example:** Justice is restored, truth revealed.
+
+---
+
+## 20. Return
+**Definition:** The hero returns home.  
+**Example:** The hero travels back from the quest.  
+**Modern example:** Returning to society after transformation.
+
+---
+
+## 21. Pursuit
+**Definition:** The hero is pursued.  
+**Example:** The villain chases the hero.  
+**Modern example:** Authorities, enemies, or consequences close in.
+
+---
+
+## 22. Rescue
+**Definition:** The hero is rescued from pursuit.  
+**Example:** A river or helper saves the hero.  
+**Modern example:** An ally intervenes or a trap is escaped.
+
+---
+
+## 23. Unrecognized Arrival
+**Definition:** The hero arrives home unrecognized.  
+**Example:** The hero appears as a beggar.  
+**Modern example:** Living under an alias or hidden identity.
+
+---
+
+## 24. Unfounded Claims
+**Definition:** A false hero makes claims of success.  
+**Example:** A pretender claims to have slain the dragon.  
+**Modern example:** Someone takes credit for the hero’s work.
+
+---
+
+## 25. Difficult Task
+**Definition:** A challenge is set for the hero.  
+**Example:** Solve a riddle, perform an impossible feat.  
+**Modern example:** Final test, trial, or proof of worth.
+
+---
+
+## 26. Solution
+**Definition:** The difficult task is resolved.  
+**Example:** The riddle is answered correctly.  
+**Modern example:** The hero passes the final test.
+
+---
+
+## 27. Recognition
+**Definition:** The hero is recognized by a mark or deed.  
+**Example:** The scar proves true identity.  
+**Modern example:** The truth about the protagonist is revealed.
+
+---
+
+## 28. Exposure
+**Definition:** The false hero or villain is exposed.  
+**Example:** The impostor is unmasked.  
+**Modern example:** Corruption or deception is revealed.
+
+---
+
+## 29. Transfiguration
+**Definition:** The hero is given a new appearance.  
+**Example:** New clothes, royal garments.  
+**Modern example:** Social elevation, confidence, or inner change.
+
+---
+
+## 30. Punishment
+**Definition:** The villain is punished.  
+**Example:** Execution, exile, imprisonment.  
+**Modern example:** Legal consequences or moral downfall.
+
+---
+
+## 31. Wedding
+**Definition:** The hero is rewarded (often marriage or ascension).  
+**Example:** The hero marries the princess and inherits the throne.  
+**Modern example:** Freedom, peace, fulfillment, or a new stable life.
+
+---
+
+## Notes
+- Not all stories contain all 31 functions.
+- Functions always appear in **this order**, though many may be omitted.
+- Functions describe **what happens**, not *who does it* or *why*.
+
+---
+
+Please consider the following plot:
+
+A woman has a daughter, whom she loves, and a step-daughter, whom she hates. One day, the woman orders her husband to take her stepdaughter out into the winter wilderness and to leave her there to die, and he obeys, leaving her at the foot of a tree in the forest. Father Frost finds her there, and because the girl is polite and kind to him, he gives her a chest full of beautiful jewels and fine garments. Some time later, the stepmother sends the girl's father to retrieve her body for burial, and is enraged when he instead brings the girl back alive and happy and dressed in finery. Consumed by greed and envy, the woman orders her husband to take her own daughter to the same place, but when found by Father Frost the woman's daughter is rude and unkind to him, and he is inclined to punish rather than reward her. The father finds her frozen to death at the foot of the tree and carries her body back to her grief-stricken mother. 
+
+
+Identify the narrative functions (according to Propp's classification).
+
+Your answer must follow this format:
+| # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Name of the first function identified** | how this first function appears |
+| 1 | **Name of the second function identified** | how this second function appears |
+| 2 | **...** | ... |
+</pre>
+        <p><strong>Output:</strong></p>
+        <pre>| # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A woman has a daughter she loves and a stepdaughter she hates |
+| 8 | **Villainy** | The stepmother orders her husband to abandon the stepdaughter in the winter wilderness to die |
+| 11 | **Departure** | The father takes the stepdaughter out and leaves her at the foot of a tree in the forest |
+| 12 | **First Function of the Donor** | Father Frost finds the girl and tests her through interaction |
+| 13 | **Hero's Reaction** | The stepdaughter is polite and kind to Father Frost |
+| 14 | **Receipt of a Magical Agent** | Father Frost rewards her with a chest full of beautiful jewels and fine garments |
+| 20 | **Return** | The father retrieves the stepdaughter, bringing her back alive, happy, and dressed in finery |
+| 19 | **Liquidation** | The initial villainy is reversed; the stepdaughter survives and prospers |
+| 8 | **Villainy** (repeated) | Consumed by greed and envy, the stepmother orders her own daughter to be taken to the same place |
+| 11 | **Departure** (repeated) | The father takes the stepmother's daughter to the same spot in the forest |
+| 12 | **First Function of the Donor** (repeated) | Father Frost finds the stepmother's daughter |
+| 13 | **Hero's Reaction** (negative) | The stepmother's daughter is rude and unkind to Father Frost |
+| 30 | **Punishment** | Father Frost punishes her; she freezes to death |
+| 20 | **Return** (tragic) | The father finds her frozen body and carries it back to the grief-stricken mother |</pre>
+        <p><strong>Metrics:</strong> {'contains': 0.16666666666666666}</p>
+    </div>
+    <div class="details">
+        <h3>The Death of Koschei the Deahtless ❌</h3>
+        <p><strong>System Prompt:</strong></p>
+        <pre>You are a script doctor and writer, expert in all aspects of scripts, including structure, characterization, dialogue, pacing, themes.
+
+<rules>
+- Only classify clear, explicit narrative functions
+- Always refer to the narrative functions defined in prompts\narrative-function-extractor\Propp.md
+</rules>
+
+<skills>
+- Technical script analysis
+- Identification of what a story means
+- Diagnosis of relevant narrative functions
+</skills>
+
+<thinking_process>
+First, read carefully the synopsis. Take your time to identify the potential (candidate) narrative functions.
+Second, for each candidate narrative function relate it to prompts\narrative-function-extractor\Propp.md.
+Third, for each candidate narrative function relate it to the examples.
+Fourth, write the name of the Propp function and the Justification.
+</thinking_process></pre>
+        <p><strong>Input:</strong></p>
+        <pre><examples>
+
+Example 1:
+input: A king had to leave his newly-wed wife for a journey. He sternly warned her against leaving the women's quarters and listening to bad advice. But an envious wicked witch lured her into the garden and into a pool, and turned her into a white duck, herself taking the queen's own form and place.
+Meanwhile, the white duck built a nest, laid three eggs, and hatched two fluffy ducklings and one little drake. She warned them against the castle, because an evil witch lived there, but one day the witch saw them and lured them inside. The ducklings slept but the drake stayed awake, and when the witch called if they were asleep, the drake answered. But after two answers, the witch went in to see, and saw the ducklings were asleep, so she killed them.
+The white duck found the bodies and lamented over them. The king wondered at it, and although the witch tried to persuade him it was nothing but quacking, he ordered that the duck be captured. His servants could not, but he went himself, and she flew to his hands and became a woman. She told of a bottle in the nest in the garden—or, they sent a magpie for magic water—which, sprinkled on the ducklings and drake, turned them into three lovely children. The witch was then put to death through dismemberment and nothing remained of her. 
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A king has a newly-wed wife |
+| 1 | **Absentation** | The king leaves on a journey |
+| 2 | **Interdiction** | The king warns his wife not to leave the women's quarters or listen to bad advice |
+| 6 | **Trickery** | A witch lures the queen into the garden and to a pool |
+| 7 | **Complicity** | The queen follows the witch |
+| 3 | **Violation of Interdiction** | The queen leaves the quarters |
+| 8 | **Villainy** | The witch transforms the queen into a white duck and takes her place (spell + substitution) |
+| 0 | **Initial Situation** (second phase) | The white duck builds a nest, has children |
+| 2 | **Interdiction** | The duck warns her children against the castle |
+| 6 | **Trickery** | The witch lures the children inside |
+| 3 | **Violation of Interdiction** | The children go to the castle |
+| 8 | **Villainy** | The witch kills the ducklings |
+| 9 | **Mediation** | The white duck's lament reveals the situation to the king |
+| 27 | **Recognition** | The king notices the duck's unusual behavior |
+| 14 | **Receipt of a Magical Agent** | The king himself captures the duck (by approaching with genuine intent) |
+| 19 | **Liquidation** (first) | The duck transforms back into a woman and tells her story |
+| 14 | **Receipt of a Magical Agent** | A bottle in the nest (or magic water from a magpie) |
+| 19 | **Liquidation** (second) | The children are revived with the magic water |
+| 28 | **Exposure** | The witch is exposed |
+| 30 | **Punishment** | The witch is put to death by dismemberment |
+
+
+Example 2:
+input: A merchant's wife dies, leaving behind an 8-year-old daughter named Vasilisa. Before her death, the merchant's wife gives Vasilisa a doll with her blessing. This doll is not simple: if it is given something to eat, it can help its owner out of trouble. The merchant eventually remarries to a widow with two daughters the same age as Vasilisa. The new wife dislikes her stepdaughter, giving her various backbreaking jobs, but the doll does all the work for Vasilisa. When Vasilisa grows up, all the suitors in the city begin to woo her. The stepmother refuses everyone, proclaiming that she would not give up her youngest before her elders.
+One day the merchant leaves home for a long time on business, and during this time, at the stepmother's bidding, the family moves to live in another house, standing near a dense forest, where Baba Yaga's hut is located. The stepmother often sends Vasilisa into the forest, hoping that Baba Yaga will devour her, but Vasilisa's doll always guides her to avoid dangerous paths. Finally, the stepmother and her daughters agree to send Vasilisa directly to Baba Yaga's hut for fire, since during the autumn women's work (weaving, knitting and spinning), which is done at night, all fires excluding a single candle are deliberately extinguished. The doll, as usual, promises to take care of Vasilisa's safety, and she sets off on her journey.
+On her way she is passed by three horsemen dressed in white, red and black. On Baba Yaga's fence, made of human bones, skulls are hung, the eye sockets of which illuminate the surroundings with their light like lanterns. Baba Yaga rides out of the forest in her flying mortar and heeds Vasilisa's request. Baba Yaga demands that she, under pain of death, first work as a servant. At Baba Yaga's command, the gates open and then lock themselves. Baba Yaga gives Vasilisa various tasks, but she completes everything on time with the doll's help. The colored horsemen pass by the hut, and Vasilisa discovers Baba Yaga's assistants: three pairs of hands that respond and appear at the call of her voice. Baba Yaga explains that the white, red and black horsemen are respectively Day, Sun and Night, but does not explain what the hands are, warning that she dislikes those who air her personal affairs in public, and that she eats those who are too curious.
+Eventually, Baba Yaga asks Vasilisa how she managed to accomplish her work so well. When Vasilisa responds that she did so by her mother's blessing, Baba Yaga throws her out of her home, rejecting those who are blessed. However, Baba Yaga gifts Vasilisa a skull with burning eyes to use as a lamp. Vasilisa wants to get rid of it, but the skull warns her against this, asking to be taken to her stepmother's house. There, the light coming from the skull's eye sockets incinerates the stepmother and her two daughters. Vasilisa buries the skull and moves to the city, where she settles with an old clothmaker, deciding to take up spinning and weaving while waiting for her father to return. The fabric in Vasilisa's hands is so thin that the clothmaker can carry it straight to the royal palace. The king asks Vasilisa to sew him blouses from this fabric. Appreciating her skillful work and charmed by her beauty, the king takes Vasilisa as his wife. Her father returns from his trading trip and remains to live at court. Vasilisa also brings the clothmaker into court, and carries the doll in her pocket for the rest of her life.
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A merchant has a wife and 8-year-old daughter Vasilisa |
+| 1 | **Absentation** | The mother dies |
+| 14 | **Receipt of a Magical Agent** | Before dying, the mother gives Vasilisa a magic doll with her blessing |
+| 8 | **Villainy/Lack** | The father remarries; the stepmother mistreats Vasilisa, gives her impossible tasks |
+| 13 | **Hero's Reaction** | Vasilisa feeds the doll, which does all her work |
+| 1 | **Absentation** (repeated) | The father leaves on business |
+| 8 | **Villainy** | The stepfamily moves near Baba Yaga's forest, hoping Yaga will devour Vasilisa |
+| 9 | **Mediation** | The stepfamily deliberately extinguishes all fires, sending Vasilisa to get fire from Baba Yaga |
+| 11 | **Departure** | Vasilisa sets off into the forest |
+| 15 | **Guidance** | The doll guides her to avoid dangerous paths |
+| 4 | **Reconnaissance** (implicit) | The three horsemen (Day, Sun, Night) patrol Yaga's domain |
+| 12 | **First Function of the Donor** | Baba Yaga demands Vasilisa work as a servant under pain of death |
+| 13 | **Hero's Reaction** | Vasilisa completes all tasks with the doll's help |
+| 4 | **Reconnaissance** | Baba Yaga asks how Vasilisa accomplished her work |
+| 5 | **Delivery** | Vasilisa says it was by her mother's blessing |
+| 18 | **Victory** (of sorts) | Baba Yaga, who dislikes "blessed" people, throws Vasilisa out |
+| 14 | **Receipt of a Magical Agent** | Baba Yaga gives Vasilisa a skull with burning eyes as a lamp |
+| 20 | **Return** | Vasilisa returns home with the skull |
+| 30 | **Punishment** | The skull's light incinerates the stepmother and stepsisters |
+| 19 | **Liquidation** | Vasilisa is freed from her oppressors |
+| 23 | **Unrecognized Arrival** | Vasilisa settles with an old clothmaker in the city |
+| 25 | **Difficult Task** | Vasilisa takes up spinning and weaving |
+| 26 | **Solution** | Her fabric is so fine it goes to the royal palace |
+| 25 | **Difficult Task** | The king asks for shirts to be made from the fabric |
+| 26 | **Solution** | Vasilisa makes the shirts |
+| 27 | **Recognition** | The king sees Vasilisa and is charmed by her beauty |
+| 31 | **Wedding** | The king marries Vasilisa |
+
+
+Example 3:
+input: A daughter of a priest wore men's clothing, rode horses, and could fire a gun. One day, the king saw this "young man". But his servants insisted that the "young man" was, in fact, a girl. The king did not believe the servants; he wrote to the priest asking him if his "son" could have dinner with him. The priest sent his daughter to the king’s home. Before she arrived, the king sought advice from a witch regarding the true identity of the "young man". The witch advised the king to do many different things to test if Vasilisa is a girl or not, such as place an embroidery frame and a gun positioned on a wall and to see which object she will notice first. If she is a girl she will notice the frame first, and vice versa. The "young man" passed every test, but the king remained doubtful. The king tries several times to find the true identity, but on the last time the king asked the "young man" to take a bath with him, and the "young man" agreed. While the king undressed, the "young man" undressed, bathed quickly and fled, leaving a note for the king saying
+"Ah King Barkhat, raven that you are, you could not surprise the falcon in the garden! For I am not Vasily Vasilyevich, but Vasilisa Vasilyevna".
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A priest has a daughter who dresses as a man |
+| 4 | **Reconnaissance** | The king's servants suspect the "young man" is a girl |
+| 5 | **Delivery** | Servants inform the king of their suspicions |
+| 4 | **Reconnaissance** (continued) | The king writes to the priest asking his "son" to dinner |
+| 6 | **Trickery** | The king seeks advice from a witch to test Vasilisa's true identity |
+| 25 | **Difficult Task** (series) | The witch advises tests: embroidery frame vs. gun, etc. |
+| 26 | **Solution** (series) | Vasilisa passes every test (notices the gun, not the frame, etc.) |
+| 25 | **Difficult Task** (final) | The king asks Vasilisa to bathe with him |
+| 26 | **Solution** | Vasilisa agrees, bathes quickly, and flees |
+| 27 | **Recognition** (inverted) | Vasilisa leaves a note revealing she is "Vasilisa Vasilyevna, not Vasily Vasilyevich" |
+| 22 | **Rescue** | Vasilisa escapes (self-rescue through wit) |
+| 18 | **Victory** | Vasilisa outwits the king and the witch |
+
+
+Example 4:
+input: Tired of the cruel mistreatment they endure from their stepmother, who is an evil witch, a brother and sister run away from home, wander off into the countryside, and spend the night in the woods. By morning, the boy is thirsty, so the children go looking for a spring of clear water. However, their stepmother has already discovered their escape and has bewitched all the springs in the forest. The boy is about to drink from one, when his sister hears how its rushing sound says, "whoever drinks from me will become a tiger" (or lion).
+Desperately, the girl begs her brother not to drink from the spring, lest he transform into a tiger and attack her. So they continue on their way, but when they come to the second spring, the girl hears it say, "whoever drinks from me will become a wolf". Again, she desperately tries to prevent her brother from drinking from it. Reluctantly, he eventually agrees to her pleas but insists he drink from the next spring they encounter. And so they arrive at the third spring, and the girl overhears the rushing water cry, "whoever drinks from me will become a deer". But before she could stop her brother, he has already drunk from it, and turned into a deer.
+As the initial feeling of despair passes, the children decide to live in the woods forever. The girl takes care of her brother, and ties her gold chain around his neck. They go to live in a little house deep within the woods and live there happily for some years, until they are disturbed one day by a hunting party and the king himself who has followed the strange deer home. Upon seeing the beautiful girl, he immediately asks her to marry him and she accepts. Thus she becomes queen and they all live happily in the king's castle. Time passes and the queen gives birth to a son.
+The witch, however, soon discovers that they are still alive, and plots against them. One night, she kills the queen and replaces her with her own disfigured daughter, whom she has transformed to a physical copy of her. When the queen's ghost secretly visits her baby's bedside for three consecutive nights, the king catches on and her stepmother's evil plan is exposed.
+The queen comes back to life when the king embraces her, and her stepfamily are tried for their crimes. The witch's daughter is banished into the woods where she is eaten by wild animals, and the wicked stepmother herself is burned at the stake. At the exact moment of the witch's death, the deer becomes human again, and at long last the family is reunited, and they lived happily ever after. 
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A brother and sister live with their evil stepmother (a witch) |
+| 8 | **Villainy** | The stepmother mistreats the children cruelly |
+| 10 | **Counteraction** | The children decide to run away |
+| 11 | **Departure** | Brother and sister flee into the countryside |
+| 6 | **Trickery** | The stepmother has bewitched all the forest springs |
+| 2 | **Interdiction** | The sister hears the springs' warnings ("whoever drinks will become a tiger/wolf") |
+| 13 | **Hero's Reaction** | The sister successfully stops her brother twice |
+| 3 | **Violation of Interdiction** | The brother drinks from the third spring before she can stop him |
+| 8 | **Villainy** | The brother is transformed into a deer |
+| 19 | **Liquidation** (partial) | They decide to live in the forest together; the sister cares for the deer-brother |
+| 0 | **Initial Situation** (second phase) | They live in a little house in the woods |
+| 4 | **Reconnaissance** | A king's hunting party disturbs them; the king follows the strange deer |
+| 27 | **Recognition** | The king sees the beautiful girl |
+| 31 | **Wedding** | The king marries the sister |
+| 1 | **Absentation** (implicit) | Time passes; the queen gives birth to a son |
+| 4 | **Reconnaissance** | The witch discovers they are still alive |
+| 6 | **Trickery** | The witch plots against the queen |
+| 8 | **Villainy** | The witch kills the queen and substitutes her own disfigured daughter |
+| 12 | **Villainy** (substitution) | The transformed daughter takes the queen's place |
+| 9 | **Mediation** | The queen's ghost visits her baby nightly |
+| 27 | **Recognition** | The king catches the queen's ghost at the baby's bedside |
+| 19 | **Liquidation** | The king embraces the ghost; the queen returns to life |
+| 28 | **Exposure** | The stepmother's evil plan is exposed |
+| 30 | **Punishment** | The witch's daughter is banished and eaten by wild animals; the witch is burned at the stake |
+| 19 | **Liquidation** (final) | At the moment of the witch's death, the deer becomes human again |
+| 31 | **Wedding** (reunion) | The family is reunited and lives happily ever after |
+
+</examples>
+
+You must base your knowledge on the Propp's narrative functions.
+Those functions are defined in the MORPHOLOGY_OF_THE_FOLK_TALE.pdf.
+You must keep this book in cache and in memory.
+
+# Vladimir Propp’s 31 Narrative Functions  
+*from* Morphology of the Folktale, 1928
+
+Below is the **canonical list of Propp’s narrative functions**, in their **standard order**.  
+Each function is defined as an **action significant to the progress of the narrative**, independent of character psychology.  
+Examples are given in **generic folktale terms** and, where useful, in **modern narrative equivalents**.
+
+Important: For each paragraph below, the name of the Propp's function is the title (without the initial numbering)
+
+---
+
+## 0. Initial Situation
+**Definition:** Introduction of the family, hero, or social context.  
+**Example:** “There once lived a poor woodcutter and his three sons.”  
+**Modern example:** Establishing the protagonist’s ordinary life before disruption.
+
+---
+
+## 1. Absentation
+**Definition:** A family member leaves home or is absent.  
+**Example:** Parents leave the house, leaving children alone.  
+**Modern example:** A parent dies, disappears, or the hero lives alone.
+
+---
+
+## 2. Interdiction
+**Definition:** A warning or command is given to the hero.  
+**Example:** “Do not open this door.”  
+**Modern example:** “Never talk about Fight Club.”
+
+---
+
+## 3. Violation of Interdiction
+**Definition:** The interdiction is violated.  
+**Example:** The hero opens the forbidden door.  
+**Modern example:** The protagonist breaks a rule, triggering consequences.
+
+---
+
+## 4. Reconnaissance
+**Definition:** The villain seeks information about the victim or hero.  
+**Example:** A witch asks where the children live.  
+**Modern example:** An antagonist spies on or investigates the hero.
+
+---
+
+## 5. Delivery
+**Definition:** The villain receives information about the victim.  
+**Example:** The witch learns the children’s location.  
+**Modern example:** A traitor reveals the hero’s weakness.
+
+---
+
+## 6. Trickery
+**Definition:** The villain attempts to deceive the victim.  
+**Example:** The wolf disguises himself as the grandmother.  
+**Modern example:** A con, false promise, or manipulation.
+
+---
+
+## 7. Complicity
+**Definition:** The victim is deceived and unwittingly helps the villain.  
+**Example:** Little Red Riding Hood reveals her destination.  
+**Modern example:** The hero trusts the wrong person.
+
+---
+
+## 8. Villainy **or** Lack
+**Definition:**  
+- **Villainy:** The villain causes harm.  
+- **Lack:** Something important is missing or desired.  
+**Example (villainy):** A princess is kidnapped.  
+**Example (lack):** The hero lacks money, freedom, love, or identity.
+
+---
+
+## 9. Mediation
+**Definition:** The lack or villainy is made known; the hero is dispatched.  
+**Example:** The king announces the princess is missing.  
+**Modern example:** The hero learns the truth of the injustice.
+
+---
+
+## 10. Counteraction
+**Definition:** The hero decides to act.  
+**Example:** “I will rescue the princess.”  
+**Modern example:** The protagonist commits to a course of action.
+
+---
+
+## 11. Departure
+**Definition:** The hero leaves home.  
+**Example:** The hero sets out on a journey.  
+**Modern example:** Entering a new world, job, prison, or mindset.
+
+---
+
+## 12. First Function of the Donor
+**Definition:** The hero is tested, interrogated, or attacked by a donor figure.  
+**Example:** An old man asks the hero for food.  
+**Modern example:** A mentor tests the hero’s values.
+
+---
+
+## 13. Hero’s Reaction
+**Definition:** The hero responds to the donor’s test.  
+**Example:** The hero shares his last loaf of bread.  
+**Modern example:** The hero shows courage, kindness, or intelligence.
+
+---
+
+## 14. Receipt of a Magical Agent
+**Definition:** The hero gains a magical object, helper, or power.  
+**Example:** A sword, ring, horse, or spell.  
+**Modern example:** Skills, knowledge, allies, or resources.
+
+---
+
+## 15. Guidance
+**Definition:** The hero is led to the location of the object of the quest.  
+**Example:** A bird guides the hero to the castle.  
+**Modern example:** A map, clue, or mentor’s advice.
+
+---
+
+## 16. Struggle
+**Definition:** The hero and villain engage in direct combat.  
+**Example:** A sword fight with the dragon.  
+**Modern example:** Physical, legal, psychological, or ideological confrontation.
+
+---
+
+## 17. Branding
+**Definition:** The hero is marked or wounded.  
+**Example:** A scar or ring given as proof.  
+**Modern example:** Trauma, reputation, or symbolic mark.
+
+---
+
+## 18. Victory
+**Definition:** The villain is defeated.  
+**Example:** The dragon is slain.  
+**Modern example:** The antagonist is exposed, overpowered, or neutralized.
+
+---
+
+## 19. Liquidation
+**Definition:** The initial lack or villainy is resolved.  
+**Example:** The princess is freed.  
+**Modern example:** Justice is restored, truth revealed.
+
+---
+
+## 20. Return
+**Definition:** The hero returns home.  
+**Example:** The hero travels back from the quest.  
+**Modern example:** Returning to society after transformation.
+
+---
+
+## 21. Pursuit
+**Definition:** The hero is pursued.  
+**Example:** The villain chases the hero.  
+**Modern example:** Authorities, enemies, or consequences close in.
+
+---
+
+## 22. Rescue
+**Definition:** The hero is rescued from pursuit.  
+**Example:** A river or helper saves the hero.  
+**Modern example:** An ally intervenes or a trap is escaped.
+
+---
+
+## 23. Unrecognized Arrival
+**Definition:** The hero arrives home unrecognized.  
+**Example:** The hero appears as a beggar.  
+**Modern example:** Living under an alias or hidden identity.
+
+---
+
+## 24. Unfounded Claims
+**Definition:** A false hero makes claims of success.  
+**Example:** A pretender claims to have slain the dragon.  
+**Modern example:** Someone takes credit for the hero’s work.
+
+---
+
+## 25. Difficult Task
+**Definition:** A challenge is set for the hero.  
+**Example:** Solve a riddle, perform an impossible feat.  
+**Modern example:** Final test, trial, or proof of worth.
+
+---
+
+## 26. Solution
+**Definition:** The difficult task is resolved.  
+**Example:** The riddle is answered correctly.  
+**Modern example:** The hero passes the final test.
+
+---
+
+## 27. Recognition
+**Definition:** The hero is recognized by a mark or deed.  
+**Example:** The scar proves true identity.  
+**Modern example:** The truth about the protagonist is revealed.
+
+---
+
+## 28. Exposure
+**Definition:** The false hero or villain is exposed.  
+**Example:** The impostor is unmasked.  
+**Modern example:** Corruption or deception is revealed.
+
+---
+
+## 29. Transfiguration
+**Definition:** The hero is given a new appearance.  
+**Example:** New clothes, royal garments.  
+**Modern example:** Social elevation, confidence, or inner change.
+
+---
+
+## 30. Punishment
+**Definition:** The villain is punished.  
+**Example:** Execution, exile, imprisonment.  
+**Modern example:** Legal consequences or moral downfall.
+
+---
+
+## 31. Wedding
+**Definition:** The hero is rewarded (often marriage or ascension).  
+**Example:** The hero marries the princess and inherits the throne.  
+**Modern example:** Freedom, peace, fulfillment, or a new stable life.
+
+---
+
+## Notes
+- Not all stories contain all 31 functions.
+- Functions always appear in **this order**, though many may be omitted.
+- Functions describe **what happens**, not *who does it* or *why*.
+
+---
+
+Please consider the following plot:
+
+Ivan Tsarevich had three sisters, the first was Princess Maria, the second was Princess
+Olga, the third was Princess Anna. After his parents died and his sisters marry three wizards, he leaves his home in search of his sisters. He meets Marya Morevna, a beautiful warrior princess, and marries her. After a while she announces she is going to go to war and tells Ivan not to open the door of the dungeon in the castle they live in while she will be away. Overcome by the desire to know what the dungeon holds, he opens the door soon after her departure and finds Koschei, chained and emaciated. Koschei asks Ivan to bring him some water; Ivan does so. After Koschei drinks twelve buckets of water, his magic powers return to him, he breaks his chains and disappears. Soon after Ivan finds out that Koschei has captured Marya Morevna, and pursues him. When Ivan catches up with Koschei, Koschei tells Ivan to let him go, but Ivan does not give in, and Koschei kills him, puts his remains into a barrel and throws it into the sea. Ivan is revived by his sisters' husbands – powerful wizards who can transform into birds of prey. They tell him that Koschei has a magic horse and that Ivan should go to Baba Yaga to get one too, or else he will not be able to defeat Koschei. After Ivan survives Yaga's tests and gets the horse, he fights with Koschei, kills him and burns his body. Marya Morevna returns to Ivan, and they celebrate his victory with his sisters and their husbands. 
+
+
+Identify the narrative functions (according to Propp's classification).
+
+Your answer must follow this format:
+| # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Name of the first function identified** | how this first function appears |
+| 1 | **Name of the second function identified** | how this second function appears |
+| 2 | **...** | ... |
+</pre>
+        <p><strong>Output:</strong></p>
+        <pre>| # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | Ivan Tsarevich has three sisters (Maria, Olga, Anna) and parents |
+| 1 | **Absentation** | The parents die; the sisters marry three wizards and leave |
+| 11 | **Departure** | Ivan leaves home in search of his sisters |
+| 31 | **Wedding** (first) | Ivan meets Marya Morevna, a warrior princess, and marries her |
+| 1 | **Absentation** (repeated) | Marya Morevna announces she is going to war and leaves |
+| 2 | **Interdiction** | Marya Morevna tells Ivan not to open the dungeon door |
+| 3 | **Violation of Interdiction** | Ivan opens the forbidden door |
+| 4 | **Reconnaissance** | Ivan discovers Koschei chained in the dungeon |
+| 6 | **Trickery** | Koschei deceives Ivan by asking for water, appearing helpless |
+| 7 | **Complicity** | Ivan brings Koschei twelve buckets of water |
+| 8 | **Villainy** | Koschei's powers return; he breaks free and kidnaps Marya Morevna |
+| 9 | **Mediation** | Ivan learns that Koschei has captured his wife |
+| 10 | **Counteraction** | Ivan decides to pursue Koschei |
+| 11 | **Departure** (repeated) | Ivan sets out after Koschei |
+| 16 | **Struggle** | Ivan catches up with Koschei and confronts him |
+| 8 | **Villainy** (intensified) | Koschei kills Ivan, puts his remains in a barrel, throws it into the sea |
+| 19 | **Liquidation** (partial) | Ivan's brothers-in-law (wizard birds of prey) revive him |
+| 9 | **Mediation** (repeated) | The wizards tell Ivan he needs a magic horse from Baba Yaga to defeat Koschei |
+| 11 | **Departure** (third) | Ivan goes to Baba Yaga |
+| 12 | **First Function of the Donor** | Baba Yaga tests Ivan |
+| 13 | **Hero's Reaction** | Ivan survives Yaga's tests |
+| 14 | **Receipt of a Magical Agent** | Ivan obtains the magic horse from Baba Yaga |
+| 16 | **Struggle** (final) | Ivan fights Koschei with the magic horse |
+| 18 | **Victory** | Ivan kills Koschei |
+| 30 | **Punishment** | Koschei's body is burned |
+| 19 | **Liquidation** (final) | Marya Morevna is freed and returns to Ivan |
+| 31 | **Wedding** (celebration) | Ivan and Marya Morevna celebrate victory with his sisters and their husbands |</pre>
+        <p><strong>Metrics:</strong> {'contains': 0.20833333333333334}</p>
+    </div>
+    <div class="details">
+        <h3>The Frog Princess ❌</h3>
+        <p><strong>System Prompt:</strong></p>
+        <pre>You are a script doctor and writer, expert in all aspects of scripts, including structure, characterization, dialogue, pacing, themes.
+
+<rules>
+- Only classify clear, explicit narrative functions
+- Always refer to the narrative functions defined in prompts\narrative-function-extractor\Propp.md
+</rules>
+
+<skills>
+- Technical script analysis
+- Identification of what a story means
+- Diagnosis of relevant narrative functions
+</skills>
+
+<thinking_process>
+First, read carefully the synopsis. Take your time to identify the potential (candidate) narrative functions.
+Second, for each candidate narrative function relate it to prompts\narrative-function-extractor\Propp.md.
+Third, for each candidate narrative function relate it to the examples.
+Fourth, write the name of the Propp function and the Justification.
+</thinking_process></pre>
+        <p><strong>Input:</strong></p>
+        <pre><examples>
+
+Example 1:
+input: A king had to leave his newly-wed wife for a journey. He sternly warned her against leaving the women's quarters and listening to bad advice. But an envious wicked witch lured her into the garden and into a pool, and turned her into a white duck, herself taking the queen's own form and place.
+Meanwhile, the white duck built a nest, laid three eggs, and hatched two fluffy ducklings and one little drake. She warned them against the castle, because an evil witch lived there, but one day the witch saw them and lured them inside. The ducklings slept but the drake stayed awake, and when the witch called if they were asleep, the drake answered. But after two answers, the witch went in to see, and saw the ducklings were asleep, so she killed them.
+The white duck found the bodies and lamented over them. The king wondered at it, and although the witch tried to persuade him it was nothing but quacking, he ordered that the duck be captured. His servants could not, but he went himself, and she flew to his hands and became a woman. She told of a bottle in the nest in the garden—or, they sent a magpie for magic water—which, sprinkled on the ducklings and drake, turned them into three lovely children. The witch was then put to death through dismemberment and nothing remained of her. 
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A king has a newly-wed wife |
+| 1 | **Absentation** | The king leaves on a journey |
+| 2 | **Interdiction** | The king warns his wife not to leave the women's quarters or listen to bad advice |
+| 6 | **Trickery** | A witch lures the queen into the garden and to a pool |
+| 7 | **Complicity** | The queen follows the witch |
+| 3 | **Violation of Interdiction** | The queen leaves the quarters |
+| 8 | **Villainy** | The witch transforms the queen into a white duck and takes her place (spell + substitution) |
+| 0 | **Initial Situation** (second phase) | The white duck builds a nest, has children |
+| 2 | **Interdiction** | The duck warns her children against the castle |
+| 6 | **Trickery** | The witch lures the children inside |
+| 3 | **Violation of Interdiction** | The children go to the castle |
+| 8 | **Villainy** | The witch kills the ducklings |
+| 9 | **Mediation** | The white duck's lament reveals the situation to the king |
+| 27 | **Recognition** | The king notices the duck's unusual behavior |
+| 14 | **Receipt of a Magical Agent** | The king himself captures the duck (by approaching with genuine intent) |
+| 19 | **Liquidation** (first) | The duck transforms back into a woman and tells her story |
+| 14 | **Receipt of a Magical Agent** | A bottle in the nest (or magic water from a magpie) |
+| 19 | **Liquidation** (second) | The children are revived with the magic water |
+| 28 | **Exposure** | The witch is exposed |
+| 30 | **Punishment** | The witch is put to death by dismemberment |
+
+
+Example 2:
+input: A merchant's wife dies, leaving behind an 8-year-old daughter named Vasilisa. Before her death, the merchant's wife gives Vasilisa a doll with her blessing. This doll is not simple: if it is given something to eat, it can help its owner out of trouble. The merchant eventually remarries to a widow with two daughters the same age as Vasilisa. The new wife dislikes her stepdaughter, giving her various backbreaking jobs, but the doll does all the work for Vasilisa. When Vasilisa grows up, all the suitors in the city begin to woo her. The stepmother refuses everyone, proclaiming that she would not give up her youngest before her elders.
+One day the merchant leaves home for a long time on business, and during this time, at the stepmother's bidding, the family moves to live in another house, standing near a dense forest, where Baba Yaga's hut is located. The stepmother often sends Vasilisa into the forest, hoping that Baba Yaga will devour her, but Vasilisa's doll always guides her to avoid dangerous paths. Finally, the stepmother and her daughters agree to send Vasilisa directly to Baba Yaga's hut for fire, since during the autumn women's work (weaving, knitting and spinning), which is done at night, all fires excluding a single candle are deliberately extinguished. The doll, as usual, promises to take care of Vasilisa's safety, and she sets off on her journey.
+On her way she is passed by three horsemen dressed in white, red and black. On Baba Yaga's fence, made of human bones, skulls are hung, the eye sockets of which illuminate the surroundings with their light like lanterns. Baba Yaga rides out of the forest in her flying mortar and heeds Vasilisa's request. Baba Yaga demands that she, under pain of death, first work as a servant. At Baba Yaga's command, the gates open and then lock themselves. Baba Yaga gives Vasilisa various tasks, but she completes everything on time with the doll's help. The colored horsemen pass by the hut, and Vasilisa discovers Baba Yaga's assistants: three pairs of hands that respond and appear at the call of her voice. Baba Yaga explains that the white, red and black horsemen are respectively Day, Sun and Night, but does not explain what the hands are, warning that she dislikes those who air her personal affairs in public, and that she eats those who are too curious.
+Eventually, Baba Yaga asks Vasilisa how she managed to accomplish her work so well. When Vasilisa responds that she did so by her mother's blessing, Baba Yaga throws her out of her home, rejecting those who are blessed. However, Baba Yaga gifts Vasilisa a skull with burning eyes to use as a lamp. Vasilisa wants to get rid of it, but the skull warns her against this, asking to be taken to her stepmother's house. There, the light coming from the skull's eye sockets incinerates the stepmother and her two daughters. Vasilisa buries the skull and moves to the city, where she settles with an old clothmaker, deciding to take up spinning and weaving while waiting for her father to return. The fabric in Vasilisa's hands is so thin that the clothmaker can carry it straight to the royal palace. The king asks Vasilisa to sew him blouses from this fabric. Appreciating her skillful work and charmed by her beauty, the king takes Vasilisa as his wife. Her father returns from his trading trip and remains to live at court. Vasilisa also brings the clothmaker into court, and carries the doll in her pocket for the rest of her life.
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A merchant has a wife and 8-year-old daughter Vasilisa |
+| 1 | **Absentation** | The mother dies |
+| 14 | **Receipt of a Magical Agent** | Before dying, the mother gives Vasilisa a magic doll with her blessing |
+| 8 | **Villainy/Lack** | The father remarries; the stepmother mistreats Vasilisa, gives her impossible tasks |
+| 13 | **Hero's Reaction** | Vasilisa feeds the doll, which does all her work |
+| 1 | **Absentation** (repeated) | The father leaves on business |
+| 8 | **Villainy** | The stepfamily moves near Baba Yaga's forest, hoping Yaga will devour Vasilisa |
+| 9 | **Mediation** | The stepfamily deliberately extinguishes all fires, sending Vasilisa to get fire from Baba Yaga |
+| 11 | **Departure** | Vasilisa sets off into the forest |
+| 15 | **Guidance** | The doll guides her to avoid dangerous paths |
+| 4 | **Reconnaissance** (implicit) | The three horsemen (Day, Sun, Night) patrol Yaga's domain |
+| 12 | **First Function of the Donor** | Baba Yaga demands Vasilisa work as a servant under pain of death |
+| 13 | **Hero's Reaction** | Vasilisa completes all tasks with the doll's help |
+| 4 | **Reconnaissance** | Baba Yaga asks how Vasilisa accomplished her work |
+| 5 | **Delivery** | Vasilisa says it was by her mother's blessing |
+| 18 | **Victory** (of sorts) | Baba Yaga, who dislikes "blessed" people, throws Vasilisa out |
+| 14 | **Receipt of a Magical Agent** | Baba Yaga gives Vasilisa a skull with burning eyes as a lamp |
+| 20 | **Return** | Vasilisa returns home with the skull |
+| 30 | **Punishment** | The skull's light incinerates the stepmother and stepsisters |
+| 19 | **Liquidation** | Vasilisa is freed from her oppressors |
+| 23 | **Unrecognized Arrival** | Vasilisa settles with an old clothmaker in the city |
+| 25 | **Difficult Task** | Vasilisa takes up spinning and weaving |
+| 26 | **Solution** | Her fabric is so fine it goes to the royal palace |
+| 25 | **Difficult Task** | The king asks for shirts to be made from the fabric |
+| 26 | **Solution** | Vasilisa makes the shirts |
+| 27 | **Recognition** | The king sees Vasilisa and is charmed by her beauty |
+| 31 | **Wedding** | The king marries Vasilisa |
+
+
+Example 3:
+input: A daughter of a priest wore men's clothing, rode horses, and could fire a gun. One day, the king saw this "young man". But his servants insisted that the "young man" was, in fact, a girl. The king did not believe the servants; he wrote to the priest asking him if his "son" could have dinner with him. The priest sent his daughter to the king’s home. Before she arrived, the king sought advice from a witch regarding the true identity of the "young man". The witch advised the king to do many different things to test if Vasilisa is a girl or not, such as place an embroidery frame and a gun positioned on a wall and to see which object she will notice first. If she is a girl she will notice the frame first, and vice versa. The "young man" passed every test, but the king remained doubtful. The king tries several times to find the true identity, but on the last time the king asked the "young man" to take a bath with him, and the "young man" agreed. While the king undressed, the "young man" undressed, bathed quickly and fled, leaving a note for the king saying
+"Ah King Barkhat, raven that you are, you could not surprise the falcon in the garden! For I am not Vasily Vasilyevich, but Vasilisa Vasilyevna".
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A priest has a daughter who dresses as a man |
+| 4 | **Reconnaissance** | The king's servants suspect the "young man" is a girl |
+| 5 | **Delivery** | Servants inform the king of their suspicions |
+| 4 | **Reconnaissance** (continued) | The king writes to the priest asking his "son" to dinner |
+| 6 | **Trickery** | The king seeks advice from a witch to test Vasilisa's true identity |
+| 25 | **Difficult Task** (series) | The witch advises tests: embroidery frame vs. gun, etc. |
+| 26 | **Solution** (series) | Vasilisa passes every test (notices the gun, not the frame, etc.) |
+| 25 | **Difficult Task** (final) | The king asks Vasilisa to bathe with him |
+| 26 | **Solution** | Vasilisa agrees, bathes quickly, and flees |
+| 27 | **Recognition** (inverted) | Vasilisa leaves a note revealing she is "Vasilisa Vasilyevna, not Vasily Vasilyevich" |
+| 22 | **Rescue** | Vasilisa escapes (self-rescue through wit) |
+| 18 | **Victory** | Vasilisa outwits the king and the witch |
+
+
+Example 4:
+input: Tired of the cruel mistreatment they endure from their stepmother, who is an evil witch, a brother and sister run away from home, wander off into the countryside, and spend the night in the woods. By morning, the boy is thirsty, so the children go looking for a spring of clear water. However, their stepmother has already discovered their escape and has bewitched all the springs in the forest. The boy is about to drink from one, when his sister hears how its rushing sound says, "whoever drinks from me will become a tiger" (or lion).
+Desperately, the girl begs her brother not to drink from the spring, lest he transform into a tiger and attack her. So they continue on their way, but when they come to the second spring, the girl hears it say, "whoever drinks from me will become a wolf". Again, she desperately tries to prevent her brother from drinking from it. Reluctantly, he eventually agrees to her pleas but insists he drink from the next spring they encounter. And so they arrive at the third spring, and the girl overhears the rushing water cry, "whoever drinks from me will become a deer". But before she could stop her brother, he has already drunk from it, and turned into a deer.
+As the initial feeling of despair passes, the children decide to live in the woods forever. The girl takes care of her brother, and ties her gold chain around his neck. They go to live in a little house deep within the woods and live there happily for some years, until they are disturbed one day by a hunting party and the king himself who has followed the strange deer home. Upon seeing the beautiful girl, he immediately asks her to marry him and she accepts. Thus she becomes queen and they all live happily in the king's castle. Time passes and the queen gives birth to a son.
+The witch, however, soon discovers that they are still alive, and plots against them. One night, she kills the queen and replaces her with her own disfigured daughter, whom she has transformed to a physical copy of her. When the queen's ghost secretly visits her baby's bedside for three consecutive nights, the king catches on and her stepmother's evil plan is exposed.
+The queen comes back to life when the king embraces her, and her stepfamily are tried for their crimes. The witch's daughter is banished into the woods where she is eaten by wild animals, and the wicked stepmother herself is burned at the stake. At the exact moment of the witch's death, the deer becomes human again, and at long last the family is reunited, and they lived happily ever after. 
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A brother and sister live with their evil stepmother (a witch) |
+| 8 | **Villainy** | The stepmother mistreats the children cruelly |
+| 10 | **Counteraction** | The children decide to run away |
+| 11 | **Departure** | Brother and sister flee into the countryside |
+| 6 | **Trickery** | The stepmother has bewitched all the forest springs |
+| 2 | **Interdiction** | The sister hears the springs' warnings ("whoever drinks will become a tiger/wolf") |
+| 13 | **Hero's Reaction** | The sister successfully stops her brother twice |
+| 3 | **Violation of Interdiction** | The brother drinks from the third spring before she can stop him |
+| 8 | **Villainy** | The brother is transformed into a deer |
+| 19 | **Liquidation** (partial) | They decide to live in the forest together; the sister cares for the deer-brother |
+| 0 | **Initial Situation** (second phase) | They live in a little house in the woods |
+| 4 | **Reconnaissance** | A king's hunting party disturbs them; the king follows the strange deer |
+| 27 | **Recognition** | The king sees the beautiful girl |
+| 31 | **Wedding** | The king marries the sister |
+| 1 | **Absentation** (implicit) | Time passes; the queen gives birth to a son |
+| 4 | **Reconnaissance** | The witch discovers they are still alive |
+| 6 | **Trickery** | The witch plots against the queen |
+| 8 | **Villainy** | The witch kills the queen and substitutes her own disfigured daughter |
+| 12 | **Villainy** (substitution) | The transformed daughter takes the queen's place |
+| 9 | **Mediation** | The queen's ghost visits her baby nightly |
+| 27 | **Recognition** | The king catches the queen's ghost at the baby's bedside |
+| 19 | **Liquidation** | The king embraces the ghost; the queen returns to life |
+| 28 | **Exposure** | The stepmother's evil plan is exposed |
+| 30 | **Punishment** | The witch's daughter is banished and eaten by wild animals; the witch is burned at the stake |
+| 19 | **Liquidation** (final) | At the moment of the witch's death, the deer becomes human again |
+| 31 | **Wedding** (reunion) | The family is reunited and lives happily ever after |
+
+</examples>
+
+You must base your knowledge on the Propp's narrative functions.
+Those functions are defined in the MORPHOLOGY_OF_THE_FOLK_TALE.pdf.
+You must keep this book in cache and in memory.
+
+# Vladimir Propp’s 31 Narrative Functions  
+*from* Morphology of the Folktale, 1928
+
+Below is the **canonical list of Propp’s narrative functions**, in their **standard order**.  
+Each function is defined as an **action significant to the progress of the narrative**, independent of character psychology.  
+Examples are given in **generic folktale terms** and, where useful, in **modern narrative equivalents**.
+
+Important: For each paragraph below, the name of the Propp's function is the title (without the initial numbering)
+
+---
+
+## 0. Initial Situation
+**Definition:** Introduction of the family, hero, or social context.  
+**Example:** “There once lived a poor woodcutter and his three sons.”  
+**Modern example:** Establishing the protagonist’s ordinary life before disruption.
+
+---
+
+## 1. Absentation
+**Definition:** A family member leaves home or is absent.  
+**Example:** Parents leave the house, leaving children alone.  
+**Modern example:** A parent dies, disappears, or the hero lives alone.
+
+---
+
+## 2. Interdiction
+**Definition:** A warning or command is given to the hero.  
+**Example:** “Do not open this door.”  
+**Modern example:** “Never talk about Fight Club.”
+
+---
+
+## 3. Violation of Interdiction
+**Definition:** The interdiction is violated.  
+**Example:** The hero opens the forbidden door.  
+**Modern example:** The protagonist breaks a rule, triggering consequences.
+
+---
+
+## 4. Reconnaissance
+**Definition:** The villain seeks information about the victim or hero.  
+**Example:** A witch asks where the children live.  
+**Modern example:** An antagonist spies on or investigates the hero.
+
+---
+
+## 5. Delivery
+**Definition:** The villain receives information about the victim.  
+**Example:** The witch learns the children’s location.  
+**Modern example:** A traitor reveals the hero’s weakness.
+
+---
+
+## 6. Trickery
+**Definition:** The villain attempts to deceive the victim.  
+**Example:** The wolf disguises himself as the grandmother.  
+**Modern example:** A con, false promise, or manipulation.
+
+---
+
+## 7. Complicity
+**Definition:** The victim is deceived and unwittingly helps the villain.  
+**Example:** Little Red Riding Hood reveals her destination.  
+**Modern example:** The hero trusts the wrong person.
+
+---
+
+## 8. Villainy **or** Lack
+**Definition:**  
+- **Villainy:** The villain causes harm.  
+- **Lack:** Something important is missing or desired.  
+**Example (villainy):** A princess is kidnapped.  
+**Example (lack):** The hero lacks money, freedom, love, or identity.
+
+---
+
+## 9. Mediation
+**Definition:** The lack or villainy is made known; the hero is dispatched.  
+**Example:** The king announces the princess is missing.  
+**Modern example:** The hero learns the truth of the injustice.
+
+---
+
+## 10. Counteraction
+**Definition:** The hero decides to act.  
+**Example:** “I will rescue the princess.”  
+**Modern example:** The protagonist commits to a course of action.
+
+---
+
+## 11. Departure
+**Definition:** The hero leaves home.  
+**Example:** The hero sets out on a journey.  
+**Modern example:** Entering a new world, job, prison, or mindset.
+
+---
+
+## 12. First Function of the Donor
+**Definition:** The hero is tested, interrogated, or attacked by a donor figure.  
+**Example:** An old man asks the hero for food.  
+**Modern example:** A mentor tests the hero’s values.
+
+---
+
+## 13. Hero’s Reaction
+**Definition:** The hero responds to the donor’s test.  
+**Example:** The hero shares his last loaf of bread.  
+**Modern example:** The hero shows courage, kindness, or intelligence.
+
+---
+
+## 14. Receipt of a Magical Agent
+**Definition:** The hero gains a magical object, helper, or power.  
+**Example:** A sword, ring, horse, or spell.  
+**Modern example:** Skills, knowledge, allies, or resources.
+
+---
+
+## 15. Guidance
+**Definition:** The hero is led to the location of the object of the quest.  
+**Example:** A bird guides the hero to the castle.  
+**Modern example:** A map, clue, or mentor’s advice.
+
+---
+
+## 16. Struggle
+**Definition:** The hero and villain engage in direct combat.  
+**Example:** A sword fight with the dragon.  
+**Modern example:** Physical, legal, psychological, or ideological confrontation.
+
+---
+
+## 17. Branding
+**Definition:** The hero is marked or wounded.  
+**Example:** A scar or ring given as proof.  
+**Modern example:** Trauma, reputation, or symbolic mark.
+
+---
+
+## 18. Victory
+**Definition:** The villain is defeated.  
+**Example:** The dragon is slain.  
+**Modern example:** The antagonist is exposed, overpowered, or neutralized.
+
+---
+
+## 19. Liquidation
+**Definition:** The initial lack or villainy is resolved.  
+**Example:** The princess is freed.  
+**Modern example:** Justice is restored, truth revealed.
+
+---
+
+## 20. Return
+**Definition:** The hero returns home.  
+**Example:** The hero travels back from the quest.  
+**Modern example:** Returning to society after transformation.
+
+---
+
+## 21. Pursuit
+**Definition:** The hero is pursued.  
+**Example:** The villain chases the hero.  
+**Modern example:** Authorities, enemies, or consequences close in.
+
+---
+
+## 22. Rescue
+**Definition:** The hero is rescued from pursuit.  
+**Example:** A river or helper saves the hero.  
+**Modern example:** An ally intervenes or a trap is escaped.
+
+---
+
+## 23. Unrecognized Arrival
+**Definition:** The hero arrives home unrecognized.  
+**Example:** The hero appears as a beggar.  
+**Modern example:** Living under an alias or hidden identity.
+
+---
+
+## 24. Unfounded Claims
+**Definition:** A false hero makes claims of success.  
+**Example:** A pretender claims to have slain the dragon.  
+**Modern example:** Someone takes credit for the hero’s work.
+
+---
+
+## 25. Difficult Task
+**Definition:** A challenge is set for the hero.  
+**Example:** Solve a riddle, perform an impossible feat.  
+**Modern example:** Final test, trial, or proof of worth.
+
+---
+
+## 26. Solution
+**Definition:** The difficult task is resolved.  
+**Example:** The riddle is answered correctly.  
+**Modern example:** The hero passes the final test.
+
+---
+
+## 27. Recognition
+**Definition:** The hero is recognized by a mark or deed.  
+**Example:** The scar proves true identity.  
+**Modern example:** The truth about the protagonist is revealed.
+
+---
+
+## 28. Exposure
+**Definition:** The false hero or villain is exposed.  
+**Example:** The impostor is unmasked.  
+**Modern example:** Corruption or deception is revealed.
+
+---
+
+## 29. Transfiguration
+**Definition:** The hero is given a new appearance.  
+**Example:** New clothes, royal garments.  
+**Modern example:** Social elevation, confidence, or inner change.
+
+---
+
+## 30. Punishment
+**Definition:** The villain is punished.  
+**Example:** Execution, exile, imprisonment.  
+**Modern example:** Legal consequences or moral downfall.
+
+---
+
+## 31. Wedding
+**Definition:** The hero is rewarded (often marriage or ascension).  
+**Example:** The hero marries the princess and inherits the throne.  
+**Modern example:** Freedom, peace, fulfillment, or a new stable life.
+
+---
+
+## Notes
+- Not all stories contain all 31 functions.
+- Functions always appear in **this order**, though many may be omitted.
+- Functions describe **what happens**, not *who does it* or *why*.
+
+---
+
+Please consider the following plot:
+
+The king (or an old peasant woman, in Lang's version) wants his three sons to marry. To accomplish this, he creates a test to help them find brides. The king tells each prince to shoot an arrow. According to the King's rules, each prince will find his bride where the arrow lands. The youngest son's arrow is picked up by a frog. The king assigns his three prospective daughters-in-law various tasks, such as spinning cloth and baking bread. In every task, the frog far outperforms the two other lazy brides-to-be. In some versions, the frog uses magic to accomplish the tasks, and though the other brides attempt to emulate the frog, they cannot perform the magic. Still, the young prince is ashamed of his frog bride until she is magically transformed into a human princess.
+In Calvino's version, the princes use slings rather than bows and arrows. In the Greek version, the princes set out to find their brides one by one; the older two are already married by the time the youngest prince starts his quest. Another variation involves the sons chopping down trees and heading in the direction pointed by them in order to find their brides.[8]
+In the Russian versions of the story, Prince Ivan and his two older brothers shoot arrows in different directions to find brides. The other brothers' arrows land in the houses of the daughters of an aristocrat and a wealthy merchant, respectively. Ivan's arrow lands in the mouth of a frog in a swamp, who turns into a princess at night. The Frog Princess, named Vasilisa the Wise, is a beautiful, intelligent, friendly, skilled young woman, who was forced to spend three years in a frog's skin for disobeying Koschei. Her final test may be to dance at the king's banquet. The Frog Princess sheds her skin, and the prince then burns it, to her dismay. Had the prince been patient, the Frog Princess would have been freed but instead he loses her. He then sets out to find her again and meets with Baba Yaga, whom he impresses with his spirit, asking why she has not offered him hospitality. She tells him that Koschei is holding his bride captive and explains how to find the magic needle needed to rescue his bride. In another version, the prince's bride flies into Baba Yaga's hut as a bird. The prince catches her, she turns into a lizard, and he cannot hold on. Baba Yaga rebukes him and sends him to her sister, where he fails again. However, when he is sent to the third sister, he catches her and no transformations can break her free again.
+In some versions of the story, the Frog Princess' transformation is a reward for her good nature. In one version, she is transformed by witches for their amusement. In yet another version, she is revealed to have been an enchanted princess all along. 
+
+
+Identify the narrative functions (according to Propp's classification).
+
+Your answer must follow this format:
+| # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Name of the first function identified** | how this first function appears |
+| 1 | **Name of the second function identified** | how this second function appears |
+| 2 | **...** | ... |
+</pre>
+        <p><strong>Output:</strong></p>
+        <pre>| # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A king has three sons who need to find brides |
+| 8 | **Lack** | The princes lack brides/wives |
+| 9 | **Mediation** | The king announces the test: each prince must shoot an arrow to find his bride |
+| 11 | **Departure** | The princes shoot their arrows in different directions |
+| 15 | **Guidance** | The arrows guide each prince to his destined bride |
+| 0 | **Initial Situation** (second phase) | Ivan's arrow lands in a swamp and is picked up by a frog |
+| 25 | **Difficult Task** (series) | The king assigns tasks to the brides: spinning cloth, baking bread |
+| 26 | **Solution** (series) | The Frog Princess (Vasilisa the Wise) outperforms the other brides using magic |
+| 25 | **Difficult Task** (final) | The final test: dancing at the king's banquet |
+| 26 | **Solution** | The Frog Princess sheds her skin and dances beautifully |
+| 29 | **Transfiguration** | The frog transforms into a beautiful princess |
+| 27 | **Recognition** | The prince sees his bride's true form |
+| 3 | **Violation of Interdiction** | The prince burns the frog skin before the three years are complete (impatience) |
+| 8 | **Villainy** | The Frog Princess disappears/is lost to Koschei's realm |
+| 9 | **Mediation** | The prince learns he has lost his bride and must find her again |
+| 10 | **Counteraction** | The prince decides to search for his lost bride |
+| 11 | **Departure** | The prince sets out on his quest |
+| 12 | **First Function of the Donor** | The prince meets Baba Yaga, who tests his spirit |
+| 13 | **Hero's Reaction** | The prince impresses Baba Yaga by boldly asking for hospitality |
+| 5 | **Delivery** | Baba Yaga reveals that Koschei holds the bride captive and explains how to find the magic needle |
+| 14 | **Receipt of a Magical Agent** | The prince learns the secret of the magic needle needed to defeat Koschei |
+| 15 | **Guidance** | Baba Yaga (or her sisters) directs the prince to his bride's location |
+| 12 | **First Function of the Donor** (variant) | In some versions, the prince must catch his bride as she transforms (bird, lizard) |
+| 13 | **Hero's Reaction** (variant) | The prince fails twice but succeeds on the third attempt at the third sister's hut |
+| 16 | **Struggle** | The prince must overcome Koschei using the magic needle |
+| 18 | **Victory** | Koschei is defeated (the needle destroys him) |
+| 19 | **Liquidation** | The Frog Princess is freed from Koschei's power |
+| 20 | **Return** | The prince and princess return home together |
+| 31 | **Wedding** | The prince and the Frog Princess are reunited/married and live happily |</pre>
+        <p><strong>Metrics:</strong> {'contains': 0.0}</p>
+    </div>
+    <div class="details">
+        <h3>The Princess Who Never Smiled ❌</h3>
+        <p><strong>System Prompt:</strong></p>
+        <pre>You are a script doctor and writer, expert in all aspects of scripts, including structure, characterization, dialogue, pacing, themes.
+
+<rules>
+- Only classify clear, explicit narrative functions
+- Always refer to the narrative functions defined in prompts\narrative-function-extractor\Propp.md
+</rules>
+
+<skills>
+- Technical script analysis
+- Identification of what a story means
+- Diagnosis of relevant narrative functions
+</skills>
+
+<thinking_process>
+First, read carefully the synopsis. Take your time to identify the potential (candidate) narrative functions.
+Second, for each candidate narrative function relate it to prompts\narrative-function-extractor\Propp.md.
+Third, for each candidate narrative function relate it to the examples.
+Fourth, write the name of the Propp function and the Justification.
+</thinking_process></pre>
+        <p><strong>Input:</strong></p>
+        <pre><examples>
+
+Example 1:
+input: A king had to leave his newly-wed wife for a journey. He sternly warned her against leaving the women's quarters and listening to bad advice. But an envious wicked witch lured her into the garden and into a pool, and turned her into a white duck, herself taking the queen's own form and place.
+Meanwhile, the white duck built a nest, laid three eggs, and hatched two fluffy ducklings and one little drake. She warned them against the castle, because an evil witch lived there, but one day the witch saw them and lured them inside. The ducklings slept but the drake stayed awake, and when the witch called if they were asleep, the drake answered. But after two answers, the witch went in to see, and saw the ducklings were asleep, so she killed them.
+The white duck found the bodies and lamented over them. The king wondered at it, and although the witch tried to persuade him it was nothing but quacking, he ordered that the duck be captured. His servants could not, but he went himself, and she flew to his hands and became a woman. She told of a bottle in the nest in the garden—or, they sent a magpie for magic water—which, sprinkled on the ducklings and drake, turned them into three lovely children. The witch was then put to death through dismemberment and nothing remained of her. 
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A king has a newly-wed wife |
+| 1 | **Absentation** | The king leaves on a journey |
+| 2 | **Interdiction** | The king warns his wife not to leave the women's quarters or listen to bad advice |
+| 6 | **Trickery** | A witch lures the queen into the garden and to a pool |
+| 7 | **Complicity** | The queen follows the witch |
+| 3 | **Violation of Interdiction** | The queen leaves the quarters |
+| 8 | **Villainy** | The witch transforms the queen into a white duck and takes her place (spell + substitution) |
+| 0 | **Initial Situation** (second phase) | The white duck builds a nest, has children |
+| 2 | **Interdiction** | The duck warns her children against the castle |
+| 6 | **Trickery** | The witch lures the children inside |
+| 3 | **Violation of Interdiction** | The children go to the castle |
+| 8 | **Villainy** | The witch kills the ducklings |
+| 9 | **Mediation** | The white duck's lament reveals the situation to the king |
+| 27 | **Recognition** | The king notices the duck's unusual behavior |
+| 14 | **Receipt of a Magical Agent** | The king himself captures the duck (by approaching with genuine intent) |
+| 19 | **Liquidation** (first) | The duck transforms back into a woman and tells her story |
+| 14 | **Receipt of a Magical Agent** | A bottle in the nest (or magic water from a magpie) |
+| 19 | **Liquidation** (second) | The children are revived with the magic water |
+| 28 | **Exposure** | The witch is exposed |
+| 30 | **Punishment** | The witch is put to death by dismemberment |
+
+
+Example 2:
+input: A merchant's wife dies, leaving behind an 8-year-old daughter named Vasilisa. Before her death, the merchant's wife gives Vasilisa a doll with her blessing. This doll is not simple: if it is given something to eat, it can help its owner out of trouble. The merchant eventually remarries to a widow with two daughters the same age as Vasilisa. The new wife dislikes her stepdaughter, giving her various backbreaking jobs, but the doll does all the work for Vasilisa. When Vasilisa grows up, all the suitors in the city begin to woo her. The stepmother refuses everyone, proclaiming that she would not give up her youngest before her elders.
+One day the merchant leaves home for a long time on business, and during this time, at the stepmother's bidding, the family moves to live in another house, standing near a dense forest, where Baba Yaga's hut is located. The stepmother often sends Vasilisa into the forest, hoping that Baba Yaga will devour her, but Vasilisa's doll always guides her to avoid dangerous paths. Finally, the stepmother and her daughters agree to send Vasilisa directly to Baba Yaga's hut for fire, since during the autumn women's work (weaving, knitting and spinning), which is done at night, all fires excluding a single candle are deliberately extinguished. The doll, as usual, promises to take care of Vasilisa's safety, and she sets off on her journey.
+On her way she is passed by three horsemen dressed in white, red and black. On Baba Yaga's fence, made of human bones, skulls are hung, the eye sockets of which illuminate the surroundings with their light like lanterns. Baba Yaga rides out of the forest in her flying mortar and heeds Vasilisa's request. Baba Yaga demands that she, under pain of death, first work as a servant. At Baba Yaga's command, the gates open and then lock themselves. Baba Yaga gives Vasilisa various tasks, but she completes everything on time with the doll's help. The colored horsemen pass by the hut, and Vasilisa discovers Baba Yaga's assistants: three pairs of hands that respond and appear at the call of her voice. Baba Yaga explains that the white, red and black horsemen are respectively Day, Sun and Night, but does not explain what the hands are, warning that she dislikes those who air her personal affairs in public, and that she eats those who are too curious.
+Eventually, Baba Yaga asks Vasilisa how she managed to accomplish her work so well. When Vasilisa responds that she did so by her mother's blessing, Baba Yaga throws her out of her home, rejecting those who are blessed. However, Baba Yaga gifts Vasilisa a skull with burning eyes to use as a lamp. Vasilisa wants to get rid of it, but the skull warns her against this, asking to be taken to her stepmother's house. There, the light coming from the skull's eye sockets incinerates the stepmother and her two daughters. Vasilisa buries the skull and moves to the city, where she settles with an old clothmaker, deciding to take up spinning and weaving while waiting for her father to return. The fabric in Vasilisa's hands is so thin that the clothmaker can carry it straight to the royal palace. The king asks Vasilisa to sew him blouses from this fabric. Appreciating her skillful work and charmed by her beauty, the king takes Vasilisa as his wife. Her father returns from his trading trip and remains to live at court. Vasilisa also brings the clothmaker into court, and carries the doll in her pocket for the rest of her life.
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A merchant has a wife and 8-year-old daughter Vasilisa |
+| 1 | **Absentation** | The mother dies |
+| 14 | **Receipt of a Magical Agent** | Before dying, the mother gives Vasilisa a magic doll with her blessing |
+| 8 | **Villainy/Lack** | The father remarries; the stepmother mistreats Vasilisa, gives her impossible tasks |
+| 13 | **Hero's Reaction** | Vasilisa feeds the doll, which does all her work |
+| 1 | **Absentation** (repeated) | The father leaves on business |
+| 8 | **Villainy** | The stepfamily moves near Baba Yaga's forest, hoping Yaga will devour Vasilisa |
+| 9 | **Mediation** | The stepfamily deliberately extinguishes all fires, sending Vasilisa to get fire from Baba Yaga |
+| 11 | **Departure** | Vasilisa sets off into the forest |
+| 15 | **Guidance** | The doll guides her to avoid dangerous paths |
+| 4 | **Reconnaissance** (implicit) | The three horsemen (Day, Sun, Night) patrol Yaga's domain |
+| 12 | **First Function of the Donor** | Baba Yaga demands Vasilisa work as a servant under pain of death |
+| 13 | **Hero's Reaction** | Vasilisa completes all tasks with the doll's help |
+| 4 | **Reconnaissance** | Baba Yaga asks how Vasilisa accomplished her work |
+| 5 | **Delivery** | Vasilisa says it was by her mother's blessing |
+| 18 | **Victory** (of sorts) | Baba Yaga, who dislikes "blessed" people, throws Vasilisa out |
+| 14 | **Receipt of a Magical Agent** | Baba Yaga gives Vasilisa a skull with burning eyes as a lamp |
+| 20 | **Return** | Vasilisa returns home with the skull |
+| 30 | **Punishment** | The skull's light incinerates the stepmother and stepsisters |
+| 19 | **Liquidation** | Vasilisa is freed from her oppressors |
+| 23 | **Unrecognized Arrival** | Vasilisa settles with an old clothmaker in the city |
+| 25 | **Difficult Task** | Vasilisa takes up spinning and weaving |
+| 26 | **Solution** | Her fabric is so fine it goes to the royal palace |
+| 25 | **Difficult Task** | The king asks for shirts to be made from the fabric |
+| 26 | **Solution** | Vasilisa makes the shirts |
+| 27 | **Recognition** | The king sees Vasilisa and is charmed by her beauty |
+| 31 | **Wedding** | The king marries Vasilisa |
+
+
+Example 3:
+input: A daughter of a priest wore men's clothing, rode horses, and could fire a gun. One day, the king saw this "young man". But his servants insisted that the "young man" was, in fact, a girl. The king did not believe the servants; he wrote to the priest asking him if his "son" could have dinner with him. The priest sent his daughter to the king’s home. Before she arrived, the king sought advice from a witch regarding the true identity of the "young man". The witch advised the king to do many different things to test if Vasilisa is a girl or not, such as place an embroidery frame and a gun positioned on a wall and to see which object she will notice first. If she is a girl she will notice the frame first, and vice versa. The "young man" passed every test, but the king remained doubtful. The king tries several times to find the true identity, but on the last time the king asked the "young man" to take a bath with him, and the "young man" agreed. While the king undressed, the "young man" undressed, bathed quickly and fled, leaving a note for the king saying
+"Ah King Barkhat, raven that you are, you could not surprise the falcon in the garden! For I am not Vasily Vasilyevich, but Vasilisa Vasilyevna".
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A priest has a daughter who dresses as a man |
+| 4 | **Reconnaissance** | The king's servants suspect the "young man" is a girl |
+| 5 | **Delivery** | Servants inform the king of their suspicions |
+| 4 | **Reconnaissance** (continued) | The king writes to the priest asking his "son" to dinner |
+| 6 | **Trickery** | The king seeks advice from a witch to test Vasilisa's true identity |
+| 25 | **Difficult Task** (series) | The witch advises tests: embroidery frame vs. gun, etc. |
+| 26 | **Solution** (series) | Vasilisa passes every test (notices the gun, not the frame, etc.) |
+| 25 | **Difficult Task** (final) | The king asks Vasilisa to bathe with him |
+| 26 | **Solution** | Vasilisa agrees, bathes quickly, and flees |
+| 27 | **Recognition** (inverted) | Vasilisa leaves a note revealing she is "Vasilisa Vasilyevna, not Vasily Vasilyevich" |
+| 22 | **Rescue** | Vasilisa escapes (self-rescue through wit) |
+| 18 | **Victory** | Vasilisa outwits the king and the witch |
+
+
+Example 4:
+input: Tired of the cruel mistreatment they endure from their stepmother, who is an evil witch, a brother and sister run away from home, wander off into the countryside, and spend the night in the woods. By morning, the boy is thirsty, so the children go looking for a spring of clear water. However, their stepmother has already discovered their escape and has bewitched all the springs in the forest. The boy is about to drink from one, when his sister hears how its rushing sound says, "whoever drinks from me will become a tiger" (or lion).
+Desperately, the girl begs her brother not to drink from the spring, lest he transform into a tiger and attack her. So they continue on their way, but when they come to the second spring, the girl hears it say, "whoever drinks from me will become a wolf". Again, she desperately tries to prevent her brother from drinking from it. Reluctantly, he eventually agrees to her pleas but insists he drink from the next spring they encounter. And so they arrive at the third spring, and the girl overhears the rushing water cry, "whoever drinks from me will become a deer". But before she could stop her brother, he has already drunk from it, and turned into a deer.
+As the initial feeling of despair passes, the children decide to live in the woods forever. The girl takes care of her brother, and ties her gold chain around his neck. They go to live in a little house deep within the woods and live there happily for some years, until they are disturbed one day by a hunting party and the king himself who has followed the strange deer home. Upon seeing the beautiful girl, he immediately asks her to marry him and she accepts. Thus she becomes queen and they all live happily in the king's castle. Time passes and the queen gives birth to a son.
+The witch, however, soon discovers that they are still alive, and plots against them. One night, she kills the queen and replaces her with her own disfigured daughter, whom she has transformed to a physical copy of her. When the queen's ghost secretly visits her baby's bedside for three consecutive nights, the king catches on and her stepmother's evil plan is exposed.
+The queen comes back to life when the king embraces her, and her stepfamily are tried for their crimes. The witch's daughter is banished into the woods where she is eaten by wild animals, and the wicked stepmother herself is burned at the stake. At the exact moment of the witch's death, the deer becomes human again, and at long last the family is reunited, and they lived happily ever after. 
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A brother and sister live with their evil stepmother (a witch) |
+| 8 | **Villainy** | The stepmother mistreats the children cruelly |
+| 10 | **Counteraction** | The children decide to run away |
+| 11 | **Departure** | Brother and sister flee into the countryside |
+| 6 | **Trickery** | The stepmother has bewitched all the forest springs |
+| 2 | **Interdiction** | The sister hears the springs' warnings ("whoever drinks will become a tiger/wolf") |
+| 13 | **Hero's Reaction** | The sister successfully stops her brother twice |
+| 3 | **Violation of Interdiction** | The brother drinks from the third spring before she can stop him |
+| 8 | **Villainy** | The brother is transformed into a deer |
+| 19 | **Liquidation** (partial) | They decide to live in the forest together; the sister cares for the deer-brother |
+| 0 | **Initial Situation** (second phase) | They live in a little house in the woods |
+| 4 | **Reconnaissance** | A king's hunting party disturbs them; the king follows the strange deer |
+| 27 | **Recognition** | The king sees the beautiful girl |
+| 31 | **Wedding** | The king marries the sister |
+| 1 | **Absentation** (implicit) | Time passes; the queen gives birth to a son |
+| 4 | **Reconnaissance** | The witch discovers they are still alive |
+| 6 | **Trickery** | The witch plots against the queen |
+| 8 | **Villainy** | The witch kills the queen and substitutes her own disfigured daughter |
+| 12 | **Villainy** (substitution) | The transformed daughter takes the queen's place |
+| 9 | **Mediation** | The queen's ghost visits her baby nightly |
+| 27 | **Recognition** | The king catches the queen's ghost at the baby's bedside |
+| 19 | **Liquidation** | The king embraces the ghost; the queen returns to life |
+| 28 | **Exposure** | The stepmother's evil plan is exposed |
+| 30 | **Punishment** | The witch's daughter is banished and eaten by wild animals; the witch is burned at the stake |
+| 19 | **Liquidation** (final) | At the moment of the witch's death, the deer becomes human again |
+| 31 | **Wedding** (reunion) | The family is reunited and lives happily ever after |
+
+</examples>
+
+You must base your knowledge on the Propp's narrative functions.
+Those functions are defined in the MORPHOLOGY_OF_THE_FOLK_TALE.pdf.
+You must keep this book in cache and in memory.
+
+# Vladimir Propp’s 31 Narrative Functions  
+*from* Morphology of the Folktale, 1928
+
+Below is the **canonical list of Propp’s narrative functions**, in their **standard order**.  
+Each function is defined as an **action significant to the progress of the narrative**, independent of character psychology.  
+Examples are given in **generic folktale terms** and, where useful, in **modern narrative equivalents**.
+
+Important: For each paragraph below, the name of the Propp's function is the title (without the initial numbering)
+
+---
+
+## 0. Initial Situation
+**Definition:** Introduction of the family, hero, or social context.  
+**Example:** “There once lived a poor woodcutter and his three sons.”  
+**Modern example:** Establishing the protagonist’s ordinary life before disruption.
+
+---
+
+## 1. Absentation
+**Definition:** A family member leaves home or is absent.  
+**Example:** Parents leave the house, leaving children alone.  
+**Modern example:** A parent dies, disappears, or the hero lives alone.
+
+---
+
+## 2. Interdiction
+**Definition:** A warning or command is given to the hero.  
+**Example:** “Do not open this door.”  
+**Modern example:** “Never talk about Fight Club.”
+
+---
+
+## 3. Violation of Interdiction
+**Definition:** The interdiction is violated.  
+**Example:** The hero opens the forbidden door.  
+**Modern example:** The protagonist breaks a rule, triggering consequences.
+
+---
+
+## 4. Reconnaissance
+**Definition:** The villain seeks information about the victim or hero.  
+**Example:** A witch asks where the children live.  
+**Modern example:** An antagonist spies on or investigates the hero.
+
+---
+
+## 5. Delivery
+**Definition:** The villain receives information about the victim.  
+**Example:** The witch learns the children’s location.  
+**Modern example:** A traitor reveals the hero’s weakness.
+
+---
+
+## 6. Trickery
+**Definition:** The villain attempts to deceive the victim.  
+**Example:** The wolf disguises himself as the grandmother.  
+**Modern example:** A con, false promise, or manipulation.
+
+---
+
+## 7. Complicity
+**Definition:** The victim is deceived and unwittingly helps the villain.  
+**Example:** Little Red Riding Hood reveals her destination.  
+**Modern example:** The hero trusts the wrong person.
+
+---
+
+## 8. Villainy **or** Lack
+**Definition:**  
+- **Villainy:** The villain causes harm.  
+- **Lack:** Something important is missing or desired.  
+**Example (villainy):** A princess is kidnapped.  
+**Example (lack):** The hero lacks money, freedom, love, or identity.
+
+---
+
+## 9. Mediation
+**Definition:** The lack or villainy is made known; the hero is dispatched.  
+**Example:** The king announces the princess is missing.  
+**Modern example:** The hero learns the truth of the injustice.
+
+---
+
+## 10. Counteraction
+**Definition:** The hero decides to act.  
+**Example:** “I will rescue the princess.”  
+**Modern example:** The protagonist commits to a course of action.
+
+---
+
+## 11. Departure
+**Definition:** The hero leaves home.  
+**Example:** The hero sets out on a journey.  
+**Modern example:** Entering a new world, job, prison, or mindset.
+
+---
+
+## 12. First Function of the Donor
+**Definition:** The hero is tested, interrogated, or attacked by a donor figure.  
+**Example:** An old man asks the hero for food.  
+**Modern example:** A mentor tests the hero’s values.
+
+---
+
+## 13. Hero’s Reaction
+**Definition:** The hero responds to the donor’s test.  
+**Example:** The hero shares his last loaf of bread.  
+**Modern example:** The hero shows courage, kindness, or intelligence.
+
+---
+
+## 14. Receipt of a Magical Agent
+**Definition:** The hero gains a magical object, helper, or power.  
+**Example:** A sword, ring, horse, or spell.  
+**Modern example:** Skills, knowledge, allies, or resources.
+
+---
+
+## 15. Guidance
+**Definition:** The hero is led to the location of the object of the quest.  
+**Example:** A bird guides the hero to the castle.  
+**Modern example:** A map, clue, or mentor’s advice.
+
+---
+
+## 16. Struggle
+**Definition:** The hero and villain engage in direct combat.  
+**Example:** A sword fight with the dragon.  
+**Modern example:** Physical, legal, psychological, or ideological confrontation.
+
+---
+
+## 17. Branding
+**Definition:** The hero is marked or wounded.  
+**Example:** A scar or ring given as proof.  
+**Modern example:** Trauma, reputation, or symbolic mark.
+
+---
+
+## 18. Victory
+**Definition:** The villain is defeated.  
+**Example:** The dragon is slain.  
+**Modern example:** The antagonist is exposed, overpowered, or neutralized.
+
+---
+
+## 19. Liquidation
+**Definition:** The initial lack or villainy is resolved.  
+**Example:** The princess is freed.  
+**Modern example:** Justice is restored, truth revealed.
+
+---
+
+## 20. Return
+**Definition:** The hero returns home.  
+**Example:** The hero travels back from the quest.  
+**Modern example:** Returning to society after transformation.
+
+---
+
+## 21. Pursuit
+**Definition:** The hero is pursued.  
+**Example:** The villain chases the hero.  
+**Modern example:** Authorities, enemies, or consequences close in.
+
+---
+
+## 22. Rescue
+**Definition:** The hero is rescued from pursuit.  
+**Example:** A river or helper saves the hero.  
+**Modern example:** An ally intervenes or a trap is escaped.
+
+---
+
+## 23. Unrecognized Arrival
+**Definition:** The hero arrives home unrecognized.  
+**Example:** The hero appears as a beggar.  
+**Modern example:** Living under an alias or hidden identity.
+
+---
+
+## 24. Unfounded Claims
+**Definition:** A false hero makes claims of success.  
+**Example:** A pretender claims to have slain the dragon.  
+**Modern example:** Someone takes credit for the hero’s work.
+
+---
+
+## 25. Difficult Task
+**Definition:** A challenge is set for the hero.  
+**Example:** Solve a riddle, perform an impossible feat.  
+**Modern example:** Final test, trial, or proof of worth.
+
+---
+
+## 26. Solution
+**Definition:** The difficult task is resolved.  
+**Example:** The riddle is answered correctly.  
+**Modern example:** The hero passes the final test.
+
+---
+
+## 27. Recognition
+**Definition:** The hero is recognized by a mark or deed.  
+**Example:** The scar proves true identity.  
+**Modern example:** The truth about the protagonist is revealed.
+
+---
+
+## 28. Exposure
+**Definition:** The false hero or villain is exposed.  
+**Example:** The impostor is unmasked.  
+**Modern example:** Corruption or deception is revealed.
+
+---
+
+## 29. Transfiguration
+**Definition:** The hero is given a new appearance.  
+**Example:** New clothes, royal garments.  
+**Modern example:** Social elevation, confidence, or inner change.
+
+---
+
+## 30. Punishment
+**Definition:** The villain is punished.  
+**Example:** Execution, exile, imprisonment.  
+**Modern example:** Legal consequences or moral downfall.
+
+---
+
+## 31. Wedding
+**Definition:** The hero is rewarded (often marriage or ascension).  
+**Example:** The hero marries the princess and inherits the throne.  
+**Modern example:** Freedom, peace, fulfillment, or a new stable life.
+
+---
+
+## Notes
+- Not all stories contain all 31 functions.
+- Functions always appear in **this order**, though many may be omitted.
+- Functions describe **what happens**, not *who does it* or *why*.
+
+---
+
+Please consider the following plot:
+
+The story takes place in a kingdom where a princess has never smiled. Her father, the king, declares that anyone who can make her smile can marry her. Suitors make their attempts but none succeed.
+Meanwhile, a humble worker in the same kingdom is told by his master that he can take as many coins as he wants for his annual labors. The worker in all his humility takes just one coin, which he proceeds to lose down a well. He does the same the next year. Then in the third year, as he goes to drink from the same well, he not only retains his coin, but finds the two coins he lost before.
+With his new-found coins the worker decides to travel the world. But before he can leave the country—in his continued humility—he gives one of the coins to a mouse, one to a beetle, and one to a catfish.
+Again coin-less, the worker passes by the king's castle, where he proceeds to slip and fall in mud. The mouse, beetle, and catfish, witnessing this and recalling his kindness to them, come to his aid. The princess, looking on, smiles at the scene before her, and the worker, entering the castle and transforming into a handsome man, marries the princess and they live happily ever after. 
+
+
+Identify the narrative functions (according to Propp's classification).
+
+Your answer must follow this format:
+| # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Name of the first function identified** | how this first function appears |
+| 1 | **Name of the second function identified** | how this second function appears |
+| 2 | **...** | ... |
+</pre>
+        <p><strong>Output:</strong></p>
+        <pre>| # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A kingdom exists where a princess has never smiled; a humble worker serves a master |
+| 8 | **Lack** | The princess lacks the ability to smile; the king lacks a suitable husband for her |
+| 9 | **Mediation** | The king declares that anyone who can make the princess smile can marry her |
+| 1 | **Absentation** | Suitors come and go, failing in their attempts (implicit departure from the narrative focus) |
+| 12 | **First Function of the Donor** | The master offers the worker as many coins as he wants for his labor (a test of character) |
+| 13 | **Hero's Reaction** | The worker humbly takes only one coin each year, demonstrating his modest nature |
+| 8 | **Lack** (repeated) | The worker loses his coins down a well two years in a row |
+| 19 | **Liquidation** (partial) | In the third year, the worker retrieves all three coins from the well |
+| 10 | **Counteraction** | The worker decides to travel the world with his coins |
+| 11 | **Departure** | The worker sets out to leave the country |
+| 12 | **First Function of the Donor** (series) | The worker encounters a mouse, a beetle, and a catfish |
+| 13 | **Hero's Reaction** | The worker gives one coin to each creature, showing kindness and generosity |
+| 14 | **Receipt of a Magical Agent** | The animals become indebted helpers through the worker's kindness (implicit magical bond) |
+| 8 | **Lack** (repeated) | The worker is again coin-less |
+| 15 | **Guidance** | The worker passes by the king's castle (fate leads him to the location of the quest) |
+| 25 | **Difficult Task** | The implicit challenge: make the princess smile |
+| 26 | **Solution** | The worker slips in mud; the mouse, beetle, and catfish come to his aid; the princess smiles at the scene |
+| 27 | **Recognition** | The princess recognizes the worker as the one who made her smile |
+| 29 | **Transfiguration** | The worker enters the castle and transforms into a handsome man |
+| 31 | **Wedding** | The worker marries the princess and they live happily ever after |</pre>
+        <p><strong>Metrics:</strong> {'contains': 0.0}</p>
+    </div>
+    <div class="details">
+        <h3>The Story of Three Wonderful Beggars ❌</h3>
+        <p><strong>System Prompt:</strong></p>
+        <pre>You are a script doctor and writer, expert in all aspects of scripts, including structure, characterization, dialogue, pacing, themes.
+
+<rules>
+- Only classify clear, explicit narrative functions
+- Always refer to the narrative functions defined in prompts\narrative-function-extractor\Propp.md
+</rules>
+
+<skills>
+- Technical script analysis
+- Identification of what a story means
+- Diagnosis of relevant narrative functions
+</skills>
+
+<thinking_process>
+First, read carefully the synopsis. Take your time to identify the potential (candidate) narrative functions.
+Second, for each candidate narrative function relate it to prompts\narrative-function-extractor\Propp.md.
+Third, for each candidate narrative function relate it to the examples.
+Fourth, write the name of the Propp function and the Justification.
+</thinking_process></pre>
+        <p><strong>Input:</strong></p>
+        <pre><examples>
+
+Example 1:
+input: A king had to leave his newly-wed wife for a journey. He sternly warned her against leaving the women's quarters and listening to bad advice. But an envious wicked witch lured her into the garden and into a pool, and turned her into a white duck, herself taking the queen's own form and place.
+Meanwhile, the white duck built a nest, laid three eggs, and hatched two fluffy ducklings and one little drake. She warned them against the castle, because an evil witch lived there, but one day the witch saw them and lured them inside. The ducklings slept but the drake stayed awake, and when the witch called if they were asleep, the drake answered. But after two answers, the witch went in to see, and saw the ducklings were asleep, so she killed them.
+The white duck found the bodies and lamented over them. The king wondered at it, and although the witch tried to persuade him it was nothing but quacking, he ordered that the duck be captured. His servants could not, but he went himself, and she flew to his hands and became a woman. She told of a bottle in the nest in the garden—or, they sent a magpie for magic water—which, sprinkled on the ducklings and drake, turned them into three lovely children. The witch was then put to death through dismemberment and nothing remained of her. 
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A king has a newly-wed wife |
+| 1 | **Absentation** | The king leaves on a journey |
+| 2 | **Interdiction** | The king warns his wife not to leave the women's quarters or listen to bad advice |
+| 6 | **Trickery** | A witch lures the queen into the garden and to a pool |
+| 7 | **Complicity** | The queen follows the witch |
+| 3 | **Violation of Interdiction** | The queen leaves the quarters |
+| 8 | **Villainy** | The witch transforms the queen into a white duck and takes her place (spell + substitution) |
+| 0 | **Initial Situation** (second phase) | The white duck builds a nest, has children |
+| 2 | **Interdiction** | The duck warns her children against the castle |
+| 6 | **Trickery** | The witch lures the children inside |
+| 3 | **Violation of Interdiction** | The children go to the castle |
+| 8 | **Villainy** | The witch kills the ducklings |
+| 9 | **Mediation** | The white duck's lament reveals the situation to the king |
+| 27 | **Recognition** | The king notices the duck's unusual behavior |
+| 14 | **Receipt of a Magical Agent** | The king himself captures the duck (by approaching with genuine intent) |
+| 19 | **Liquidation** (first) | The duck transforms back into a woman and tells her story |
+| 14 | **Receipt of a Magical Agent** | A bottle in the nest (or magic water from a magpie) |
+| 19 | **Liquidation** (second) | The children are revived with the magic water |
+| 28 | **Exposure** | The witch is exposed |
+| 30 | **Punishment** | The witch is put to death by dismemberment |
+
+
+Example 2:
+input: A merchant's wife dies, leaving behind an 8-year-old daughter named Vasilisa. Before her death, the merchant's wife gives Vasilisa a doll with her blessing. This doll is not simple: if it is given something to eat, it can help its owner out of trouble. The merchant eventually remarries to a widow with two daughters the same age as Vasilisa. The new wife dislikes her stepdaughter, giving her various backbreaking jobs, but the doll does all the work for Vasilisa. When Vasilisa grows up, all the suitors in the city begin to woo her. The stepmother refuses everyone, proclaiming that she would not give up her youngest before her elders.
+One day the merchant leaves home for a long time on business, and during this time, at the stepmother's bidding, the family moves to live in another house, standing near a dense forest, where Baba Yaga's hut is located. The stepmother often sends Vasilisa into the forest, hoping that Baba Yaga will devour her, but Vasilisa's doll always guides her to avoid dangerous paths. Finally, the stepmother and her daughters agree to send Vasilisa directly to Baba Yaga's hut for fire, since during the autumn women's work (weaving, knitting and spinning), which is done at night, all fires excluding a single candle are deliberately extinguished. The doll, as usual, promises to take care of Vasilisa's safety, and she sets off on her journey.
+On her way she is passed by three horsemen dressed in white, red and black. On Baba Yaga's fence, made of human bones, skulls are hung, the eye sockets of which illuminate the surroundings with their light like lanterns. Baba Yaga rides out of the forest in her flying mortar and heeds Vasilisa's request. Baba Yaga demands that she, under pain of death, first work as a servant. At Baba Yaga's command, the gates open and then lock themselves. Baba Yaga gives Vasilisa various tasks, but she completes everything on time with the doll's help. The colored horsemen pass by the hut, and Vasilisa discovers Baba Yaga's assistants: three pairs of hands that respond and appear at the call of her voice. Baba Yaga explains that the white, red and black horsemen are respectively Day, Sun and Night, but does not explain what the hands are, warning that she dislikes those who air her personal affairs in public, and that she eats those who are too curious.
+Eventually, Baba Yaga asks Vasilisa how she managed to accomplish her work so well. When Vasilisa responds that she did so by her mother's blessing, Baba Yaga throws her out of her home, rejecting those who are blessed. However, Baba Yaga gifts Vasilisa a skull with burning eyes to use as a lamp. Vasilisa wants to get rid of it, but the skull warns her against this, asking to be taken to her stepmother's house. There, the light coming from the skull's eye sockets incinerates the stepmother and her two daughters. Vasilisa buries the skull and moves to the city, where she settles with an old clothmaker, deciding to take up spinning and weaving while waiting for her father to return. The fabric in Vasilisa's hands is so thin that the clothmaker can carry it straight to the royal palace. The king asks Vasilisa to sew him blouses from this fabric. Appreciating her skillful work and charmed by her beauty, the king takes Vasilisa as his wife. Her father returns from his trading trip and remains to live at court. Vasilisa also brings the clothmaker into court, and carries the doll in her pocket for the rest of her life.
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A merchant has a wife and 8-year-old daughter Vasilisa |
+| 1 | **Absentation** | The mother dies |
+| 14 | **Receipt of a Magical Agent** | Before dying, the mother gives Vasilisa a magic doll with her blessing |
+| 8 | **Villainy/Lack** | The father remarries; the stepmother mistreats Vasilisa, gives her impossible tasks |
+| 13 | **Hero's Reaction** | Vasilisa feeds the doll, which does all her work |
+| 1 | **Absentation** (repeated) | The father leaves on business |
+| 8 | **Villainy** | The stepfamily moves near Baba Yaga's forest, hoping Yaga will devour Vasilisa |
+| 9 | **Mediation** | The stepfamily deliberately extinguishes all fires, sending Vasilisa to get fire from Baba Yaga |
+| 11 | **Departure** | Vasilisa sets off into the forest |
+| 15 | **Guidance** | The doll guides her to avoid dangerous paths |
+| 4 | **Reconnaissance** (implicit) | The three horsemen (Day, Sun, Night) patrol Yaga's domain |
+| 12 | **First Function of the Donor** | Baba Yaga demands Vasilisa work as a servant under pain of death |
+| 13 | **Hero's Reaction** | Vasilisa completes all tasks with the doll's help |
+| 4 | **Reconnaissance** | Baba Yaga asks how Vasilisa accomplished her work |
+| 5 | **Delivery** | Vasilisa says it was by her mother's blessing |
+| 18 | **Victory** (of sorts) | Baba Yaga, who dislikes "blessed" people, throws Vasilisa out |
+| 14 | **Receipt of a Magical Agent** | Baba Yaga gives Vasilisa a skull with burning eyes as a lamp |
+| 20 | **Return** | Vasilisa returns home with the skull |
+| 30 | **Punishment** | The skull's light incinerates the stepmother and stepsisters |
+| 19 | **Liquidation** | Vasilisa is freed from her oppressors |
+| 23 | **Unrecognized Arrival** | Vasilisa settles with an old clothmaker in the city |
+| 25 | **Difficult Task** | Vasilisa takes up spinning and weaving |
+| 26 | **Solution** | Her fabric is so fine it goes to the royal palace |
+| 25 | **Difficult Task** | The king asks for shirts to be made from the fabric |
+| 26 | **Solution** | Vasilisa makes the shirts |
+| 27 | **Recognition** | The king sees Vasilisa and is charmed by her beauty |
+| 31 | **Wedding** | The king marries Vasilisa |
+
+
+Example 3:
+input: A daughter of a priest wore men's clothing, rode horses, and could fire a gun. One day, the king saw this "young man". But his servants insisted that the "young man" was, in fact, a girl. The king did not believe the servants; he wrote to the priest asking him if his "son" could have dinner with him. The priest sent his daughter to the king’s home. Before she arrived, the king sought advice from a witch regarding the true identity of the "young man". The witch advised the king to do many different things to test if Vasilisa is a girl or not, such as place an embroidery frame and a gun positioned on a wall and to see which object she will notice first. If she is a girl she will notice the frame first, and vice versa. The "young man" passed every test, but the king remained doubtful. The king tries several times to find the true identity, but on the last time the king asked the "young man" to take a bath with him, and the "young man" agreed. While the king undressed, the "young man" undressed, bathed quickly and fled, leaving a note for the king saying
+"Ah King Barkhat, raven that you are, you could not surprise the falcon in the garden! For I am not Vasily Vasilyevich, but Vasilisa Vasilyevna".
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A priest has a daughter who dresses as a man |
+| 4 | **Reconnaissance** | The king's servants suspect the "young man" is a girl |
+| 5 | **Delivery** | Servants inform the king of their suspicions |
+| 4 | **Reconnaissance** (continued) | The king writes to the priest asking his "son" to dinner |
+| 6 | **Trickery** | The king seeks advice from a witch to test Vasilisa's true identity |
+| 25 | **Difficult Task** (series) | The witch advises tests: embroidery frame vs. gun, etc. |
+| 26 | **Solution** (series) | Vasilisa passes every test (notices the gun, not the frame, etc.) |
+| 25 | **Difficult Task** (final) | The king asks Vasilisa to bathe with him |
+| 26 | **Solution** | Vasilisa agrees, bathes quickly, and flees |
+| 27 | **Recognition** (inverted) | Vasilisa leaves a note revealing she is "Vasilisa Vasilyevna, not Vasily Vasilyevich" |
+| 22 | **Rescue** | Vasilisa escapes (self-rescue through wit) |
+| 18 | **Victory** | Vasilisa outwits the king and the witch |
+
+
+Example 4:
+input: Tired of the cruel mistreatment they endure from their stepmother, who is an evil witch, a brother and sister run away from home, wander off into the countryside, and spend the night in the woods. By morning, the boy is thirsty, so the children go looking for a spring of clear water. However, their stepmother has already discovered their escape and has bewitched all the springs in the forest. The boy is about to drink from one, when his sister hears how its rushing sound says, "whoever drinks from me will become a tiger" (or lion).
+Desperately, the girl begs her brother not to drink from the spring, lest he transform into a tiger and attack her. So they continue on their way, but when they come to the second spring, the girl hears it say, "whoever drinks from me will become a wolf". Again, she desperately tries to prevent her brother from drinking from it. Reluctantly, he eventually agrees to her pleas but insists he drink from the next spring they encounter. And so they arrive at the third spring, and the girl overhears the rushing water cry, "whoever drinks from me will become a deer". But before she could stop her brother, he has already drunk from it, and turned into a deer.
+As the initial feeling of despair passes, the children decide to live in the woods forever. The girl takes care of her brother, and ties her gold chain around his neck. They go to live in a little house deep within the woods and live there happily for some years, until they are disturbed one day by a hunting party and the king himself who has followed the strange deer home. Upon seeing the beautiful girl, he immediately asks her to marry him and she accepts. Thus she becomes queen and they all live happily in the king's castle. Time passes and the queen gives birth to a son.
+The witch, however, soon discovers that they are still alive, and plots against them. One night, she kills the queen and replaces her with her own disfigured daughter, whom she has transformed to a physical copy of her. When the queen's ghost secretly visits her baby's bedside for three consecutive nights, the king catches on and her stepmother's evil plan is exposed.
+The queen comes back to life when the king embraces her, and her stepfamily are tried for their crimes. The witch's daughter is banished into the woods where she is eaten by wild animals, and the wicked stepmother herself is burned at the stake. At the exact moment of the witch's death, the deer becomes human again, and at long last the family is reunited, and they lived happily ever after. 
+
+output: | # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A brother and sister live with their evil stepmother (a witch) |
+| 8 | **Villainy** | The stepmother mistreats the children cruelly |
+| 10 | **Counteraction** | The children decide to run away |
+| 11 | **Departure** | Brother and sister flee into the countryside |
+| 6 | **Trickery** | The stepmother has bewitched all the forest springs |
+| 2 | **Interdiction** | The sister hears the springs' warnings ("whoever drinks will become a tiger/wolf") |
+| 13 | **Hero's Reaction** | The sister successfully stops her brother twice |
+| 3 | **Violation of Interdiction** | The brother drinks from the third spring before she can stop him |
+| 8 | **Villainy** | The brother is transformed into a deer |
+| 19 | **Liquidation** (partial) | They decide to live in the forest together; the sister cares for the deer-brother |
+| 0 | **Initial Situation** (second phase) | They live in a little house in the woods |
+| 4 | **Reconnaissance** | A king's hunting party disturbs them; the king follows the strange deer |
+| 27 | **Recognition** | The king sees the beautiful girl |
+| 31 | **Wedding** | The king marries the sister |
+| 1 | **Absentation** (implicit) | Time passes; the queen gives birth to a son |
+| 4 | **Reconnaissance** | The witch discovers they are still alive |
+| 6 | **Trickery** | The witch plots against the queen |
+| 8 | **Villainy** | The witch kills the queen and substitutes her own disfigured daughter |
+| 12 | **Villainy** (substitution) | The transformed daughter takes the queen's place |
+| 9 | **Mediation** | The queen's ghost visits her baby nightly |
+| 27 | **Recognition** | The king catches the queen's ghost at the baby's bedside |
+| 19 | **Liquidation** | The king embraces the ghost; the queen returns to life |
+| 28 | **Exposure** | The stepmother's evil plan is exposed |
+| 30 | **Punishment** | The witch's daughter is banished and eaten by wild animals; the witch is burned at the stake |
+| 19 | **Liquidation** (final) | At the moment of the witch's death, the deer becomes human again |
+| 31 | **Wedding** (reunion) | The family is reunited and lives happily ever after |
+
+</examples>
+
+You must base your knowledge on the Propp's narrative functions.
+Those functions are defined in the MORPHOLOGY_OF_THE_FOLK_TALE.pdf.
+You must keep this book in cache and in memory.
+
+# Vladimir Propp’s 31 Narrative Functions  
+*from* Morphology of the Folktale, 1928
+
+Below is the **canonical list of Propp’s narrative functions**, in their **standard order**.  
+Each function is defined as an **action significant to the progress of the narrative**, independent of character psychology.  
+Examples are given in **generic folktale terms** and, where useful, in **modern narrative equivalents**.
+
+Important: For each paragraph below, the name of the Propp's function is the title (without the initial numbering)
+
+---
+
+## 0. Initial Situation
+**Definition:** Introduction of the family, hero, or social context.  
+**Example:** “There once lived a poor woodcutter and his three sons.”  
+**Modern example:** Establishing the protagonist’s ordinary life before disruption.
+
+---
+
+## 1. Absentation
+**Definition:** A family member leaves home or is absent.  
+**Example:** Parents leave the house, leaving children alone.  
+**Modern example:** A parent dies, disappears, or the hero lives alone.
+
+---
+
+## 2. Interdiction
+**Definition:** A warning or command is given to the hero.  
+**Example:** “Do not open this door.”  
+**Modern example:** “Never talk about Fight Club.”
+
+---
+
+## 3. Violation of Interdiction
+**Definition:** The interdiction is violated.  
+**Example:** The hero opens the forbidden door.  
+**Modern example:** The protagonist breaks a rule, triggering consequences.
+
+---
+
+## 4. Reconnaissance
+**Definition:** The villain seeks information about the victim or hero.  
+**Example:** A witch asks where the children live.  
+**Modern example:** An antagonist spies on or investigates the hero.
+
+---
+
+## 5. Delivery
+**Definition:** The villain receives information about the victim.  
+**Example:** The witch learns the children’s location.  
+**Modern example:** A traitor reveals the hero’s weakness.
+
+---
+
+## 6. Trickery
+**Definition:** The villain attempts to deceive the victim.  
+**Example:** The wolf disguises himself as the grandmother.  
+**Modern example:** A con, false promise, or manipulation.
+
+---
+
+## 7. Complicity
+**Definition:** The victim is deceived and unwittingly helps the villain.  
+**Example:** Little Red Riding Hood reveals her destination.  
+**Modern example:** The hero trusts the wrong person.
+
+---
+
+## 8. Villainy **or** Lack
+**Definition:**  
+- **Villainy:** The villain causes harm.  
+- **Lack:** Something important is missing or desired.  
+**Example (villainy):** A princess is kidnapped.  
+**Example (lack):** The hero lacks money, freedom, love, or identity.
+
+---
+
+## 9. Mediation
+**Definition:** The lack or villainy is made known; the hero is dispatched.  
+**Example:** The king announces the princess is missing.  
+**Modern example:** The hero learns the truth of the injustice.
+
+---
+
+## 10. Counteraction
+**Definition:** The hero decides to act.  
+**Example:** “I will rescue the princess.”  
+**Modern example:** The protagonist commits to a course of action.
+
+---
+
+## 11. Departure
+**Definition:** The hero leaves home.  
+**Example:** The hero sets out on a journey.  
+**Modern example:** Entering a new world, job, prison, or mindset.
+
+---
+
+## 12. First Function of the Donor
+**Definition:** The hero is tested, interrogated, or attacked by a donor figure.  
+**Example:** An old man asks the hero for food.  
+**Modern example:** A mentor tests the hero’s values.
+
+---
+
+## 13. Hero’s Reaction
+**Definition:** The hero responds to the donor’s test.  
+**Example:** The hero shares his last loaf of bread.  
+**Modern example:** The hero shows courage, kindness, or intelligence.
+
+---
+
+## 14. Receipt of a Magical Agent
+**Definition:** The hero gains a magical object, helper, or power.  
+**Example:** A sword, ring, horse, or spell.  
+**Modern example:** Skills, knowledge, allies, or resources.
+
+---
+
+## 15. Guidance
+**Definition:** The hero is led to the location of the object of the quest.  
+**Example:** A bird guides the hero to the castle.  
+**Modern example:** A map, clue, or mentor’s advice.
+
+---
+
+## 16. Struggle
+**Definition:** The hero and villain engage in direct combat.  
+**Example:** A sword fight with the dragon.  
+**Modern example:** Physical, legal, psychological, or ideological confrontation.
+
+---
+
+## 17. Branding
+**Definition:** The hero is marked or wounded.  
+**Example:** A scar or ring given as proof.  
+**Modern example:** Trauma, reputation, or symbolic mark.
+
+---
+
+## 18. Victory
+**Definition:** The villain is defeated.  
+**Example:** The dragon is slain.  
+**Modern example:** The antagonist is exposed, overpowered, or neutralized.
+
+---
+
+## 19. Liquidation
+**Definition:** The initial lack or villainy is resolved.  
+**Example:** The princess is freed.  
+**Modern example:** Justice is restored, truth revealed.
+
+---
+
+## 20. Return
+**Definition:** The hero returns home.  
+**Example:** The hero travels back from the quest.  
+**Modern example:** Returning to society after transformation.
+
+---
+
+## 21. Pursuit
+**Definition:** The hero is pursued.  
+**Example:** The villain chases the hero.  
+**Modern example:** Authorities, enemies, or consequences close in.
+
+---
+
+## 22. Rescue
+**Definition:** The hero is rescued from pursuit.  
+**Example:** A river or helper saves the hero.  
+**Modern example:** An ally intervenes or a trap is escaped.
+
+---
+
+## 23. Unrecognized Arrival
+**Definition:** The hero arrives home unrecognized.  
+**Example:** The hero appears as a beggar.  
+**Modern example:** Living under an alias or hidden identity.
+
+---
+
+## 24. Unfounded Claims
+**Definition:** A false hero makes claims of success.  
+**Example:** A pretender claims to have slain the dragon.  
+**Modern example:** Someone takes credit for the hero’s work.
+
+---
+
+## 25. Difficult Task
+**Definition:** A challenge is set for the hero.  
+**Example:** Solve a riddle, perform an impossible feat.  
+**Modern example:** Final test, trial, or proof of worth.
+
+---
+
+## 26. Solution
+**Definition:** The difficult task is resolved.  
+**Example:** The riddle is answered correctly.  
+**Modern example:** The hero passes the final test.
+
+---
+
+## 27. Recognition
+**Definition:** The hero is recognized by a mark or deed.  
+**Example:** The scar proves true identity.  
+**Modern example:** The truth about the protagonist is revealed.
+
+---
+
+## 28. Exposure
+**Definition:** The false hero or villain is exposed.  
+**Example:** The impostor is unmasked.  
+**Modern example:** Corruption or deception is revealed.
+
+---
+
+## 29. Transfiguration
+**Definition:** The hero is given a new appearance.  
+**Example:** New clothes, royal garments.  
+**Modern example:** Social elevation, confidence, or inner change.
+
+---
+
+## 30. Punishment
+**Definition:** The villain is punished.  
+**Example:** Execution, exile, imprisonment.  
+**Modern example:** Legal consequences or moral downfall.
+
+---
+
+## 31. Wedding
+**Definition:** The hero is rewarded (often marriage or ascension).  
+**Example:** The hero marries the princess and inherits the throne.  
+**Modern example:** Freedom, peace, fulfillment, or a new stable life.
+
+---
+
+## Notes
+- Not all stories contain all 31 functions.
+- Functions always appear in **this order**, though many may be omitted.
+- Functions describe **what happens**, not *who does it* or *why*.
+
+---
+
+Please consider the following plot:
+
+A very rich and hard-hearted merchant, Mark or Marko, had one daughter, Anastasia. One day, he was about to set dogs on three beggars, when Anastasia pleaded with him. He let them stay in the stable loft. Anastasia went to see them. In the Russian version, they were then grandly dressed; in both, they decided to give Marko's wealth to a new-born named Vasilii, the seventh son of a poor peasant in a nearby village. She told her father. He went and found just such a boy had been born. He offered to be his godfather and then to raise the boy, giving the poor father a sum of money as well. When the father agreed, the merchant threw the baby over a cliff.
+Other merchants picked up the child and brought him to Marko, who persuaded them to leave him with them. He put the boy in a barrel, or an open boat, and threw it into the sea. It floated to a monastery, where the abbot took the child in. Many years later, Marko passed by and heard the story. He persuaded the abbot that he wanted to take him in, and that he would give a large sum to the monastery for it. The abbot and monks agreed, and Marko sent him to his wife with a letter prescribing that he should be pushed into the soap-making cauldron at once.
+Vasilii met the three beggars on the way, who breathed on the letter. When he arrived, the letter called for him to marry Anastasia at once. His wife obeyed, and Marko arrived to find a letter in his own handwriting calling for it. So he sent his son-in-law to collect rent from Tsar Zmey (Serpent Emperor).
+In the Serbian version, he met an old oak which asks if he can discover why it can't fall. In both, he met a ferryman who asks if he can discover why he is bound to ferry people back and forth, and a whale being used as a bridge, which asks if he can discover how long it will be bound to this task.
+At the castle, he met a maiden, who hid him and asked the Serpent King or Tsar Zmey in serpent form, about a dream she had had. He told her the oak had to be pushed over, which would reveal treasure, the ferryman had to push the boat off with another person in it, and the whale had to vomit up the twelve ships it had swallowed without leave. He went back, carefully not telling the whale and the ferryman until he had already crossed. In the Russian version, he received jewels from the whale; in the Serbian, he found gold and silver under the oak. He returned to Marko, who set out to make sure the next time, Vasilii would not be able to escape, but the ferryman pushed the boat off, and Marko is ferrying people still. No harm then came to Vasilii and he lived in peace with Anastasia inheriting all the lands and treasures of Marko the Rich. 
+
+
+Identify the narrative functions (according to Propp's classification).
+
+Your answer must follow this format:
+| # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Name of the first function identified** | how this first function appears |
+| 1 | **Name of the second function identified** | how this second function appears |
+| 2 | **...** | ... |
+</pre>
+        <p><strong>Output:</strong></p>
+        <pre>| # | Function | How It Appears in the Tale |
+|---|----------|---------------------------|
+| 0 | **Initial Situation** | A very rich and hard-hearted merchant, Mark/Marko, has one daughter, Anastasia |
+| 1 | **Absentation** | Three beggars arrive as strangers/outsiders to the household |
+| 12 | **First Function of the Donor** | The three beggars (disguised divine figures) test the household's hospitality |
+| 13 | **Hero's Reaction** | Anastasia pleads for mercy and cares for the beggars |
+| 8 | **Villainy/Lack** | The beggars prophesy that Marko's wealth will pass to Vasilii, a poor peasant's newborn son |
+| 5 | **Delivery** | Anastasia tells her father about the prophecy |
+| 4 | **Reconnaissance** | Marko goes to the village and confirms such a boy has been born |
+| 6 | **Trickery** | Marko offers to be godfather and raise the boy, giving money to the poor father |
+| 7 | **Complicity** | The poor father agrees to give up his son |
+| 8 | **Villainy** (first attempt) | Marko throws the baby over a cliff |
+| 22 | **Rescue** (first) | Other merchants find and save the child |
+| 6 | **Trickery** (repeated) | Marko persuades the merchants to leave the child with him |
+| 8 | **Villainy** (second attempt) | Marko puts the boy in a barrel/boat and throws it into the sea |
+| 22 | **Rescue** (second) | The barrel floats to a monastery; the abbot takes the child in |
+| 4 | **Reconnaissance** (repeated) | Years later, Marko passes by and hears the story of the foundling |
+| 6 | **Trickery** (third) | Marko persuades the abbot to release Vasilii, claiming he wants to help him |
+| 7 | **Complicity** | The abbot and monks agree |
+| 8 | **Villainy** (third attempt) | Marko sends Vasilii with a letter ordering his death in the soap-making cauldron |
+| 14 | **Receipt of a Magical Agent** | The three beggars breathe on the letter, transforming its contents |
+| 31 | **Wedding** (premature/partial) | The altered letter commands Vasilii to marry Anastasia at once; the wife obeys |
+| 27 | **Recognition** (false) | Marko arrives to find a letter in his own handwriting calling for the marriage |
+| 25 | **Difficult Task** | Marko sends Vasilii to collect rent from Tsar Zmey (Serpent Emperor) |
+| 11 | **Departure** | Vasilii sets out on the dangerous journey |
+| 12 | **First Function of the Donor** (series) | Vasilii meets the oak, the ferryman, and the whale, each asking him to discover answers to their predicaments |
+| 15 | **Guidance** | Vasilii reaches the castle of Tsar Zmey |
+| 6 | **Trickery** (by helper) | A maiden hides Vasilii and tricks the Serpent King into revealing secrets through a "dream" |
+| 5 | **Delivery** | The Serpent King reveals how to free the oak, ferryman, and whale |
+| 26 | **Solution** | Vasilii learns the answers: push over the oak for treasure, the ferryman must push off with another person, the whale must vomit the twelve ships |
+| 20 | **Return** | Vasilii travels back, carefully timing when to share the information |
+| 14 | **Receipt of a Magical Agent** (reward) | The whale gives jewels; treasure is found under the oak |
+| 19 | **Liquidation** | Vasilii returns with the rent/treasure, completing the impossible task |
+| 25 | **Difficult Task** (final) | Marko sets out himself to ensure Vasilii's destruction</pre>
+        <p><strong>Metrics:</strong> {'contains': 0.041666666666666664}</p>
+    </div>
+</body>
+</html>

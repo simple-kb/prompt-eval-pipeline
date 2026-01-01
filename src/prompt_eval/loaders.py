@@ -38,7 +38,16 @@ def load_file(path: str | Path) -> dict[str, Any]:
 
 def load_prompt(path: str | Path) -> Prompt:
     """Load a single prompt from a YAML/JSON file (internal use only)."""
+    path = Path(path)
     data = load_file(path)
+
+    # Resolve pdf_path relative to the prompt file location
+    if "pdf_path" in data and data["pdf_path"]:
+        pdf_path = Path(data["pdf_path"])
+        if not pdf_path.is_absolute():
+            # Resolve relative to the prompt file's directory
+            data["pdf_path"] = str(path.parent / pdf_path)
+
     return Prompt(**data)
 
 

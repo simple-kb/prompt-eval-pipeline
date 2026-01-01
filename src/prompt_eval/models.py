@@ -5,8 +5,11 @@ Users should define prompts and test cases in YAML files, not instantiate these 
 """
 
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 from pydantic import BaseModel, Field
+
+from prompt_eval.pdf_utils import extract_pdf_text
 
 
 class Prompt(BaseModel):
@@ -23,6 +26,7 @@ class Prompt(BaseModel):
     skills: list[str] = Field(default_factory=list, description="Skills or capabilities to use")
     examples: list[dict[str, str]] = Field(default_factory=list, description="Few-shot examples")
     thinking_process: str | None = Field(None, description="Chain-of-thought guidance")
+    pdf_path: str | None = Field(None, description="Optional path to PDF file for prompt caching")
 
     def render(self, variables: dict[str, Any]) -> str:
         """Render the prompt template with the given variables."""
@@ -55,6 +59,24 @@ class Prompt(BaseModel):
             parts.append(f"\n<thinking_process>\n{self.thinking_process.strip()}\n</thinking_process>")
 
         return "\n".join(parts)
+
+    def get_pdf_content(self) -> str | None:
+        """
+        Extract and return PDF content if pdf_path is specified.
+        This content should be cached separately in the API call.
+
+        Returns:
+            Extracted PDF text, or None if no PDF is specified
+        """
+        if not self.pdf_path:
+            return None
+
+        try:
+            return extract_pdf_text(self.pdf_path)
+        except Exception as e:
+            # Log the error but don't fail - let the evaluation continue without PDF
+            print(f"Warning: Failed to extract PDF content: {e}")
+            return None
 
     def build_user_prompt(self, variables: dict[str, Any]) -> str:
         """Build the complete user prompt including examples and template."""

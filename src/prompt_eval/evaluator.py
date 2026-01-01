@@ -57,6 +57,25 @@ class Evaluator:
         # Build messages
         messages = [{"role": "user", "content": user_prompt}]
 
+        # Build system blocks with prompt caching if PDF is present
+        pdf_content = prompt.get_pdf_content()
+        if pdf_content:
+            # Use prompt caching: system is a list of blocks with cache_control
+            system_blocks = [
+                {
+                    "type": "text",
+                    "text": system_prompt,
+                },
+                {
+                    "type": "text",
+                    "text": f"\n\n<reference_material>\n{pdf_content}\n</reference_material>",
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ]
+        else:
+            # No caching needed - use simple string
+            system_blocks = system_prompt
+
         # Call the API
         start_time = time.perf_counter()
         try:
@@ -64,7 +83,7 @@ class Evaluator:
                 model=self.model,
                 max_tokens=self.max_tokens,
                 temperature=self.temperature,
-                system=system_prompt,
+                system=system_blocks,
                 messages=messages,
             )
             latency_ms = (time.perf_counter() - start_time) * 1000
@@ -73,6 +92,13 @@ class Evaluator:
             tokens_in = response.usage.input_tokens
             tokens_out = response.usage.output_tokens
             error = None
+
+            # Log cache performance if available
+            if self.verbose and hasattr(response.usage, 'cache_creation_input_tokens'):
+                if response.usage.cache_creation_input_tokens:
+                    self.console.print(f"[dim]Cache created: {response.usage.cache_creation_input_tokens} tokens[/dim]")
+                if hasattr(response.usage, 'cache_read_input_tokens') and response.usage.cache_read_input_tokens:
+                    self.console.print(f"[dim green]Cache hit: {response.usage.cache_read_input_tokens} tokens saved[/dim green]")
 
         except Exception as e:
             latency_ms = (time.perf_counter() - start_time) * 1000
