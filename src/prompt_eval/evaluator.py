@@ -7,6 +7,7 @@ Users should run evaluations via CLI commands, not instantiate this class direct
 import time
 import uuid
 from datetime import datetime
+from pathlib import Path
 from typing import Callable
 
 from anthropic import Anthropic
@@ -57,21 +58,30 @@ class Evaluator:
         # Build messages
         messages = [{"role": "user", "content": user_prompt}]
 
-        # Build system blocks with prompt caching if PDF is present
-        pdf_content = prompt.get_pdf_content()
-        if pdf_content:
+        # Build system blocks with prompt caching for cached files
+        cached_files = prompt.get_cached_file_contents()
+        if cached_files:
             # Use prompt caching: system is a list of blocks with cache_control
+            # IMPORTANT: Anthropic API allows max 4 cache_control blocks
+            # So we combine all cached files into a single block
             system_blocks = [
                 {
                     "type": "text",
                     "text": system_prompt,
-                },
-                {
-                    "type": "text",
-                    "text": f"\n\n<reference_material>\n{pdf_content}\n</reference_material>",
-                    "cache_control": {"type": "ephemeral"}
                 }
             ]
+
+            # Combine all cached files into a single text block with caching
+            all_files_text = []
+            for file_info in cached_files:
+                file_name = Path(file_info["path"]).name
+                all_files_text.append(f"<reference_material file=\"{file_name}\">\n{file_info['content']}\n</reference_material>")
+
+            system_blocks.append({
+                "type": "text",
+                "text": "\n\n" + "\n\n".join(all_files_text),
+                "cache_control": {"type": "ephemeral"}
+            })
         else:
             # No caching needed - use simple string
             system_blocks = system_prompt

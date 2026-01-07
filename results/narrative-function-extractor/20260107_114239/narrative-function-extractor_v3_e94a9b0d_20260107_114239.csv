@@ -1,0 +1,4 @@
+run_id,prompt_name,test_case,passed,latency_ms,tokens_in,tokens_out,error,metric_contains
+e94a9b0d,narrative-function-extractor_v3,Father Frost,True,27824.903200147673,383,1386,,1.0
+e94a9b0d,narrative-function-extractor_v3,The White Duck,True,28086.004699813202,463,1461,,0.9166666666666666
+e94a9b0d,narrative-function-extractor_v3,Vasilisa the Beautiful,False,31166.275500087067,1044,1605,,0.5882352941176471

@@ -11,7 +11,9 @@ evaluation_threshold: 0.8
 
 # Reference prompt variants from the prompts/ directory
 prompts:
-  - ../prompts/narrative-function-extractor/narrative-function-extractor_v1.yaml
+#  - ../prompts/narrative-function-extractor/narrative-function-extractor_v1.yaml
+#  - ../prompts/narrative-function-extractor/narrative-function-extractor_v2.yaml
+  - ../prompts/narrative-function-extractor/narrative-function-extractor_v3.yaml
 
 # Test cases for evaluation
 test_cases:
@@ -20,139 +22,59 @@ test_cases:
       text: |
         A woman has a daughter, whom she loves, and a step-daughter, whom she hates. One day, the woman orders her husband to take her stepdaughter out into the winter wilderness and to leave her there to die, and he obeys, leaving her at the foot of a tree in the forest. Father Frost finds her there, and because the girl is polite and kind to him, he gives her a chest full of beautiful jewels and fine garments. Some time later, the stepmother sends the girl's father to retrieve her body for burial, and is enraged when he instead brings the girl back alive and happy and dressed in finery. Consumed by greed and envy, the woman orders her husband to take her own daughter to the same place, but when found by Father Frost the woman's daughter is rude and unkind to him, and he is inclined to punish rather than reward her. The father finds her frozen to death at the foot of the tree and carries her body back to her grief-stricken mother. 
     expected_contains:
-      - "| 0 | **Initial Situation** | A woman has a daughter she loves and a stepdaughter she hates |"
-      - "| 1 | **Absentation** | (Implicit) The father is subordinate to the stepmother's will |"
-      - "| 8 | **Villainy** | The stepmother orders the stepdaughter to be taken to the forest to die |"
-      - "| 9 | **Mediation** | The order is given; the father must carry it out |"
-      - "| 11 | **Departure** | The stepdaughter is taken to the winter wilderness |"
-      - "| 12 | **First Function of the Donor** | Father Frost finds her and tests her (through cold and interrogation) |"
-      - "| 13 | **Hero's Reaction** | The stepdaughter is polite and kind to Father Frost |"
-      - "| 14 | **Receipt of a Magical Agent** | She receives a chest full of jewels and fine garments |"
-      - "| 19 | **Liquidation** | The initial villainy is reversed—she survives and prospers |"
-      - "| 20 | **Return** | The father retrieves her; she returns home alive and happy |"
-      - "| 29 | **Transfiguration** | She is dressed in finery |"
-      - "| 30 | **Punishment** | The stepmother's own daughter, being rude to Father Frost, freezes to death |"
-      - "| 20 | **Return** (tragic) | The father finds her frozen body and carries it back to the grief-stricken mother |"
-
-  - name: The Death of Koschei the Deahtless
+      - "Found: 01. Absentation"
+      - "Found: 08. Villainy (or Lack)"
+      - "Found: 11. Departure"
+      - "Found: 12. First Function of the Donor"
+      - "Found: 13. Hero's Reaction"
+      - "Found: 14. Receipt of a Magical Agent"
+      - "Found: 19. Liquidation"
+      - "Found: 20. Return"
+      - "Found: 30. The Villain is Punished"
+  - name: The White Duck
     inputs:
       text: |
-        Ivan Tsarevich had three sisters, the first was Princess Maria, the second was Princess
-        Olga, the third was Princess Anna. After his parents died and his sisters marry three wizards, he leaves his home in search of his sisters. He meets Marya Morevna, a beautiful warrior princess, and marries her. After a while she announces she is going to go to war and tells Ivan not to open the door of the dungeon in the castle they live in while she will be away. Overcome by the desire to know what the dungeon holds, he opens the door soon after her departure and finds Koschei, chained and emaciated. Koschei asks Ivan to bring him some water; Ivan does so. After Koschei drinks twelve buckets of water, his magic powers return to him, he breaks his chains and disappears. Soon after Ivan finds out that Koschei has captured Marya Morevna, and pursues him. When Ivan catches up with Koschei, Koschei tells Ivan to let him go, but Ivan does not give in, and Koschei kills him, puts his remains into a barrel and throws it into the sea. Ivan is revived by his sisters' husbands – powerful wizards who can transform into birds of prey. They tell him that Koschei has a magic horse and that Ivan should go to Baba Yaga to get one too, or else he will not be able to defeat Koschei. After Ivan survives Yaga's tests and gets the horse, he fights with Koschei, kills him and burns his body. Marya Morevna returns to Ivan, and they celebrate his victory with his sisters and their husbands. 
+        A king had to leave his newly-wed wife for a journey. He sternly warned her against leaving the women's quarters and listening to bad advice. But an envious wicked witch lured her into the garden and into a pool, and turned her into a white duck, herself taking the queen's own form and place.
+        Meanwhile, the white duck built a nest, laid three eggs, and hatched two fluffy ducklings and one little drake. She warned them against the castle, because an evil witch lived there, but one day the witch saw them and lured them inside. The ducklings slept but the drake stayed awake, and when the witch called if they were asleep, the drake answered. But after two answers, the witch went in to see, and saw the ducklings were asleep, so she killed them.
+        The white duck found the bodies and lamented over them. The king wondered at it, and although the witch tried to persuade him it was nothing but quacking, he ordered that the duck be captured. His servants could not, but he went himself, and she flew to his hands and became a woman. She told of a bottle in the nest in the garden—or, they sent a magpie for magic water—which, sprinkled on the ducklings and drake, turned them into three lovely children. The witch was then put to death through dismemberment and nothing remained of her. 
     expected_contains:
-      - "| 0 | **Initial Situation** | Ivan Tsarevich has three sisters (Maria, Olga, Anna) |"
-      - "| 1 | **Absentation** | Parents die; sisters marry wizards and leave |"
-      - "| 11 | **Departure** | Ivan leaves home to search for his sisters |"
-      - "| 31 | **Wedding** | Ivan meets and marries Marya Morevna (first wedding) |"
-      - "| 1 | **Absentation** (repeated) | Marya Morevna goes to war |"
-      - "| 2 | **Interdiction** | Marya tells Ivan not to open the dungeon door |"
-      - "| 3 | **Violation of Interdiction** | Ivan opens the forbidden door |"
-      - "| 6 | **Trickery** | Koschei deceives Ivan by asking for water |"
-      - "| 7 | **Complicity** | Ivan gives Koschei water, restoring his magic powers |"
-      - "| 8 | **Villainy** | Koschei breaks free and kidnaps Marya Morevna |"
-      - "| 10 | **Counteraction** | Ivan decides to pursue Koschei |"
-      - "| 16 | **Struggle** | Ivan confronts Koschei (fails initially) |"
-      - "| 8 | **Villainy** (repeated) | Koschei kills Ivan and throws him into the sea |"
-      - "| 22 | **Rescue** | Ivan's brothers-in-law (the wizard-husbands) revive him |"
-      - "| 9 | **Mediation** | Brothers-in-law tell Ivan he needs a magic horse from Baba Yaga |"
-      - "| 11 | **Departure** (second quest) | Ivan goes to Baba Yaga |"
-      - "| 12 | **First Function of the Donor** | Baba Yaga tests Ivan with tasks |"
-      - "| 13 | **Hero's Reaction** | Ivan survives Yaga's tests |"
-      - "| 14 | **Receipt of a Magical Agent** | Ivan obtains the magic horse |"
-      - "| 16 | **Struggle** | Ivan fights Koschei again |"
-      - "| 18 | **Victory** | Ivan kills Koschei |"
-      - "| 30 | **Punishment** | Koschei's body is burned |"
-      - "| 19 | **Liquidation** | Marya Morevna is freed and returned to Ivan |"
-      - "| 31 | **Wedding** (celebration) | Ivan and Marya Morevna celebrate with his sisters and their husbands |"
-
-  - name: The Frog Princess
+      - "Found: 01. Absentation"
+      - "Found: 02. Interdiction"
+      - "Found: 03. Violation of interdiction"
+      - "Found: 06. Trickery"
+      - "Found: 07. Complicity"
+      - "Found: 08. Villainy (or Lack)"
+      - "Found: 09. Mediation"
+      - "Found: 19. Liquidation"
+      - "Found: 27. Recognition"
+      - "Found: 28. Exposure"
+      - "Found: 29. Transfiguration"
+      - "Found: 30. The Villain is Punished"
+  - name: Vasilisa the Beautiful
     inputs:
       text: |
-        The king (or an old peasant woman, in Lang's version) wants his three sons to marry. To accomplish this, he creates a test to help them find brides. The king tells each prince to shoot an arrow. According to the King's rules, each prince will find his bride where the arrow lands. The youngest son's arrow is picked up by a frog. The king assigns his three prospective daughters-in-law various tasks, such as spinning cloth and baking bread. In every task, the frog far outperforms the two other lazy brides-to-be. In some versions, the frog uses magic to accomplish the tasks, and though the other brides attempt to emulate the frog, they cannot perform the magic. Still, the young prince is ashamed of his frog bride until she is magically transformed into a human princess.
-        In Calvino's version, the princes use slings rather than bows and arrows. In the Greek version, the princes set out to find their brides one by one; the older two are already married by the time the youngest prince starts his quest. Another variation involves the sons chopping down trees and heading in the direction pointed by them in order to find their brides.[8]
-        In the Russian versions of the story, Prince Ivan and his two older brothers shoot arrows in different directions to find brides. The other brothers' arrows land in the houses of the daughters of an aristocrat and a wealthy merchant, respectively. Ivan's arrow lands in the mouth of a frog in a swamp, who turns into a princess at night. The Frog Princess, named Vasilisa the Wise, is a beautiful, intelligent, friendly, skilled young woman, who was forced to spend three years in a frog's skin for disobeying Koschei. Her final test may be to dance at the king's banquet. The Frog Princess sheds her skin, and the prince then burns it, to her dismay. Had the prince been patient, the Frog Princess would have been freed but instead he loses her. He then sets out to find her again and meets with Baba Yaga, whom he impresses with his spirit, asking why she has not offered him hospitality. She tells him that Koschei is holding his bride captive and explains how to find the magic needle needed to rescue his bride. In another version, the prince's bride flies into Baba Yaga's hut as a bird. The prince catches her, she turns into a lizard, and he cannot hold on. Baba Yaga rebukes him and sends him to her sister, where he fails again. However, when he is sent to the third sister, he catches her and no transformations can break her free again.
-        In some versions of the story, the Frog Princess' transformation is a reward for her good nature. In one version, she is transformed by witches for their amusement. In yet another version, she is revealed to have been an enchanted princess all along. 
+        A merchant's wife dies, leaving behind an 8-year-old daughter named Vasilisa. Before her death, the merchant's wife gives Vasilisa a doll with her blessing. This doll is not simple: if it is given something to eat, it can help its owner out of trouble. The merchant eventually remarries to a widow with two daughters the same age as Vasilisa. The new wife dislikes her stepdaughter, giving her various backbreaking jobs, but the doll does all the work for Vasilisa. When Vasilisa grows up, all the suitors in the city begin to woo her. The stepmother refuses everyone, proclaiming that she would not give up her youngest before her elders.
+        One day the merchant leaves home for a long time on business, and during this time, at the stepmother's bidding, the family moves to live in another house, standing near a dense forest, where Baba Yaga's hut is located. The stepmother often sends Vasilisa into the forest, hoping that Baba Yaga will devour her, but Vasilisa's doll always guides her to avoid dangerous paths. Finally, the stepmother and her daughters agree to send Vasilisa directly to Baba Yaga's hut for fire, since during the autumn women's work (weaving, knitting and spinning), which is done at night, all fires excluding a single candle are deliberately extinguished. The doll, as usual, promises to take care of Vasilisa's safety, and she sets off on her journey.
+        On her way she is passed by three horsemen dressed in white, red and black. On Baba Yaga's fence, made of human bones, skulls are hung, the eye sockets of which illuminate the surroundings with their light like lanterns. Baba Yaga rides out of the forest in her flying mortar and heeds Vasilisa's request. Baba Yaga demands that she, under pain of death, first work as a servant. At Baba Yaga's command, the gates open and then lock themselves. Baba Yaga gives Vasilisa various tasks, but she completes everything on time with the doll's help. The colored horsemen pass by the hut, and Vasilisa discovers Baba Yaga's assistants: three pairs of hands that respond and appear at the call of her voice. Baba Yaga explains that the white, red and black horsemen are respectively Day, Sun and Night, but does not explain what the hands are, warning that she dislikes those who air her personal affairs in public, and that she eats those who are too curious.
+        Eventually, Baba Yaga asks Vasilisa how she managed to accomplish her work so well. When Vasilisa responds that she did so by her mother's blessing, Baba Yaga throws her out of her home, rejecting those who are blessed. However, Baba Yaga gifts Vasilisa a skull with burning eyes to use as a lamp. Vasilisa wants to get rid of it, but the skull warns her against this, asking to be taken to her stepmother's house. There, the light coming from the skull's eye sockets incinerates the stepmother and her two daughters. Vasilisa buries the skull and moves to the city, where she settles with an old clothmaker, deciding to take up spinning and weaving while waiting for her father to return. The fabric in Vasilisa's hands is so thin that the clothmaker can carry it straight to the royal palace. The king asks Vasilisa to sew him blouses from this fabric. Appreciating her skillful work and charmed by her beauty, the king takes Vasilisa as his wife. Her father returns from his trading trip and remains to live at court. Vasilisa also brings the clothmaker into court, and carries the doll in her pocket for the rest of her life.
     expected_contains:
-      - "| 0 | **Initial Situation** | A king has three sons who need brides |"
-      - "| 8 | **Lack** | The princes lack brides |"
-      - "| 9 | **Mediation** | The king announces the arrow test |"
-      - "| 25 | **Difficult Task** | Shooting arrows to find brides |"
-      - "| 26 | **Solution** | Each prince's arrow lands (Ivan's lands with the frog) |"
-      - "| 25 | **Difficult Task** (series) | The king assigns tasks: spinning cloth, baking bread, dancing |"
-      - "| 26 | **Solution** (series) | The Frog Princess accomplishes all tasks magically and far outperforms rivals |"
-      - "| 27 | **Recognition** | The frog is revealed as Princess Vasilisa the Wise when she sheds her skin |"
-      - "| 2 | **Interdiction** (implicit) | Vasilisa was cursed to spend three years as a frog; patience required |"
-      - "| 3 | **Violation of Interdiction** | Ivan burns the frog skin prematurely |"
-      - "| 8 | **Villainy/Lack** | Vasilisa vanishes; Ivan loses his bride |"
-      - "| 10 | **Counteraction** | Ivan decides to find her |"
-      - "| 11 | **Departure** | Ivan sets out on his quest |"
-      - "| 12 | **First Function of the Donor** | Ivan meets Baba Yaga |"
-      - "| 13 | **Hero's Reaction** | Ivan impresses Baba Yaga with his spirit |"
-      - "| 5 | **Delivery** | Baba Yaga explains how to find the magic needle (Koschei's death) |"
-      - "| 14 | **Receipt of a Magical Agent** | Ivan receives information/helpers to find Koschei's death |"
-      - "| 15 | **Guidance** | Baba Yaga directs Ivan to Koschei |"
-      - "| 16 | **Struggle** | Ivan pursues Koschei's death (the needle in the egg in the duck, etc.) |"
-      - "| 18 | **Victory** | Koschei is defeated |"
-      - "| 19 | **Liquidation** | Vasilisa is freed from Koschei's captivity |"
-      - "| 31 | **Wedding** | Ivan and Vasilisa are reunited (implied happy ending) |"
-
-  - name: The Princess Who Never Smiled
-    inputs:
-      text: |
-        The story takes place in a kingdom where a princess has never smiled. Her father, the king, declares that anyone who can make her smile can marry her. Suitors make their attempts but none succeed.
-        Meanwhile, a humble worker in the same kingdom is told by his master that he can take as many coins as he wants for his annual labors. The worker in all his humility takes just one coin, which he proceeds to lose down a well. He does the same the next year. Then in the third year, as he goes to drink from the same well, he not only retains his coin, but finds the two coins he lost before.
-        With his new-found coins the worker decides to travel the world. But before he can leave the country—in his continued humility—he gives one of the coins to a mouse, one to a beetle, and one to a catfish.
-        Again coin-less, the worker passes by the king's castle, where he proceeds to slip and fall in mud. The mouse, beetle, and catfish, witnessing this and recalling his kindness to them, come to his aid. The princess, looking on, smiles at the scene before her, and the worker, entering the castle and transforming into a handsome man, marries the princess and they live happily ever after. 
-    expected_contains:
-      - "| 0 | **Initial Situation** | A kingdom with a princess who has never smiled |"
-      - "| 8 | **Lack** | The princess lacks the ability to smile; the king lacks a suitable heir |"
-      - "| 9 | **Mediation** | The king announces that anyone who makes her smile can marry her |"
-      - "| 0 | **Initial Situation** (hero's story) | A humble worker serves his master |"
-      - "| 14 | **Receipt of a Magical Agent** | The worker loses coins but eventually recovers all three |"
-      - "| 11 | **Departure** | The worker decides to travel the world |"
-      - "| 12 | **First Function of the Donor** | The worker encounters a mouse, beetle, and catfish (creatures in need) |"
-      - "| 13 | **Hero's Reaction** | He gives each creature one of his coins (kindness) |"
-      - "| 14 | **Receipt of a Magical Agent** | The creatures become his helpers (gratitude creates magical assistance) |"
-      - "| 15 | **Guidance** | His journey leads him past the king's castle |"
-      - "| 25 | **Difficult Task** | Making the princess smile (implicit task) |"
-      - "| 26 | **Solution** | The worker slips in mud; the grateful creatures come to his aid, creating a comical scene |"
-      - "| 19 | **Liquidation** | The princess smiles |"
-      - "| 29 | **Transfiguration** | The worker transforms into a handsome man upon entering the castle |"
-      - "| 31 | **Wedding** | The worker marries the princess |"
-
-  - name: The Story of Three Wonderful Beggars
-    inputs:
-      text: |
-        A very rich and hard-hearted merchant, Mark or Marko, had one daughter, Anastasia. One day, he was about to set dogs on three beggars, when Anastasia pleaded with him. He let them stay in the stable loft. Anastasia went to see them. In the Russian version, they were then grandly dressed; in both, they decided to give Marko's wealth to a new-born named Vasilii, the seventh son of a poor peasant in a nearby village. She told her father. He went and found just such a boy had been born. He offered to be his godfather and then to raise the boy, giving the poor father a sum of money as well. When the father agreed, the merchant threw the baby over a cliff.
-        Other merchants picked up the child and brought him to Marko, who persuaded them to leave him with them. He put the boy in a barrel, or an open boat, and threw it into the sea. It floated to a monastery, where the abbot took the child in. Many years later, Marko passed by and heard the story. He persuaded the abbot that he wanted to take him in, and that he would give a large sum to the monastery for it. The abbot and monks agreed, and Marko sent him to his wife with a letter prescribing that he should be pushed into the soap-making cauldron at once.
-        Vasilii met the three beggars on the way, who breathed on the letter. When he arrived, the letter called for him to marry Anastasia at once. His wife obeyed, and Marko arrived to find a letter in his own handwriting calling for it. So he sent his son-in-law to collect rent from Tsar Zmey (Serpent Emperor).
-        In the Serbian version, he met an old oak which asks if he can discover why it can't fall. In both, he met a ferryman who asks if he can discover why he is bound to ferry people back and forth, and a whale being used as a bridge, which asks if he can discover how long it will be bound to this task.
-        At the castle, he met a maiden, who hid him and asked the Serpent King or Tsar Zmey in serpent form, about a dream she had had. He told her the oak had to be pushed over, which would reveal treasure, the ferryman had to push the boat off with another person in it, and the whale had to vomit up the twelve ships it had swallowed without leave. He went back, carefully not telling the whale and the ferryman until he had already crossed. In the Russian version, he received jewels from the whale; in the Serbian, he found gold and silver under the oak. He returned to Marko, who set out to make sure the next time, Vasilii would not be able to escape, but the ferryman pushed the boat off, and Marko is ferrying people still. No harm then came to Vasilii and he lived in peace with Anastasia inheriting all the lands and treasures of Marko the Rich. 
-    expected_contains:
-      - "| 0 | **Initial Situation** | Mark the Rich merchant has a daughter Anastasia |"
-      - "| 12 | **First Function of the Donor** | Three beggars arrive and are tested (will Mark show kindness?) |"
-      - "| 13 | **Hero's Reaction** | Anastasia shows kindness; she shelters them |"
-      - "| 4 | **Reconnaissance** | The beggars (in transformed state) learn of Vasilii's birth |"
-      - "| 5 | **Delivery** | Anastasia tells her father about the prophecy |"
-      - "| 8 | **Villainy** | Mark throws baby Vasilii over a cliff |"
-      - "| 22 | **Rescue** | Other merchants find and save the child |"
-      - "| 8 | **Villainy** (repeated) | Mark puts Vasilii in a barrel and throws it into the sea |"
-      - "| 22 | **Rescue** (repeated) | The barrel floats to a monastery; the abbot takes him in |"
-      - "| 6 | **Trickery** | Mark pretends to want to help Vasilii, takes him, sends him with a murder letter |"
-      - "| 12 | **First Function of the Donor** | Vasilii meets the three beggars again on his journey |"
-      - "| 14 | **Receipt of a Magical Agent** | The beggars breathe on the letter, changing its contents |"
-      - "| 31 | **Wedding** | The letter now orders Vasilii to marry Anastasia immediately |"
-      - "| 8 | **Villainy** (third time) | Mark sends Vasilii to collect rent from Tsar Zmey (expecting death) |"
-      - "| 11 | **Departure** | Vasilii goes on the quest |"
-      - "| 12 | **First Function of the Donor** | Vasilii encounters the oak, the ferryman, and the whale, who pose questions |"
-      - "| 15 | **Guidance** | Vasilii arrives at Tsar Zmey's castle |"
-      - "| 12 | **First Function of the Donor** | A maiden at the castle tests/helps him |"
-      - "| 14 | **Receipt of a Magical Agent** | Vasilii receives answers to the riddles from the Serpent King |"
-      - "| 26 | **Solution** | Vasilii solves the oak's riddle (treasure beneath), the ferryman's riddle (push off with passenger), the whale's riddle (vomit up ships) |"
-      - "| 14 | **Receipt of a Magical Agent** | Vasilii receives jewels/treasure |"
-      - "| 20 | **Return** | Vasilii returns home wealthy |"
-      - "| 30 | **Punishment** | Mark tries to pursue wealth by the same path, but the ferryman traps him forever |"
-      - "| 31 | **Wedding** (completion) | Vasilii lives in peace with Anastasia, inheriting all of Mark's lands |"
+      - "Found: 01. Absentation"
+      - "Found: 06. Trickery"
+      - "Found: 08. Villainy (or Lack)"
+      - "Found: 09. Mediation"
+      - "Found: 11. Departure"
+      - "Found: 12. First Function of the Donor"
+      - "Found: 13. Hero's Reaction"
+      - "Found: 14. Receipt of a Magical Agent"
+      - "Found: 15. Guidance"
+      - "Found: 18. Victory"
+      - "Found: 19. Liquidation"
+      - "Found: 20. Return"
+      - "Found: 25. Difficult Task"
+      - "Found: 26. Solution"
+      - "Found: 27. Recognition"
+      - "Found: 30. Punishment"
+      - "Found: 31. The Hero is Married and Ascends the Throne"
 
 # Metrics to evaluate
 metrics:

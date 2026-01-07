@@ -5,6 +5,7 @@ Users don't need to interact with this module - results are exported automatical
 """
 
 import json
+import re
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -12,6 +13,87 @@ from typing import Any
 import pandas as pd
 
 from prompt_eval.models import EvalRun, EvalResult
+
+
+def _convert_markdown_tables_to_html(text: str) -> str:
+    """Convert markdown tables in text to HTML tables and apply basic markdown formatting.
+
+    Searches for markdown table patterns and converts them to HTML.
+    Also converts basic markdown elements like headings, bold text, and lists.
+    """
+    # Pattern to match markdown tables
+    # Matches: header row | separator row | data rows
+    table_pattern = r'(\|[^\n]+\|\n\|[\s\-:|]+\|\n(?:\|[^\n]+\|\n?)+)'
+
+    def convert_table(match):
+        table_md = match.group(1)
+        lines = [line.strip() for line in table_md.strip().split('\n') if line.strip()]
+
+        if len(lines) < 2:
+            return table_md  # Not a valid table
+
+        # Parse header
+        header_cells = [cell.strip() for cell in lines[0].split('|')[1:-1]]
+
+        # Skip separator line (lines[1])
+
+        # Parse data rows
+        data_rows = []
+        for line in lines[2:]:
+            cells = [cell.strip() for cell in line.split('|')[1:-1]]
+            if cells:  # Skip empty rows
+                data_rows.append(cells)
+
+        # Build HTML table
+        html = '<table>\n'
+        html += '  <thead>\n    <tr>\n'
+        for cell in header_cells:
+            html += f'      <th>{cell}</th>\n'
+        html += '    </tr>\n  </thead>\n'
+        html += '  <tbody>\n'
+        for row in data_rows:
+            html += '    <tr>\n'
+            for cell in row:
+                html += f'      <td>{cell}</td>\n'
+            html += '    </tr>\n'
+        html += '  </tbody>\n'
+        html += '</table>'
+
+        return html
+
+    # Replace all markdown tables with HTML tables
+    result = re.sub(table_pattern, convert_table, text, flags=re.MULTILINE)
+
+    # Convert other markdown elements
+    # Headings (# to ######)
+    result = re.sub(r'^######\s+(.+)$', r'<h6>\1</h6>', result, flags=re.MULTILINE)
+    result = re.sub(r'^#####\s+(.+)$', r'<h5>\1</h5>', result, flags=re.MULTILINE)
+    result = re.sub(r'^####\s+(.+)$', r'<h4>\1</h4>', result, flags=re.MULTILINE)
+    result = re.sub(r'^###\s+(.+)$', r'<h3>\1</h3>', result, flags=re.MULTILINE)
+    result = re.sub(r'^##\s+(.+)$', r'<h2>\1</h2>', result, flags=re.MULTILINE)
+    result = re.sub(r'^#\s+(.+)$', r'<h1>\1</h1>', result, flags=re.MULTILINE)
+
+    # Bold text (**text** or __text__)
+    result = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', result)
+    result = re.sub(r'__(.+?)__', r'<strong>\1</strong>', result)
+
+    # Italic text (*text* or _text_)
+    result = re.sub(r'(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)', r'<em>\1</em>', result)
+    result = re.sub(r'(?<!_)_(?!_)(.+?)(?<!_)_(?!_)', r'<em>\1</em>', result)
+
+    # Bullet lists (- item)
+    result = re.sub(r'^-\s+(.+)$', r'<li>\1</li>', result, flags=re.MULTILINE)
+
+    # Wrap consecutive <li> elements in <ul>
+    result = re.sub(r'(<li>.*?</li>(?:\s*<li>.*?</li>)*)', r'<ul>\1</ul>', result, flags=re.DOTALL)
+
+    # Horizontal rules (---)
+    result = re.sub(r'^---+$', r'<hr>', result, flags=re.MULTILINE)
+
+    # Convert line breaks to <br> for proper formatting
+    result = re.sub(r'\n\n', '<br><br>', result)
+
+    return result
 
 
 class ResultsExporter:
@@ -234,6 +316,9 @@ class ResultsExporter:
         html += """    <h2>Test Details</h2>
 """
         for result in run.results:
+            # Convert markdown tables to HTML in the output
+            output_html = _convert_markdown_tables_to_html(result.output)
+
             html += f"""    <div class="details">
         <h3>{result.test_case} {'✅' if result.passed else '❌'}</h3>
         <p><strong>System Prompt:</strong></p>
@@ -241,7 +326,7 @@ class ResultsExporter:
         <p><strong>Input:</strong></p>
         <pre>{result.input_text}</pre>
         <p><strong>Output:</strong></p>
-        <pre>{result.output}</pre>
+        <div>{output_html}</div>
         <p><strong>Metrics:</strong> {result.metrics}</p>
 """
             if result.error:

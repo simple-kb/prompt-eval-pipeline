@@ -10,6 +10,7 @@ from typing import Any
 from pydantic import BaseModel, Field
 
 from prompt_eval.pdf_utils import extract_pdf_text
+from prompt_eval.file_utils import extract_file_content
 
 
 class Prompt(BaseModel):
@@ -26,7 +27,10 @@ class Prompt(BaseModel):
     skills: list[str] = Field(default_factory=list, description="Skills or capabilities to use")
     examples: list[dict[str, str]] = Field(default_factory=list, description="Few-shot examples")
     thinking_process: str | None = Field(None, description="Chain-of-thought guidance")
-    pdf_path: str | None = Field(None, description="Optional path to PDF file for prompt caching")
+
+    # Cached files support (backward compatible with pdf_path)
+    pdf_path: str | None = Field(None, description="(Deprecated) Use cached_files instead. Optional path to PDF file for prompt caching")
+    cached_files: list[str] = Field(default_factory=list, description="List of file paths to cache (any format: .pdf, .md, .txt, etc.)")
 
     def render(self, variables: dict[str, Any]) -> str:
         """Render the prompt template with the given variables."""
@@ -60,8 +64,43 @@ class Prompt(BaseModel):
 
         return "\n".join(parts)
 
+    def get_cached_file_contents(self) -> list[dict[str, str]]:
+        """
+        Extract and return content from all cached files.
+        Supports both the legacy pdf_path field and the new cached_files field.
+
+        Returns:
+            List of dicts with 'path' and 'content' keys for each file
+        """
+        file_contents = []
+        files_to_process = []
+
+        # Handle legacy pdf_path (backward compatibility)
+        if self.pdf_path:
+            files_to_process.append(self.pdf_path)
+
+        # Add all cached_files
+        files_to_process.extend(self.cached_files)
+
+        # Extract content from each file
+        for file_path in files_to_process:
+            try:
+                content = extract_file_content(file_path)
+                file_contents.append({
+                    "path": file_path,
+                    "content": content
+                })
+            except Exception as e:
+                # Log the error but don't fail - let the evaluation continue
+                print(f"Warning: Failed to extract content from {file_path}: {e}")
+
+        return file_contents
+
     def get_pdf_content(self) -> str | None:
         """
+        (Deprecated) Legacy method for backward compatibility.
+        Use get_cached_file_contents() instead.
+
         Extract and return PDF content if pdf_path is specified.
         This content should be cached separately in the API call.
 

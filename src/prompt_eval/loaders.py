@@ -41,12 +41,24 @@ def load_prompt(path: str | Path) -> Prompt:
     path = Path(path)
     data = load_file(path)
 
-    # Resolve pdf_path relative to the prompt file location
+    # Resolve pdf_path relative to the prompt file location (legacy support)
     if "pdf_path" in data and data["pdf_path"]:
         pdf_path = Path(data["pdf_path"])
         if not pdf_path.is_absolute():
             # Resolve relative to the prompt file's directory
             data["pdf_path"] = str(path.parent / pdf_path)
+
+    # Resolve cached_files paths relative to the prompt file location
+    if "cached_files" in data and data["cached_files"]:
+        resolved_files = []
+        for file_path in data["cached_files"]:
+            file_path_obj = Path(file_path)
+            if not file_path_obj.is_absolute():
+                # Resolve relative to the prompt file's directory
+                resolved_files.append(str(path.parent / file_path_obj))
+            else:
+                resolved_files.append(file_path)
+        data["cached_files"] = resolved_files
 
     return Prompt(**data)
 

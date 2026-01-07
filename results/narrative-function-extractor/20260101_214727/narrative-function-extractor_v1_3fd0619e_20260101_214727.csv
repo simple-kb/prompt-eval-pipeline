@@ -1,6 +1,0 @@
-run_id,prompt_name,test_case,passed,latency_ms,tokens_in,tokens_out,error,metric_contains
-3fd0619e,narrative-function-extractor_v1,Father Frost,False,8921.397599973716,6646,451,,0.16666666666666666
-3fd0619e,narrative-function-extractor_v1,The Death of Koschei the Deahtless,False,11462.15849998407,6804,749,,0.20833333333333334
-3fd0619e,narrative-function-extractor_v1,The Frog Princess,False,13581.187599920668,7074,821,,0.0
-3fd0619e,narrative-function-extractor_v1,The Princess Who Never Smiled,False,12297.815699945204,6702,590,,0.0
-3fd0619e,narrative-function-extractor_v1,The Story of Three Wonderful Beggars,False,17343.048800015822,7111,1024,,0.041666666666666664
