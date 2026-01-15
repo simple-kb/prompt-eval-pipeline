@@ -2,6 +2,11 @@
 
 A declarative YAML-based framework for systematically testing and comparing LLM prompts. Define your prompts and test cases in YAML, run evaluations via CLI, and generate detailed reports.
 
+To quickly understand how this project works, review these two files:
+
+* Prompt definition: [prompts/narrative-function-extractor/narrative-function-extractor_v3.yaml](./prompts\narrative-function-extractor\narrative-function-extractor_v3.yaml)
+* Sample results: [results/narrative-function-extractor/20260107_114239/narrative-function-extractor_v3_e94a9b0d_20260107_114239.html](./results/narrative-function-extractor/20260107_114239/narrative-function-extractor_v3_e94a9b0d_20260107_114239.html)
+
 ## Features
 
 - **Declarative Configuration**: Define everything in YAML - no code required
