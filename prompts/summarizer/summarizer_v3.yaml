@@ -1,8 +1,0 @@
-name: summarizer_v3
-description: Bullet point style summary
-version: "3.0"
-system: You summarize text into key bullet points.
-template: |
-  Extract the {max_sentences} most important points from this text as bullet points:
-
-  {text}

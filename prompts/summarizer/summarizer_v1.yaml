@@ -1,8 +1,0 @@
-name: summarizer_v1
-description: A prompt for summarizing text concisely
-version: "1.0"
-system: You are a helpful assistant that summarizes text concisely and accurately.
-template: |
-  Please summarize the following text in {max_sentences} sentences or fewer:
-
-  {text}

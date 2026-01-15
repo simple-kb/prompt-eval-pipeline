@@ -47,7 +47,7 @@ See the [Configuration Files](#configuration-files) section below for examples.
 ### 2. Run an evaluation
 
 ```bash
-prompt-eval run configs/eval_summarizer.yaml
+prompt-eval run configs/eval_narrative-function-extractor.yaml
 ```
 
 ### 3. View results
@@ -74,55 +74,6 @@ template: |
   {question}
 ```
 
-#### Enhanced Prompt Format (with rules, skills, examples)
-
-```yaml
-# prompts/definition_extractor.yaml
-name: definition_extractor_v2
-description: Identifies if a proposition is a definition
-version: "2.0"
-system: You are a philosopher specializing in logic and philosophy of language.
-
-# Rules the model should follow
-rules:
-  - Only classify clear, explicit definitions
-  - Definitions must state "X is Y" or "X means Y"
-  - Implicit or contextual definitions should be marked as "no"
-  - Tautologies are not definitions
-
-# Skills to apply
-skills:
-  - Formal logic analysis
-  - Semantic decomposition
-  - Linguistic pattern recognition
-
-# Few-shot examples (optional)
-examples:
-  - input: "A bachelor is an unmarried man"
-    output: "Is a definition: yes\nWord defined: bachelor"
-  - input: "He walked slowly down the street"
-    output: "Is a definition: no\nWord defined: none"
-  - input: "Freedom is freedom"
-    output: "Is a definition: no\nWord defined: none"
-
-# Chain-of-thought guidance (optional)
-thinking_process: |
-  First, identify if the proposition has the form "X is/means Y".
-  Second, check if Y provides meaningful information about X.
-  Third, verify it's not a tautology or contextual description.
-
-template: |
-  Consider the following proposition:
-
-  {text}
-
-  State if this proposition is a definition.
-
-  Your answer must follow this format:
-  Is a definition: yes|no
-  Word defined: the word|none
-```
-
 ### Complete Evaluation Configuration
 
 Create a full evaluation config that includes everything. You can reference external prompt files or define prompts inline:
@@ -130,95 +81,35 @@ Create a full evaluation config that includes everything. You can reference exte
 #### Option 1: Reference External Prompt Files (Recommended)
 
 ```yaml
-# configs/eval_summarizer.yaml
-model: claude-sonnet-4-20250514
-max_tokens: 1024
-temperature: 0.0
+# configs/eval_narrative-function-extractor.yaml
+model: claude-opus-4-5-20251101
+max_tokens: 4096
+temperature: 0.1
 evaluation_threshold: 0.5  # REQUIRED: Minimum score (0.0-1.0) for tests to pass
 
 # Reference prompt variants from the prompts/ directory
 prompts:
-  - ../prompts/summarizer_v1.yaml
-  - ../prompts/summarizer_v2.yaml
-  - ../prompts/summarizer_v3.yaml
+  - ../prompts/narrative-function-extractor/narrative-function-extractor_v3.yaml
 
 # Test cases to run
 test_cases:
-  - name: capital_france
+  - name: cinderella_story
     inputs:
-      question: "What is the capital of France?"
+      text: "A young girl is mistreated by her stepmother and stepsisters. A fairy godmother helps her attend a ball where she meets the prince. She flees at midnight, leaving a glass slipper. The prince finds her using the slipper and they marry."
     expected_contains:
-      - "Paris"
+      - "Initial Situation"
+      - "Villainy"
+      - "Wedding"
     tags:
-      - geography
+      - folktale
 
 # Metrics to evaluate
 metrics:
   - type: contains
     case_sensitive: false
   - type: response_length
-    max_words: 100
+    max_words: 500
 ```
-
-#### Option 2: Inline Prompt Definitions
-
-```yaml
-# configs/eval_summarizer.yaml
-model: claude-sonnet-4-20250514
-max_tokens: 1024
-temperature: 0.0
-evaluation_threshold: 0.5  # REQUIRED: Minimum score (0.0-1.0) for tests to pass
-
-# Define multiple prompt variants inline
-prompts:
-  - name: v1_simple
-    description: Simple, direct prompt
-    template: "Answer this question: {question}"
-
-  - name: v2_detailed
-    description: More detailed prompt with system message
-    system: You are an expert assistant. Provide accurate, helpful answers.
-    template: |
-      Please answer the following question thoroughly:
-
-      {question}
-
-# Test cases to run
-test_cases:
-  - name: capital_france
-    inputs:
-      question: "What is the capital of France?"
-    expected_contains:
-      - "Paris"
-    tags:
-      - geography
-
-  - name: math_addition
-    inputs:
-      question: "What is 2 + 2?"
-    expected_contains:
-      - "4"
-    tags:
-      - math
-
-# Metrics to evaluate
-metrics:
-  - type: contains
-    case_sensitive: false
-
-  - type: response_length
-    max_words: 100
-
-  # Optional: Use LLM to judge quality (uses additional API calls)
-  # - type: llm_judge
-  #   criteria: |
-  #     Evaluate the response on:
-  #     1. Accuracy - Is the answer correct?
-  #     2. Clarity - Is it easy to understand?
-  #     3. Conciseness - Is it appropriately brief?
-```
-
-**Recommendation:** Use external prompt files (Option 1) to build a reusable prompt library and keep configs clean. Use inline definitions (Option 2) for quick experiments or when prompts are specific to one evaluation.
 
 ## CLI Commands
 
@@ -226,16 +117,7 @@ metrics:
 
 ```bash
 # Run evaluation with all settings from config file
-prompt-eval run configs/eval_summarizer.yaml
-
-# Specify output directory and format
-prompt-eval run configs/eval_summarizer.yaml -o results/ -f all
-
-# Override model from config
-prompt-eval run configs/eval_summarizer.yaml -m claude-opus-4-5-20251101
-
-# Quiet mode (less output)
-prompt-eval run configs/eval_summarizer.yaml --quiet
+prompt-eval run configs/eval_narrative-function-extractor.yaml
 ```
 
 **Options:**
