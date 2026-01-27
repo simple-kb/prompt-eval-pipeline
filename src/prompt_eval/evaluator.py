@@ -142,6 +142,8 @@ class Evaluator:
             tokens_in=tokens_in,
             tokens_out=tokens_out,
             error=error,
+            test_case_inputs=test_case.inputs,
+            expected_contains=test_case.expected_contains,
         )
     
     def evaluate(

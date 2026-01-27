@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Evaluation for Fairy Tales Analysis</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/night.css">
+    <style>
+        :root {
+            --narrative-color: #4ecdc4;
+            --highlight-color: #ff6b6b;
+            --secondary-color: #ffe66d;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-transform: none;
+        }
+
+        .reveal .slides section {
+            text-align: left;
+        }
+
+        .reveal .slides section.center-slide {
+            text-align: center;
+        }
+
+        /* Timeline styles */
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 40px 20px;
+            position: relative;
+            margin-top: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 5%;
+            right: 5%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--narrative-color), var(--highlight-color));
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100px;
+            text-align: center;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 24px;
+            height: 24px;
+            background: var(--narrative-color);
+            border-radius: 50%;
+            margin-bottom: 15px;
+            z-index: 1;
+            box-shadow: 0 0 10px var(--narrative-color);
+        }
+
+        .timeline-label {
+            font-size: 0.5em;
+            color: #fff;
+            max-width: 100px;
+            line-height: 1.3;
+        }
+
+        .timeline-number {
+            font-size: 0.4em;
+            color: var(--secondary-color);
+            margin-top: 5px;
+        }
+
+        /* Propp grid */
+        .propp-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            font-size: 0.4em;
+            margin-top: 30px;
+        }
+
+        .propp-item {
+            background: rgba(78, 205, 196, 0.2);
+            padding: 8px;
+            border-radius: 4px;
+            border-left: 3px solid var(--narrative-color);
+        }
+
+        .propp-item.highlight {
+            background: rgba(255, 107, 107, 0.3);
+            border-left-color: var(--highlight-color);
+        }
+
+        /* Agenda list */
+        .agenda-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .agenda-list li {
+            padding: 15px 20px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--narrative-color);
+        }
+
+        /* Tech stack */
+        .tech-stack {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .tech-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .tech-box h4 {
+            color: var(--narrative-color);
+            margin-bottom: 10px;
+        }
+
+        /* Code block */
+        .code-block {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.5em;
+            text-align: left;
+            overflow-x: auto;
+        }
+
+        .subtitle {
+            color: var(--secondary-color);
+            font-size: 0.6em;
+            margin-top: -20px;
+        }
+
+        /* Two-column layout */
+        .split-slide {
+            display: flex;
+            gap: 30px;
+            height: 100%;
+        }
+
+        .split-left {
+            flex: 1;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow-y: auto;
+            max-height: 580px;
+        }
+
+        .split-left h3 {
+            color: var(--secondary-color);
+            font-size: 0.7em;
+            margin-bottom: 15px;
+        }
+
+        .split-left .tale-text {
+            font-size: 0.45em;
+            line-height: 1.6;
+            color: #ccc;
+            text-align: justify;
+        }
+
+        .split-right {
+            flex: 1.2;
+            overflow-y: auto;
+            max-height: 580px;
+        }
+
+        .split-right h3 {
+            color: var(--narrative-color);
+            font-size: 0.6em;
+            margin-bottom: 10px;
+        }
+
+        .functions-table {
+            width: 100%;
+            font-size: 0.35em;
+            border-collapse: collapse;
+        }
+
+        .functions-table th {
+            background: rgba(78, 205, 196, 0.3);
+            padding: 8px 6px;
+            text-align: left;
+            border-bottom: 2px solid var(--narrative-color);
+        }
+
+        .functions-table td {
+            padding: 6px;
+            border-bottom: 1px solid #444;
+            vertical-align: top;
+        }
+
+        .functions-table .fn-name {
+            white-space: nowrap;
+            color: var(--narrative-color);
+            font-weight: bold;
+        }
+
+        .functions-table .fn-score {
+            text-align: center;
+            color: var(--secondary-color);
+        }
+
+        .functions-table .fn-justification {
+            color: #bbb;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- SLIDE 1: Title -->
+            <section class="center-slide">
+                <h1>Prompt Evaluation for Fairy Tales Analysis</h1>
+                <p class="subtitle">Using AI to Extract Propp's Narrative Functions</p>
+                <br><br>
+                <p style="font-size: 0.5em; color: #888;">
+                    [Your Name] &bull; [Meetup Name] &bull; [Date]
+                </p>
+            </section>
+
+            <!-- SLIDE 2: Agenda -->
+            <section>
+                <h2>Agenda</h2>
+                <ul class="agenda-list">
+                    <li>Introduction to Propp's Narrative Functions</li>
+                    <li>Case Study: "Father Frost" Analysis</li>
+                    <li>Technical Implementation</li>
+                    <li>Results & Evaluation</li>
+                    <li>Q&A</li>
+                </ul>
+            </section>
+
+            <!-- SLIDE 3: Propp Introduction -->
+            <section>
+                <h2>Vladimir Propp's Narrative Functions</h2>
+                <p style="font-size: 0.7em;">In 1928, Propp identified <strong style="color: var(--narrative-color);">31 narrative functions</strong> that appear in Russian folk tales in a specific sequence.</p>
+
+                <div class="propp-grid">
+                    <div class="propp-item">1. Absentation</div>
+                    <div class="propp-item">2. Interdiction</div>
+                    <div class="propp-item">3. Violation</div>
+                    <div class="propp-item">4. Reconnaissance</div>
+                    <div class="propp-item">5. Delivery</div>
+                    <div class="propp-item">6. Trickery</div>
+                    <div class="propp-item highlight">7. Complicity</div>
+                    <div class="propp-item highlight">8. Villainy</div>
+                    <div class="propp-item">9. Mediation</div>
+                    <div class="propp-item">10. Counteraction</div>
+                    <div class="propp-item highlight">11. Departure</div>
+                    <div class="propp-item highlight">12. Donor Function</div>
+                    <div class="propp-item highlight">13. Hero's Reaction</div>
+                    <div class="propp-item highlight">14. Magical Agent</div>
+                    <div class="propp-item">15. Guidance</div>
+                    <div class="propp-item">16. Struggle</div>
+                    <div class="propp-item">17. Branding</div>
+                    <div class="propp-item">18. Victory</div>
+                    <div class="propp-item highlight">19. Liquidation</div>
+                    <div class="propp-item highlight">20. Return</div>
+                    <div class="propp-item">21. Pursuit</div>
+                    <div class="propp-item">22. Rescue</div>
+                    <div class="propp-item">23. Unrecognized</div>
+                    <div class="propp-item">24. False Claims</div>
+                    <div class="propp-item">25. Difficult Task</div>
+                    <div class="propp-item">26. Solution</div>
+                    <div class="propp-item">27. Recognition</div>
+                    <div class="propp-item">28. Exposure</div>
+                    <div class="propp-item">29. Transfiguration</div>
+                    <div class="propp-item highlight">30. Punishment</div>
+                    <div class="propp-item">31. Wedding</div>
+                </div>
+                <p style="font-size: 0.5em; margin-top: 20px; color: #888;">
+                    <span style="color: var(--highlight-color);">Highlighted</span> = Functions found in "Father Frost"
+                </p>
+            </section>
+
+            <!-- SLIDE 4: Father Frost Analysis -->
+            <section>
+                <div class="split-slide">
+                    <div class="split-left">
+                        <h3>Father Frost</h3>
+                        <p class="tale-text">
+                            A woman has a daughter, whom she loves, and a step-daughter, whom she hates. One day, the woman orders her husband to take her stepdaughter out into the winter wilderness and to leave her there to die, and he obeys, leaving her at the foot of a tree in the forest. Father Frost finds her there, and because the girl is polite and kind to him, he gives her a chest full of beautiful jewels and fine garments. Some time later, the stepmother sends the girl's father to retrieve her body for burial, and is enraged when he instead brings the girl back alive and happy and dressed in finery. Consumed by greed and envy, the woman orders her husband to take her own daughter to the same place, but when found by Father Frost the woman's daughter is rude and unkind to him, and he is inclined to punish rather than reward her. The father finds her frozen to death at the foot of the tree and carries her body back to her grief-stricken mother.
+                        </p>
+                    </div>
+                    <div class="split-right">
+                        <h3>Identified Functions (confidence &gt; 0.8)</h3>
+                        <table class="functions-table">
+                            <thead>
+                                <tr>
+                                    <th>Function</th>
+                                    <th>Score</th>
+                                    <th>Justification</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fn-name">01. Absentation</td>
+                                    <td class="fn-score">0.95</td>
+                                    <td class="fn-justification">The father leaves home when he takes the stepdaughter to the forest, creating the necessary absence for the tale's events to unfold.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fn-name">08. Villainy</td>
+                                    <td class="fn-score">0.98</td>
+                                    <td class="fn-justification">Clear villainy: the stepmother orders the stepdaughter to be abandoned in the winter forest to die (expulsion).</td>
+                                </tr>
+                                <tr>
+                                    <td class="fn-name">11. Departure</td>
+                                    <td class="fn-score">0.92</td>
+                                    <td class="fn-justification">The stepdaughter departs from home (involuntarily) when taken to the forest—this marks the beginning of her journey as victimized hero.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fn-name">12. Donor Function</td>
+                                    <td class="fn-score">0.95</td>
+                                    <td class="fn-justification">Father Frost tests the stepdaughter through his interaction with her—his cold presence and questions serve as a test of her character.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fn-name">13. Hero's Reaction</td>
+                                    <td class="fn-score">0.95</td>
+                                    <td class="fn-justification">The stepdaughter responds politely and kindly to Father Frost, passing his test.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fn-name">14. Magical Agent</td>
+                                    <td class="fn-score">0.92</td>
+                                    <td class="fn-justification">The stepdaughter receives a chest full of beautiful jewels and fine garments from Father Frost as reward.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fn-name">29. Transfiguration</td>
+                                    <td class="fn-score">0.85</td>
+                                    <td class="fn-justification">The stepdaughter is transformed through new garments—she returns dressed in finery.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fn-name">19. Liquidation</td>
+                                    <td class="fn-score">0.90</td>
+                                    <td class="fn-justification">The initial misfortune (abandonment to die) is liquidated when the stepdaughter returns alive, happy, and wealthy.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fn-name">20. Return</td>
+                                    <td class="fn-score">0.95</td>
+                                    <td class="fn-justification">The hero (stepdaughter) returns home when her father retrieves her from the forest.</td>
+                                </tr>
+                                <tr>
+                                    <td class="fn-name">30. Punishment</td>
+                                    <td class="fn-score">0.92</td>
+                                    <td class="fn-justification">The stepmother is punished through the death of her own daughter—her greed leads to her grief and loss.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: Technical Implementation -->
+            <section>
+                <h2>Technical Implementation</h2>
+
+                <div class="tech-stack">
+                    <div class="tech-box">
+                        <h4>Model</h4>
+                        <p>Claude Opus 4.5</p>
+                    </div>
+                    <div class="tech-box">
+                        <h4>Input</h4>
+                        <p>Folk tale text + 31 function definitions</p>
+                    </div>
+                    <div class="tech-box">
+                        <h4>Output</h4>
+                        <p>Confidence scores + justifications</p>
+                    </div>
+                </div>
+
+                <div class="code-block" style="margin-top: 30px;">
+                    <span style="color: var(--narrative-color);">&lt;thinking_process&gt;</span><br>
+                    Read the folk tale as a whole to grasp the plot.<br>
+                    Then iterate through each of the 31 .md files.<br>
+                    For each narrative function:<br>
+                    &nbsp;&nbsp;- evaluate if they apply (confidence 0-1)<br>
+                    &nbsp;&nbsp;- justify your evaluation<br>
+                    <span style="color: var(--narrative-color);">&lt;/thinking_process&gt;</span>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: Results Overview -->
+            <section>
+                <h2>Evaluation Results</h2>
+
+                <table style="width: 100%; font-size: 0.6em; margin-top: 30px;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--narrative-color);">
+                            <th style="padding: 15px;">Tale</th>
+                            <th style="padding: 15px;">Status</th>
+                            <th style="padding: 15px;">Score</th>
+                            <th style="padding: 15px;">Functions Found</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #444;">
+                            <td style="padding: 15px;">Father Frost</td>
+                            <td style="padding: 15px; color: #22c55e;">PASS</td>
+                            <td style="padding: 15px;">100%</td>
+                            <td style="padding: 15px;">9 functions</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #444;">
+                            <td style="padding: 15px;">The White Duck</td>
+                            <td style="padding: 15px; color: #22c55e;">PASS</td>
+                            <td style="padding: 15px;">92%</td>
+                            <td style="padding: 15px;">12 functions</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 15px;">Vasilisa the Beautiful</td>
+                            <td style="padding: 15px; color: #ef4444;">FAIL</td>
+                            <td style="padding: 15px;">59%</td>
+                            <td style="padding: 15px;">11 functions</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="font-size: 0.5em; margin-top: 30px; color: #888;">
+                    Pass rate threshold: functions correctly identified compared to expected baseline
+                </p>
+            </section>
+
+            <!-- SLIDE 7: Q&A -->
+            <section class="center-slide">
+                <h1>Questions?</h1>
+                <br>
+                <p style="color: var(--narrative-color);">Thank you!</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            backgroundTransition: 'fade',
+            width: '100%',
+            height: '100%',
+            margin: 0.02
+        });
+    </script>
+</body>
+</html>

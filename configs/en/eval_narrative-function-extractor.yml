@@ -1,0 +1,83 @@
+# Complete evaluation configuration
+# Run with: prompt-eval run configs/eval_narrative-function-extractor.yml
+
+# https://www.scriptslug.com/
+
+model: claude-opus-4-5-20251101
+#model: claude-sonnet-4-20250514
+max_tokens: 2048
+temperature: 0.1
+evaluation_threshold: 0.8
+
+# Reference prompt variants from the prompts/ directory
+prompts:
+#  - ../../prompts/narrative-function-extractor/en/narrative-function-extractor_v1.yaml
+#  - ../../prompts/narrative-function-extractor/en/narrative-function-extractor_v2.yaml
+#  - ../../prompts/narrative-function-extractor/en/narrative-function-extractor_v3.yaml
+  - ../../prompts/narrative-function-extractor/en/narrative-function-extractor_v4.yaml
+
+# Test cases for evaluation
+test_cases:
+  - name: The Magic Swan Geese (detailed version)
+    inputs:
+      confidence_low: 0.80
+      confidence_high: 0.89
+      confidence_threshold: 0.85
+      text: |
+        There lived an old man and an old woman; they had a daughter and a little son. "Daughter, daughter," said the mother, "we are going out to work and we will bring you back a little bun, sew you a little dress and buy you a little kerchief. Be wise, take care of your little brother, and do not leave the courtyard." The elders went away, and the daughter forgot what they had ordered her to do. She placed her little brother on the grass under a window and ran out into the street and became absorbed in playing and having fun. The swan-geese flew down, seized the little boy and carried him away on their wings. The little girl came back, looked, but her brother wasn't there. She gasped and rushed hither and thither, but he wasn't anywhere. She called out; she burst into tears, wailing that harm would come to her from her father and her mother, but her little brother did not answer. She ran out into the open field; the swan-geese sped away into the distance and disappeared beyond the dark wood. The swan-geese had long before acquired an ill fame, and had caused much mischief, and had stolen many a little child. The girl guessed that they had carried off her little brother, and she set out to catch up with them. She ran and ran until she came upon a stove. "Stove, stove, tell me: where have the geese flown?" "If you eat my little rye-cake, I'll tell." "Oh, we don't even eat cakes made of wheat in my father's house." (A meeting with an apple tree and a river follows. Similar proposals and similar insolent replies.) She would have run through the fields and wandered in the forest a long time if she had not by good fortune met a hedgehog. She wished to nudge him, but was afraid of pricking herself. "Little hedgehog, little hedgehog," she asked, "did you not see where the geese have flown?" "Away, over there," he pointed. She ran and came upon a hut on chicken legs. It was standing and turning around. In the hut sat Bába Jagá, hag-faced and with a leg of clay. The little brother also sat there on a little bench, playing with golden apples. His sister saw him, stole up, seized him and carried him away, and the geese flew after her in pursuit; the evil-doers were overtaking them; where was there to hide? (Once again a triple testing by the same characters, but with a positive answer which evokes the aid of the tester himself in the form of rescue from pursuit. The river, the apple tree, and the stove hide the little girl.) The tale ends with the little girl's arrival home.
+    expected_contains:
+      - "01, 02, 03, 08, 09, 10, 11, 12, 13, 15, 19, 20, 21, 22"
+  - name: The Magic Swan Geese (short version)
+    inputs:
+      confidence_low: 0.80
+      confidence_high: 0.89
+      confidence_threshold: 0.85
+      text: |
+        Once there was a couple who had both a daughter and a son. They left their daughter in charge of her younger brother, but one day she lost track of him and the magic swan geese snatched him away. The daughter chased after him and came upon an oven that offered to tell her if she ate its rye buns; she scorned them, saying she didn't even eat wheat buns. She also scorned similar offers from an apple tree, and a river of milk. She came across a little hut built on a hen's foot, in which she found Baba Yaga with her brother; Baba Yaga sent her to spin flax and left. A mouse scurried out and said it would tell her what she needed to know if she gave it porridge; she did, and it told her that Baba Yaga was heating the bath house to steam her, then she would cook her. The mouse took over her spinning, and the girl took her brother and fled. Baba Yaga sent the swan geese after her. She begged the river for aid, and it insisted she drink some of it first; she did, and it sheltered her. When she ran on, the swan geese followed again, and the same happened with the apple tree and the oven. Then she reached home safely. 
+    expected_contains:
+      - "01, 02, 03, 08, 09, 10, 11, 12, 13, 15, 19, 20, 21, 22"
+  - name: Father Frost
+    inputs:
+      confidence_low: 0.80
+      confidence_high: 0.89
+      confidence_threshold: 0.85
+      text: |
+        A woman has a daughter, whom she loves, and a step-daughter, whom she hates. One day, the woman orders her husband to take her stepdaughter out into the winter wilderness and to leave her there to die, and he obeys, leaving her at the foot of a tree in the forest. Father Frost finds her there, and because the girl is polite and kind to him, he gives her a chest full of beautiful jewels and fine garments. Some time later, the stepmother sends the girl's father to retrieve her body for burial, and is enraged when he instead brings the girl back alive and happy and dressed in finery. Consumed by greed and envy, the woman orders her husband to take her own daughter to the same place, but when found by Father Frost the woman's daughter is rude and unkind to him, and he is inclined to punish rather than reward her. The father finds her frozen to death at the foot of the tree and carries her body back to her grief-stricken mother. 
+    expected_contains:
+      - "01, 08, 09, 11, 12, 13, 14, 19, 20, 29, 30"
+  - name: The White Duck
+    inputs:
+      confidence_low: 0.80
+      confidence_high: 0.89
+      confidence_threshold: 0.85
+      text: |
+        A king had to leave his newly-wed wife for a journey. He sternly warned her against leaving the women's quarters and listening to bad advice. But an envious wicked witch lured her into the garden and into a pool, and turned her into a white duck, herself taking the queen's own form and place.
+        Meanwhile, the white duck built a nest, laid three eggs, and hatched two fluffy ducklings and one little drake. She warned them against the castle, because an evil witch lived there, but one day the witch saw them and lured them inside. The ducklings slept but the drake stayed awake, and when the witch called if they were asleep, the drake answered. But after two answers, the witch went in to see, and saw the ducklings were asleep, so she killed them.
+        The white duck found the bodies and lamented over them. The king wondered at it, and although the witch tried to persuade him it was nothing but quacking, he ordered that the duck be captured. His servants could not, but he went himself, and she flew to his hands and became a woman. She told of a bottle in the nest in the garden—or, they sent a magpie for magic water—which, sprinkled on the ducklings and drake, turned them into three lovely children. The witch was then put to death through dismemberment and nothing remained of her. 
+    expected_contains:
+      - "01, 02, 03, 06, 07, 08, 09, 19, 24, 27, 28, 29, 30"
+  - name: Vasilisa the Beautiful
+    inputs:
+      confidence_low: 0.80
+      confidence_high: 0.89
+      confidence_threshold: 0.85
+      text: |
+        A merchant's wife dies, leaving behind an 8-year-old daughter named Vasilisa. Before her death, the merchant's wife gives Vasilisa a doll with her blessing. This doll is not simple: if it is given something to eat, it can help its owner out of trouble. The merchant eventually remarries to a widow with two daughters the same age as Vasilisa. The new wife dislikes her stepdaughter, giving her various backbreaking jobs, but the doll does all the work for Vasilisa. When Vasilisa grows up, all the suitors in the city begin to woo her. The stepmother refuses everyone, proclaiming that she would not give up her youngest before her elders.
+        One day the merchant leaves home for a long time on business, and during this time, at the stepmother's bidding, the family moves to live in another house, standing near a dense forest, where Baba Yaga's hut is located. The stepmother often sends Vasilisa into the forest, hoping that Baba Yaga will devour her, but Vasilisa's doll always guides her to avoid dangerous paths. Finally, the stepmother and her daughters agree to send Vasilisa directly to Baba Yaga's hut for fire, since during the autumn women's work (weaving, knitting and spinning), which is done at night, all fires excluding a single candle are deliberately extinguished. The doll, as usual, promises to take care of Vasilisa's safety, and she sets off on her journey.
+        On her way she is passed by three horsemen dressed in white, red and black. On Baba Yaga's fence, made of human bones, skulls are hung, the eye sockets of which illuminate the surroundings with their light like lanterns. Baba Yaga rides out of the forest in her flying mortar and heeds Vasilisa's request. Baba Yaga demands that she, under pain of death, first work as a servant. At Baba Yaga's command, the gates open and then lock themselves. Baba Yaga gives Vasilisa various tasks, but she completes everything on time with the doll's help. The colored horsemen pass by the hut, and Vasilisa discovers Baba Yaga's assistants: three pairs of hands that respond and appear at the call of her voice. Baba Yaga explains that the white, red and black horsemen are respectively Day, Sun and Night, but does not explain what the hands are, warning that she dislikes those who air her personal affairs in public, and that she eats those who are too curious.
+        Eventually, Baba Yaga asks Vasilisa how she managed to accomplish her work so well. When Vasilisa responds that she did so by her mother's blessing, Baba Yaga throws her out of her home, rejecting those who are blessed. However, Baba Yaga gifts Vasilisa a skull with burning eyes to use as a lamp. Vasilisa wants to get rid of it, but the skull warns her against this, asking to be taken to her stepmother's house. There, the light coming from the skull's eye sockets incinerates the stepmother and her two daughters. Vasilisa buries the skull and moves to the city, where she settles with an old clothmaker, deciding to take up spinning and weaving while waiting for her father to return. The fabric in Vasilisa's hands is so thin that the clothmaker can carry it straight to the royal palace. The king asks Vasilisa to sew him blouses from this fabric. Appreciating her skillful work and charmed by her beauty, the king takes Vasilisa as his wife. Her father returns from his trading trip and remains to live at court. Vasilisa also brings the clothmaker into court, and carries the doll in her pocket for the rest of her life.
+    expected_contains:
+      - "01, 08, 09, 11, 12, 13, 14, 19, 20, 25, 26, 27, 30, 31"
+
+# Metrics to evaluate
+metrics:
+  - type: contains
+    case_sensitive: false
+  
+  # Uncomment to add LLM-based evaluation (uses more API calls)
+  # - type: llm_judge
+  #   criteria: |
+  #     Evaluate the summary on:
+  #     1. Accuracy - Does it capture the main points?
+  #     2. Conciseness - Is it appropriately brief?
+  #     3. Clarity - Is it easy to understand?

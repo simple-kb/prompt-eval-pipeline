@@ -1,0 +1,302 @@
+name: narrative-function-extractor_v2
+description: Un prompt pour identifier les fonctions narratives dans un synopsis de film
+version: "2.0"
+
+system: Vous êtes un script doctor et écrivain, expert dans tous les aspects des scénarios, y compris la structure, la caractérisation, le dialogue, le rythme, les thèmes.
+
+# Règles que le modèle doit suivre
+rules:
+  - Ne classifiez que les fonctions narratives claires et explicites
+  - Ne qualifiez pas une phrase pour une fonction narrative si vous n'êtes pas absolument certain. Toutes les phrases d'un texte ne sont pas censées exprimer une fonction narrative.
+  - Référez-vous toujours aux fonctions narratives définies par Propp
+
+# Compétences à appliquer
+skills:
+  - Analyse technique de scénario
+  - Identification de ce qu'une histoire signifie
+  - Diagnostic des fonctions narratives pertinentes
+
+# Exemples few-shot
+examples:
+  - input: |
+      La fille d'un prêtre portait des vêtements d'homme, montait à cheval et savait tirer au fusil. Un jour, le roi vit ce "jeune homme". Mais ses serviteurs insistèrent que le "jeune homme" était, en fait, une fille. Le roi ne crut pas les serviteurs; il écrivit au prêtre lui demandant si son "fils" pouvait dîner avec lui. Le prêtre envoya sa fille chez le roi. Avant son arrivée, le roi demanda conseil à une sorcière concernant la véritable identité du "jeune homme". La sorcière conseilla au roi de faire beaucoup de choses différentes pour tester si Vassilissa est une fille ou non, comme placer un cadre à broder et un fusil positionné sur un mur et voir quel objet elle remarquera en premier. Si c'est une fille, elle remarquera le cadre en premier, et vice versa. Le "jeune homme" passa tous les tests, mais le roi resta dubitatif. Le roi essaya plusieurs fois de trouver la véritable identité, mais la dernière fois le roi demanda au "jeune homme" de prendre un bain avec lui, et le "jeune homme" accepta. Pendant que le roi se déshabillait, le "jeune homme" se déshabilla, se baigna rapidement et s'enfuit, laissant une note au roi disant
+      "Ah Roi Barkhat, corbeau que tu es, tu n'as pas pu surprendre le faucon dans le jardin! Car je ne suis pas Vassili Vassilievitch, mais Vassilissa Vassilievna".
+    output: |
+      | # | Fonction | Comment elle apparaît dans le conte |
+      |---|----------|-------------------------------------|
+      | 0 | **Situation initiale** | Un prêtre a une fille qui s'habille en homme |
+      | 4 | **Interrogation** | Les serviteurs du roi soupçonnent que le "jeune homme" est une fille |
+      | 5 | **Délation** | Les serviteurs informent le roi de leurs soupçons |
+      | 4 | **Interrogation** | Le roi écrit au prêtre demandant à son "fils" de venir dîner |
+      | 6 | **Tromperie** | Le roi demande conseil à une sorcière pour tester la véritable identité de Vassilissa |
+      | 25 | **Tâche difficile** | La sorcière conseille des tests: cadre à broder vs fusil, etc. |
+      | 26 | **Accomplissement** | Vassilissa passe tous les tests (remarque le fusil, pas le cadre, etc.) |
+      | 25 | **Tâche difficile** | Le roi demande à Vassilissa de se baigner avec lui |
+      | 26 | **Accomplissement** | Vassilissa accepte, se baigne rapidement et s'enfuit |
+      | 22 | **Secours** | Vassilissa s'échappe (auto-secours par la ruse) |
+      | 18 | **Victoire** | Vassilissa déjoue le roi et la sorcière |
+
+# Guidage de la chaîne de pensée
+thinking_process: |
+  Premièrement, lisez attentivement le synopsis. Prenez votre temps pour identifier les fonctions narratives potentielles (candidates).
+  Deuxièmement, analysez soigneusement chaque fonction narrative candidate et validez-la uniquement si vous en êtes certain.
+  Troisièmement, ajoutez le nom et la ligne "Comment elle apparaît dans le conte" dans votre réponse.
+
+template: |
+  Vous devez baser vos connaissances sur les fonctions narratives de Propp.
+  # Les 31 fonctions narratives de Vladimir Propp
+  *de* Morphologie du conte, 1928
+
+  Voici la **liste canonique des fonctions narratives de Propp**, dans leur **ordre standard**.
+  Chaque fonction est définie comme une **action significative pour la progression du récit**, indépendante de la psychologie des personnages.
+  Des exemples sont donnés en **termes génériques de conte populaire** et, quand c'est utile, en **équivalents narratifs modernes**.
+
+  Important: Pour chaque paragraphe ci-dessous, le nom de la fonction de Propp est le titre (sans la numérotation initiale)
+
+  ---
+
+  ## 0. Situation initiale
+  **Définition:** Introduction de la famille, du héros ou du contexte social.
+  **Exemple:** "Il était une fois un pauvre bûcheron et ses trois fils."
+  **Exemple moderne:** Établir la vie ordinaire du protagoniste avant la perturbation.
+
+  ---
+
+  ## 1. Éloignement
+  **Définition:** Un membre de la famille quitte le foyer ou est absent.
+  **Exemple:** Les parents quittent la maison, laissant les enfants seuls.
+  **Exemple moderne:** Un parent meurt, disparaît, ou le héros vit seul.
+
+  ---
+
+  ## 2. Interdiction
+  **Définition:** Un avertissement ou un ordre est donné au héros.
+  **Exemple:** "N'ouvre pas cette porte."
+  **Exemple moderne:** "On ne parle pas du Fight Club."
+
+  ---
+
+  ## 3. Transgression
+  **Définition:** L'interdiction est violée.
+  **Exemple:** Le héros ouvre la porte interdite.
+  **Exemple moderne:** Le protagoniste enfreint une règle, déclenchant des conséquences.
+
+  ---
+
+  ## 4. Interrogation
+  **Définition:** L'agresseur cherche des informations sur la victime ou le héros.
+  **Exemple:** Une sorcière demande où vivent les enfants.
+  **Exemple moderne:** Un antagoniste espionne ou enquête sur le héros.
+
+  ---
+
+  ## 5. Délation
+  **Définition:** L'agresseur reçoit des informations sur la victime.
+  **Exemple:** La sorcière apprend l'emplacement des enfants.
+  **Exemple moderne:** Un traître révèle la faiblesse du héros.
+
+  ---
+
+  ## 6. Tromperie
+  **Définition:** L'agresseur tente de tromper la victime.
+  **Exemple:** Le loup se déguise en grand-mère.
+  **Exemple moderne:** Une arnaque, une fausse promesse ou une manipulation.
+
+  ---
+
+  ## 7. Complicité
+  **Définition:** La victime est trompée et aide involontairement l'agresseur.
+  **Exemple:** Le Petit Chaperon Rouge révèle sa destination.
+  **Exemple moderne:** Le héros fait confiance à la mauvaise personne.
+
+  ---
+
+  ## 8. Méfait **ou** Manque
+  **Définition:**
+  - **Méfait:** L'agresseur cause du tort.
+  - **Manque:** Quelque chose d'important manque ou est désiré.
+  **Exemple (méfait):** Une princesse est enlevée.
+  **Exemple (manque):** Le héros manque d'argent, de liberté, d'amour ou d'identité.
+
+  ---
+
+  ## 9. Appel
+  **Définition:** Le manque ou le méfait est rendu public; le héros est envoyé.
+  **Exemple:** Le roi annonce que la princesse a disparu.
+  **Exemple moderne:** Le héros apprend la vérité de l'injustice.
+
+  ---
+
+  ## 10. Entreprise réparatrice
+  **Définition:** Le héros décide d'agir.
+  **Exemple:** "Je vais sauver la princesse."
+  **Exemple moderne:** Le protagoniste s'engage dans une ligne de conduite.
+
+  ---
+
+  ## 11. Départ
+  **Définition:** Le héros quitte le foyer.
+  **Exemple:** Le héros part en voyage.
+  **Exemple moderne:** Entrer dans un nouveau monde, emploi, prison ou état d'esprit.
+
+  ---
+
+  ## 12. Première fonction du donateur
+  **Définition:** Le héros est mis à l'épreuve, interrogé ou attaqué par un donateur.
+  **Exemple:** Un vieil homme demande de la nourriture au héros.
+  **Exemple moderne:** Un mentor teste les valeurs du héros.
+
+  ---
+
+  ## 13. Réaction du héros
+  **Définition:** Le héros répond à l'épreuve du donateur.
+  **Exemple:** Le héros partage son dernier morceau de pain.
+  **Exemple moderne:** Le héros montre du courage, de la bonté ou de l'intelligence.
+
+  ---
+
+  ## 14. Réception de l'objet magique
+  **Définition:** Le héros obtient un objet magique, un auxiliaire ou un pouvoir.
+  **Exemple:** Une épée, un anneau, un cheval ou un sort.
+  **Exemple moderne:** Des compétences, des connaissances, des alliés ou des ressources.
+
+  ---
+
+  ## 15. Déplacement
+  **Définition:** Le héros est conduit à l'emplacement de l'objet de la quête.
+  **Exemple:** Un oiseau guide le héros vers le château.
+  **Exemple moderne:** Une carte, un indice ou le conseil d'un mentor.
+
+  ---
+
+  ## 16. Combat
+  **Définition:** Le héros et l'agresseur s'engagent dans un combat direct.
+  **Exemple:** Un combat à l'épée avec le dragon.
+  **Exemple moderne:** Confrontation physique, légale, psychologique ou idéologique.
+
+  ---
+
+  ## 17. Marque
+  **Définition:** Le héros est marqué ou blessé.
+  **Exemple:** Une cicatrice ou un anneau donné comme preuve.
+  **Exemple moderne:** Traumatisme, réputation ou marque symbolique.
+
+  ---
+
+  ## 18. Victoire
+  **Définition:** L'agresseur est vaincu.
+  **Exemple:** Le dragon est tué.
+  **Exemple moderne:** L'antagoniste est démasqué, maîtrisé ou neutralisé.
+
+  ---
+
+  ## 19. Réparation
+  **Définition:** Le manque ou méfait initial est résolu.
+  **Exemple:** La princesse est libérée.
+  **Exemple moderne:** La justice est rétablie, la vérité révélée.
+
+  ---
+
+  ## 20. Retour
+  **Définition:** Le héros rentre chez lui.
+  **Exemple:** Le héros revient de la quête.
+  **Exemple moderne:** Retourner dans la société après transformation.
+
+  ---
+
+  ## 21. Poursuite
+  **Définition:** Le héros est poursuivi.
+  **Exemple:** L'agresseur poursuit le héros.
+  **Exemple moderne:** Autorités, ennemis ou conséquences se rapprochent.
+
+  ---
+
+  ## 22. Secours
+  **Définition:** Le héros est secouru contre la poursuite.
+  **Exemple:** Une rivière ou un auxiliaire sauve le héros.
+  **Exemple moderne:** Un allié intervient ou un piège est évité.
+
+  ---
+
+  ## 23. Arrivée incognito
+  **Définition:** Le héros arrive chez lui sans être reconnu.
+  **Exemple:** Le héros apparaît comme un mendiant.
+  **Exemple moderne:** Vivre sous un pseudonyme ou une identité cachée.
+
+  ---
+
+  ## 24. Imposture
+  **Définition:** Un faux héros présente des prétentions non fondées.
+  **Exemple:** Un imposteur prétend avoir tué le dragon.
+  **Exemple moderne:** Quelqu'un s'attribue le mérite du travail du héros.
+
+  ---
+
+  ## 25. Tâche difficile
+  **Définition:** Un défi est posé au héros.
+  **Exemple:** Résoudre une énigme, accomplir un exploit impossible.
+  **Exemple moderne:** Test final, épreuve ou preuve de valeur.
+
+  ---
+
+  ## 26. Accomplissement
+  **Définition:** La tâche difficile est résolue.
+  **Exemple:** L'énigme est résolue correctement.
+  **Exemple moderne:** Le héros réussit le test final.
+
+  ---
+
+  ## 27. Reconnaissance
+  **Définition:** Le héros est reconnu par une marque ou un acte.
+  **Exemple:** La cicatrice prouve la véritable identité.
+  **Exemple moderne:** La vérité sur le protagoniste est révélée.
+
+  ---
+
+  ## 28. Découverte
+  **Définition:** Le faux héros ou l'agresseur est démasqué.
+  **Exemple:** L'imposteur est démasqué.
+  **Exemple moderne:** La corruption ou la tromperie est révélée.
+
+  ---
+
+  ## 29. Transfiguration
+  **Définition:** Le héros reçoit une nouvelle apparence.
+  **Exemple:** Nouveaux vêtements, habits royaux.
+  **Exemple moderne:** Élévation sociale, confiance ou changement intérieur.
+
+  ---
+
+  ## 30. Châtiment
+  **Définition:** L'agresseur est puni.
+  **Exemple:** Exécution, exil, emprisonnement.
+  **Exemple moderne:** Conséquences légales ou chute morale.
+
+  ---
+
+  ## 31. Mariage
+  **Définition:** Le héros est récompensé (souvent mariage ou ascension).
+  **Exemple:** Le héros épouse la princesse et hérite du trône.
+  **Exemple moderne:** Liberté, paix, accomplissement ou nouvelle vie stable.
+
+  ---
+
+  ## Notes
+  - Toutes les histoires ne contiennent pas les 31 fonctions.
+  - Les fonctions apparaissent toujours dans **cet ordre**, bien que beaucoup puissent être omises.
+  - Les fonctions décrivent **ce qui se passe**, pas *qui le fait* ou *pourquoi*.
+
+  ---
+
+  Veuillez considérer l'intrigue suivante:
+
+  {text}
+
+  Identifiez les fonctions narratives (selon la classification de Propp).
+
+  Votre réponse doit suivre ce format:
+  | # | Fonction | Comment elle apparaît dans le conte |
+  |---|----------|-------------------------------------|
+  | 0 | **Nom de la première fonction identifiée** | comment cette première fonction apparaît |
+  | 1 | **Nom de la deuxième fonction identifiée** | comment cette deuxième fonction apparaît |
+  | 2 | **...** | ... |

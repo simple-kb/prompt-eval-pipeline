@@ -6,7 +6,9 @@
       "Bash(prompt-eval run:*)",
       "Bash(echo:*)",
       "Bash(cat:*)",
-      "Bash(pip install:*)"
+      "Bash(pip install:*)",
+      "WebFetch(domain:fr.wikipedia.org)",
+      "WebFetch(domain:apps.glendon.yorku.ca)"
     ]
   }
 }

@@ -15,11 +15,20 @@ import pandas as pd
 from prompt_eval.models import EvalRun, EvalResult
 
 
-def _convert_markdown_tables_to_html(text: str) -> str:
+def _convert_markdown_tables_to_html(
+    text: str,
+    expected_functions: set[str] | None = None,
+    confidence_threshold: float | None = None
+) -> str:
     """Convert markdown tables in text to HTML tables and apply basic markdown formatting.
 
     Searches for markdown table patterns and converts them to HTML.
     Also converts basic markdown elements like headings, bold text, and lists.
+
+    Args:
+        text: The markdown text to convert
+        expected_functions: Set of function numbers (e.g., {"01", "08", "09"}) for highlighting
+        confidence_threshold: Threshold for determining correct/incorrect (e.g., 0.85)
     """
     # Pattern to match markdown tables
     # Matches: header row | separator row | data rows
@@ -34,6 +43,25 @@ def _convert_markdown_tables_to_html(text: str) -> str:
 
         # Parse header
         header_cells = [cell.strip() for cell in lines[0].split('|')[1:-1]]
+
+        # Find column indices dynamically based on header names
+        # Support both English and French headers
+        function_col_idx = None
+        confidence_col_idx = None
+        for idx, header in enumerate(header_cells):
+            header_lower = header.lower()
+            if 'function' in header_lower or 'fonction' in header_lower:
+                function_col_idx = idx
+            elif 'confidence' in header_lower or 'confiance' in header_lower:
+                confidence_col_idx = idx
+
+        # Check if this is a details table with Function Name and Confidence columns
+        is_details_table = (
+            expected_functions is not None
+            and confidence_threshold is not None
+            and function_col_idx is not None
+            and confidence_col_idx is not None
+        )
 
         # Skip separator line (lines[1])
 
@@ -52,7 +80,32 @@ def _convert_markdown_tables_to_html(text: str) -> str:
         html += '    </tr>\n  </thead>\n'
         html += '  <tbody>\n'
         for row in data_rows:
-            html += '    <tr>\n'
+            row_class = ""
+
+            # Apply highlighting for details table
+            if is_details_table and len(row) > max(function_col_idx, confidence_col_idx):
+                # Extract function number from function column (e.g., "01. Absentation" -> "01")
+                func_match = re.match(r'^(\d+)', row[function_col_idx])
+                if func_match:
+                    func_num = func_match.group(1)
+
+                    # Extract confidence score from confidence column
+                    try:
+                        confidence = float(row[confidence_col_idx])
+                        is_in_expected = func_num in expected_functions
+                        is_above_threshold = confidence >= confidence_threshold
+
+                        if is_above_threshold and is_in_expected:
+                            row_class = ' class="row-correct"'  # True positive - green
+                        elif is_above_threshold and not is_in_expected:
+                            row_class = ' class="row-incorrect"'  # False positive - red
+                        elif not is_above_threshold and is_in_expected:
+                            row_class = ' class="row-incorrect"'  # False negative - red
+                        # else: True negative - no highlight
+                    except (ValueError, IndexError):
+                        pass  # Can't parse confidence, skip highlighting
+
+            html += f'    <tr{row_class}>\n'
             for cell in row:
                 html += f'      <td>{cell}</td>\n'
             html += '    </tr>\n'
@@ -94,6 +147,118 @@ def _convert_markdown_tables_to_html(text: str) -> str:
     result = re.sub(r'\n\n', '<br><br>', result)
 
     return result
+
+
+def _highlight_html_tables(
+    text: str,
+    expected_functions: set[str] | None = None,
+    confidence_threshold: float | None = None
+) -> str:
+    """Add row highlighting to existing HTML tables in text.
+
+    Searches for HTML table patterns and adds row-correct/row-incorrect classes
+    based on function matching and confidence scores.
+
+    Args:
+        text: The HTML text containing tables
+        expected_functions: Set of function numbers (e.g., {"01", "08", "09"}) for highlighting
+        confidence_threshold: Threshold for determining correct/incorrect (e.g., 0.85)
+    """
+    if expected_functions is None or confidence_threshold is None:
+        return text
+
+    # Pattern to match HTML tables
+    table_pattern = r'<table[^>]*>.*?</table>'
+
+    def process_table(match):
+        table_html = match.group(0)
+
+        # Find header row to identify column indices
+        header_match = re.search(r'<thead[^>]*>(.*?)</thead>', table_html, re.DOTALL)
+        if not header_match:
+            return table_html
+
+        header_content = header_match.group(1)
+        # Extract header cells
+        header_cells = re.findall(r'<th[^>]*>(.*?)</th>', header_content, re.DOTALL)
+
+        # Find column indices dynamically based on header names
+        # Support both English and French headers
+        function_col_idx = None
+        confidence_col_idx = None
+        for idx, header in enumerate(header_cells):
+            header_lower = header.lower()
+            if 'function' in header_lower or 'fonction' in header_lower:
+                function_col_idx = idx
+            elif 'confidence' in header_lower or 'confiance' in header_lower:
+                confidence_col_idx = idx
+
+        # If we can't find the right columns, return unchanged
+        if function_col_idx is None or confidence_col_idx is None:
+            return table_html
+
+        # Process each row in tbody
+        def process_row(row_match):
+            row_html = row_match.group(0)
+
+            # Extract cells from the row
+            cells = re.findall(r'<td[^>]*>(.*?)</td>', row_html, re.DOTALL)
+
+            if len(cells) <= max(function_col_idx, confidence_col_idx):
+                return row_html
+
+            # Extract function number from function column (e.g., "01. Éloignement" -> "01")
+            # Also handle <strong>01. Éloignement</strong> format
+            func_text = re.sub(r'<[^>]+>', '', cells[function_col_idx])  # Remove HTML tags
+            func_match = re.match(r'^\s*(\d+)', func_text)
+            if not func_match:
+                return row_html
+
+            func_num = func_match.group(1)
+
+            # Extract confidence score from confidence column
+            conf_text = re.sub(r'<[^>]+>', '', cells[confidence_col_idx])  # Remove HTML tags
+            try:
+                confidence = float(conf_text.strip())
+            except ValueError:
+                return row_html
+
+            is_in_expected = func_num in expected_functions
+            is_above_threshold = confidence >= confidence_threshold
+
+            row_class = ""
+            if is_above_threshold and is_in_expected:
+                row_class = 'row-correct'  # True positive - green
+            elif is_above_threshold and not is_in_expected:
+                row_class = 'row-incorrect'  # False positive - red
+            elif not is_above_threshold and is_in_expected:
+                row_class = 'row-incorrect'  # False negative - red
+            # else: True negative - no highlight
+
+            if row_class:
+                # Add or update class attribute on <tr>
+                if 'class=' in row_html[:20]:
+                    # Already has a class, append to it
+                    row_html = re.sub(r'<tr([^>]*)\sclass="([^"]*)"', f'<tr\\1 class="\\2 {row_class}"', row_html)
+                else:
+                    # No class, add one
+                    row_html = row_html.replace('<tr>', f'<tr class="{row_class}">', 1)
+                    row_html = re.sub(r'<tr\s', f'<tr class="{row_class}" ', row_html, count=1)
+
+            return row_html
+
+        # Process rows in tbody
+        tbody_pattern = r'<tbody[^>]*>(.*?)</tbody>'
+        tbody_match = re.search(tbody_pattern, table_html, re.DOTALL)
+        if tbody_match:
+            tbody_content = tbody_match.group(1)
+            # Process each <tr>...</tr>
+            new_tbody_content = re.sub(r'<tr[^>]*>.*?</tr>', process_row, tbody_content, flags=re.DOTALL)
+            table_html = table_html[:tbody_match.start(1)] + new_tbody_content + table_html[tbody_match.end(1):]
+
+        return table_html
+
+    return re.sub(table_pattern, process_table, text, flags=re.DOTALL)
 
 
 class ResultsExporter:
@@ -241,12 +406,12 @@ class ResultsExporter:
 <head>
     <title>Eval Report: {run.prompt_name}</title>
     <style>
-        body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 40px; }}
+        body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 40px; font-size: 12px; }}
         h1 {{ color: #333; }}
         .summary {{ background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0; }}
         .summary-grid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }}
         .metric {{ text-align: center; }}
-        .metric-value {{ font-size: 2em; font-weight: bold; color: #2563eb; }}
+        .metric-value {{ font-size: 12px; font-weight: bold; color: #2563eb; }}
         .metric-label {{ color: #666; }}
         table {{ width: 100%; border-collapse: collapse; margin: 20px 0; }}
         th, td {{ padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }}
@@ -255,6 +420,8 @@ class ResultsExporter:
         .fail {{ color: #ef4444; }}
         .details {{ background: #fefefe; border: 1px solid #e5e7eb; padding: 15px; margin: 10px 0; border-radius: 4px; }}
         pre {{ background: #f3f4f6; padding: 10px; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word; }}
+        .row-correct {{ background-color: #dcfce7; }}
+        .row-incorrect {{ background-color: #fee2e2; }}
     </style>
 </head>
 <body>
@@ -316,8 +483,31 @@ class ResultsExporter:
         html += """    <h2>Test Details</h2>
 """
         for result in run.results:
-            # Convert markdown tables to HTML in the output
-            output_html = _convert_markdown_tables_to_html(result.output)
+            # Extract expected functions and confidence threshold for highlighting
+            expected_functions = None
+            confidence_threshold = None
+
+            if result.expected_contains and result.test_case_inputs:
+                # Parse expected sequence (e.g., "01, 08, 09, 11" -> {"01", "08", "09", "11"})
+                if result.expected_contains:
+                    expected_seq = result.expected_contains[0] if result.expected_contains else ""
+                    expected_functions = {num.strip() for num in expected_seq.split(",")}
+
+                # Get confidence threshold from inputs
+                confidence_threshold = result.test_case_inputs.get("confidence_threshold")
+
+            # Convert markdown tables to HTML in the output (with optional highlighting)
+            output_html = _convert_markdown_tables_to_html(
+                result.output,
+                expected_functions=expected_functions,
+                confidence_threshold=confidence_threshold
+            )
+            # Also highlight any HTML tables that the LLM output directly
+            output_html = _highlight_html_tables(
+                output_html,
+                expected_functions=expected_functions,
+                confidence_threshold=confidence_threshold
+            )
 
             html += f"""    <div class="details">
         <h3>{result.test_case} {'✅' if result.passed else '❌'}</h3>

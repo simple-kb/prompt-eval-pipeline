@@ -1,0 +1,82 @@
+name: narrative-function-extractor_v3
+description: A prompt for identifying the narrative functions inside a movie plot using multiple cached reference files
+version: "3.0"
+
+# Reference multiple files for prompt caching
+# These files will be cached and reused across API calls
+cached_files:
+  - MORPHOLOGY_OF_THE_FOLK_TALE/01_Absentation.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/02_Interdiction.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/03_Violation.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/04_Reconnaissance.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/05_Delivery.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/06_Trickery.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/07_Complicity.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/08_Villainy_or_Lack.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/09_Mediation.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/10_Counteraction.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/11_Departure.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/12_First_Function_of_Donor.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/13_Heros_Reaction.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/14_Receipt_of_Magical_Agent.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/15_Guidance.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/16_Struggle.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/17_Branding.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/18_Victory.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/19_Liquidation.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/20_Return.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/21_Pursuit.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/22_Rescue.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/23_Unrecognized_Arrival.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/24_Unfounded_Claims.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/25_Difficult_Task.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/26_Solution.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/27_Recognition.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/28_Exposure.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/29_Transfiguration.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/30_Punishment.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/31_Wedding.md
+
+system: (Not yet defined)
+
+# Rules the model should follow
+rules:
+  - Before doing anything, check that you have access to the 31 .md files, describing the narrative functions.
+  - If you do not have access to the 31 .md files, simply generate a warning and stop
+  - Each of the 31 .md files describes a narrative function.
+  - For each narrative function, the "name of the function" is defined in its .md file. Be very precise when referencing the function names
+  - For a narrative function to be properly identified within Propp's framework, it should appear in its canonical position relative to other functions present in the tale. A function appearing "out of order" would either indicate a different structural element, a deviation requiring special explanation, or potentially a misidentification of the function itself.
+
+# Skills to apply
+skills:
+  - (Not yet defined)
+
+# Chain-of-thought guidance
+thinking_process: |
+  Read the folk tale a first time as a whole to grasp the full plot and meaning.
+  Then iterate through each of the 31 .md files .
+  For each of these narrative functions: 
+   - evaluate if they apply or not to the tale,
+   - this evaluation must have a level of confidence (from 0 to 1)
+   - justify your evaluation
+
+template: |
+  Consider the following folk tale:
+  """
+  {text}
+  """
+  
+  Identify the narrative functions.
+  
+  Your answer must contain 2 parts...
+  Part 1 is the details table:
+  * each line is the candidate function. (so there will be 31 rows)
+  * column 1 : name of the function
+  * column 2 : applicable. Must be a confidence score
+  * column 3 : justification (if it applies or not)
+
+  Part 2 is the summary:
+  Only keep the narrative functions with a confidence score > 0.84
+  For each of these functions:
+   - write a full line: "Found: name of the function",
+   - then write a line break

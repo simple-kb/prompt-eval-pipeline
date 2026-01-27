@@ -1,0 +1,404 @@
+name: narrative-function-extractor_v1
+description: Un prompt pour identifier les fonctions narratives dans un synopsis de film
+version: "1.0"
+pdf_path: MORPHOLOGY_OF_THE_FOLK_TALE.pdf
+
+system: Vous êtes un script doctor et écrivain, expert dans tous les aspects des scénarios, y compris la structure, la caractérisation, le dialogue, le rythme, les thèmes.
+
+# Règles que le modèle doit suivre
+rules:
+  - Ne classifiez que les fonctions narratives claires et explicites
+  - Référez-vous toujours aux fonctions narratives définies dans prompts\narrative-function-extractor\Propp.md
+
+# Compétences à appliquer
+skills:
+  - Analyse technique de scénario
+  - Identification de ce qu'une histoire signifie
+  - Diagnostic des fonctions narratives pertinentes
+
+# Exemples few-shot
+examples:
+  - input: |
+      Un roi dut quitter sa femme nouvellement mariée pour un voyage. Il l'avertit sévèrement de ne pas quitter les quartiers des femmes et de ne pas écouter les mauvais conseils. Mais une méchante sorcière envieuse l'attira dans le jardin et dans un bassin, et la transforma en canard blanc, prenant elle-même la forme et la place de la reine.
+      Pendant ce temps, le canard blanc construisit un nid, pondit trois oeufs et fit éclore deux canetons duveteux et un petit canard. Elle les avertit contre le château, parce qu'une méchante sorcière y vivait, mais un jour la sorcière les vit et les attira à l'intérieur. Les canetons dormirent mais le petit canard resta éveillé, et quand la sorcière appela pour savoir s'ils dormaient, le petit canard répondit. Mais après deux réponses, la sorcière entra pour voir, et vit que les canetons dormaient, alors elle les tua.
+      Le canard blanc trouva les corps et se lamenta sur eux. Le roi s'en étonna, et bien que la sorcière essayât de le persuader que ce n'était qu'un coin-coin, il ordonna que le canard soit capturé. Ses serviteurs ne purent pas, mais il y alla lui-même, et elle vola vers ses mains et devint une femme. Elle parla d'une bouteille dans le nid dans le jardin — ou, ils envoyèrent une pie chercher de l'eau magique — qui, aspergée sur les canetons et le petit canard, les transforma en trois beaux enfants. La sorcière fut alors mise à mort par démembrement et il ne resta rien d'elle.
+    output: |
+      | # | Fonction | Comment elle apparaît dans le conte |
+      |---|----------|-------------------------------------|
+      | 0 | **Situation initiale** | Un roi a une femme nouvellement mariée |
+      | 1 | **Éloignement** | Le roi part en voyage |
+      | 2 | **Interdiction** | Le roi avertit sa femme de ne pas quitter les quartiers des femmes ou d'écouter les mauvais conseils |
+      | 6 | **Tromperie** | Une sorcière attire la reine dans le jardin et vers un bassin |
+      | 7 | **Complicité** | La reine suit la sorcière |
+      | 3 | **Transgression** | La reine quitte les quartiers |
+      | 8 | **Méfait** | La sorcière transforme la reine en canard blanc et prend sa place (sort + substitution) |
+      | 0 | **Situation initiale** (deuxième phase) | Le canard blanc construit un nid, a des enfants |
+      | 2 | **Interdiction** | Le canard avertit ses enfants contre le château |
+      | 6 | **Tromperie** | La sorcière attire les enfants à l'intérieur |
+      | 3 | **Transgression** | Les enfants vont au château |
+      | 8 | **Méfait** | La sorcière tue les canetons |
+      | 9 | **Appel** | La lamentation du canard blanc révèle la situation au roi |
+      | 27 | **Reconnaissance** | Le roi remarque le comportement inhabituel du canard |
+      | 14 | **Réception d'un objet magique** | Le roi lui-même capture le canard (en s'approchant avec une intention sincère) |
+      | 19 | **Réparation** (première) | Le canard se transforme en femme et raconte son histoire |
+      | 14 | **Réception d'un objet magique** | Une bouteille dans le nid (ou de l'eau magique d'une pie) |
+      | 19 | **Réparation** (seconde) | Les enfants sont ressuscités avec l'eau magique |
+      | 28 | **Découverte** | La sorcière est démasquée |
+      | 30 | **Châtiment** | La sorcière est mise à mort par démembrement |
+  - input: |
+      La femme d'un marchand meurt, laissant derrière elle une fille de 8 ans nommée Vassilissa. Avant sa mort, la femme du marchand donne à Vassilissa une poupée avec sa bénédiction. Cette poupée n'est pas ordinaire: si on lui donne quelque chose à manger, elle peut aider sa propriétaire à sortir des difficultés. Le marchand finit par se remarier à une veuve avec deux filles du même âge que Vassilissa. La nouvelle femme n'aime pas sa belle-fille, lui donnant divers travaux éreintants, mais la poupée fait tout le travail pour Vassilissa. Quand Vassilissa grandit, tous les prétendants de la ville commencent à la courtiser. La belle-mère refuse tout le monde, proclamant qu'elle ne donnerait pas sa plus jeune avant ses aînées.
+      Un jour le marchand quitte la maison pour longtemps pour affaires, et pendant ce temps, sur ordre de la belle-mère, la famille déménage dans une autre maison, située près d'une forêt dense, où se trouve la cabane de Baba Yaga. La belle-mère envoie souvent Vassilissa dans la forêt, espérant que Baba Yaga la dévore, mais la poupée de Vassilissa la guide toujours pour éviter les chemins dangereux. Finalement, la belle-mère et ses filles s'accordent pour envoyer Vassilissa directement à la cabane de Baba Yaga chercher du feu, puisque pendant le travail des femmes d'automne (tissage, tricot et filage), qui se fait la nuit, tous les feux sauf une seule bougie sont délibérément éteints. La poupée, comme d'habitude, promet de veiller sur la sécurité de Vassilissa, et elle part en voyage.
+      Sur son chemin, elle est dépassée par trois cavaliers vêtus de blanc, rouge et noir. Sur la clôture de Baba Yaga, faite d'os humains, des crânes sont suspendus, dont les orbites illuminent les environs de leur lumière comme des lanternes. Baba Yaga sort de la forêt dans son mortier volant et écoute la demande de Vassilissa. Baba Yaga exige qu'elle, sous peine de mort, travaille d'abord comme servante. Sur l'ordre de Baba Yaga, les portes s'ouvrent puis se verrouillent d'elles-mêmes. Baba Yaga donne à Vassilissa diverses tâches, mais elle accomplit tout à temps avec l'aide de la poupée. Les cavaliers colorés passent devant la cabane, et Vassilissa découvre les assistants de Baba Yaga: trois paires de mains qui répondent et apparaissent à l'appel de sa voix. Baba Yaga explique que les cavaliers blanc, rouge et noir sont respectivement le Jour, le Soleil et la Nuit, mais n'explique pas ce que sont les mains, avertissant qu'elle n'aime pas ceux qui divulguent ses affaires personnelles en public, et qu'elle mange ceux qui sont trop curieux.
+      Finalement, Baba Yaga demande à Vassilissa comment elle a réussi à accomplir son travail si bien. Quand Vassilissa répond qu'elle l'a fait par la bénédiction de sa mère, Baba Yaga la jette hors de sa maison, rejetant ceux qui sont bénis. Cependant, Baba Yaga offre à Vassilissa un crâne aux yeux brûlants à utiliser comme lampe. Vassilissa veut s'en débarrasser, mais le crâne l'avertit contre cela, demandant à être amené à la maison de sa belle-mère. Là, la lumière venant des orbites du crâne incinère la belle-mère et ses deux filles. Vassilissa enterre le crâne et déménage en ville, où elle s'installe chez une vieille fabricante de tissus, décidant de se mettre au filage et au tissage en attendant le retour de son père. Le tissu dans les mains de Vassilissa est si fin que la fabricante de tissus peut le porter directement au palais royal. Le roi demande à Vassilissa de lui coudre des chemises de ce tissu. Appréciant son travail habile et charmé par sa beauté, le roi prend Vassilissa pour épouse. Son père revient de son voyage de commerce et reste vivre à la cour. Vassilissa amène aussi la fabricante de tissus à la cour, et porte la poupée dans sa poche pour le reste de sa vie.
+    output: |
+      | # | Fonction | Comment elle apparaît dans le conte |
+      |---|----------|-------------------------------------|
+      | 0 | **Situation initiale** | Un marchand a une femme et une fille de 8 ans Vassilissa |
+      | 1 | **Éloignement** | La mère meurt |
+      | 14 | **Réception d'un objet magique** | Avant de mourir, la mère donne à Vassilissa une poupée magique avec sa bénédiction |
+      | 8 | **Méfait/Manque** | Le père se remarie; la belle-mère maltraite Vassilissa, lui donne des tâches impossibles |
+      | 13 | **Réaction du héros** | Vassilissa nourrit la poupée, qui fait tout son travail |
+      | 1 | **Éloignement** (répété) | Le père part pour affaires |
+      | 8 | **Méfait** | La belle-famille déménage près de la forêt de Baba Yaga, espérant que Yaga dévore Vassilissa |
+      | 9 | **Appel** | La belle-famille éteint délibérément tous les feux, envoyant Vassilissa chercher du feu chez Baba Yaga |
+      | 11 | **Départ** | Vassilissa part dans la forêt |
+      | 15 | **Déplacement** | La poupée la guide pour éviter les chemins dangereux |
+      | 4 | **Interrogation** (implicite) | Les trois cavaliers (Jour, Soleil, Nuit) patrouillent le domaine de Yaga |
+      | 12 | **Première fonction du donateur** | Baba Yaga exige que Vassilissa travaille comme servante sous peine de mort |
+      | 13 | **Réaction du héros** | Vassilissa accomplit toutes les tâches avec l'aide de la poupée |
+      | 4 | **Interrogation** | Baba Yaga demande comment Vassilissa a accompli son travail |
+      | 5 | **Délation** | Vassilissa dit que c'était par la bénédiction de sa mère |
+      | 18 | **Victoire** (en quelque sorte) | Baba Yaga, qui n'aime pas les gens "bénis", jette Vassilissa dehors |
+      | 14 | **Réception d'un objet magique** | Baba Yaga donne à Vassilissa un crâne aux yeux brûlants comme lampe |
+      | 20 | **Retour** | Vassilissa rentre chez elle avec le crâne |
+      | 30 | **Châtiment** | La lumière du crâne incinère la belle-mère et les belles-soeurs |
+      | 19 | **Réparation** | Vassilissa est libérée de ses oppresseurs |
+      | 23 | **Arrivée incognito** | Vassilissa s'installe chez une vieille fabricante de tissus en ville |
+      | 25 | **Tâche difficile** | Vassilissa se met au filage et au tissage |
+      | 26 | **Accomplissement** | Son tissu est si fin qu'il va au palais royal |
+      | 25 | **Tâche difficile** | Le roi demande que des chemises soient faites du tissu |
+      | 26 | **Accomplissement** | Vassilissa fait les chemises |
+      | 27 | **Reconnaissance** | Le roi voit Vassilissa et est charmé par sa beauté |
+      | 31 | **Mariage** | Le roi épouse Vassilissa |
+  - input: |
+      La fille d'un prêtre portait des vêtements d'homme, montait à cheval et savait tirer au fusil. Un jour, le roi vit ce "jeune homme". Mais ses serviteurs insistèrent que le "jeune homme" était, en fait, une fille. Le roi ne crut pas les serviteurs; il écrivit au prêtre lui demandant si son "fils" pouvait dîner avec lui. Le prêtre envoya sa fille chez le roi. Avant son arrivée, le roi demanda conseil à une sorcière concernant la véritable identité du "jeune homme". La sorcière conseilla au roi de faire beaucoup de choses différentes pour tester si Vassilissa est une fille ou non, comme placer un cadre à broder et un fusil positionné sur un mur et voir quel objet elle remarquera en premier. Si c'est une fille, elle remarquera le cadre en premier, et vice versa. Le "jeune homme" passa tous les tests, mais le roi resta dubitatif. Le roi essaya plusieurs fois de trouver la véritable identité, mais la dernière fois le roi demanda au "jeune homme" de prendre un bain avec lui, et le "jeune homme" accepta. Pendant que le roi se déshabillait, le "jeune homme" se déshabilla, se baigna rapidement et s'enfuit, laissant une note au roi disant
+      "Ah Roi Barkhat, corbeau que tu es, tu n'as pas pu surprendre le faucon dans le jardin! Car je ne suis pas Vassili Vassilievitch, mais Vassilissa Vassilievna".
+    output: |
+      | # | Fonction | Comment elle apparaît dans le conte |
+      |---|----------|-------------------------------------|
+      | 0 | **Situation initiale** | Un prêtre a une fille qui s'habille en homme |
+      | 4 | **Interrogation** | Les serviteurs du roi soupçonnent que le "jeune homme" est une fille |
+      | 5 | **Délation** | Les serviteurs informent le roi de leurs soupçons |
+      | 4 | **Interrogation** (suite) | Le roi écrit au prêtre demandant à son "fils" de venir dîner |
+      | 6 | **Tromperie** | Le roi demande conseil à une sorcière pour tester la véritable identité de Vassilissa |
+      | 25 | **Tâche difficile** (série) | La sorcière conseille des tests: cadre à broder vs fusil, etc. |
+      | 26 | **Accomplissement** (série) | Vassilissa passe tous les tests (remarque le fusil, pas le cadre, etc.) |
+      | 25 | **Tâche difficile** (finale) | Le roi demande à Vassilissa de se baigner avec lui |
+      | 26 | **Accomplissement** | Vassilissa accepte, se baigne rapidement et s'enfuit |
+      | 27 | **Reconnaissance** (inversée) | Vassilissa laisse une note révélant qu'elle est "Vassilissa Vassilievna, pas Vassili Vassilievitch" |
+      | 22 | **Secours** | Vassilissa s'échappe (auto-secours par la ruse) |
+      | 18 | **Victoire** | Vassilissa déjoue le roi et la sorcière |
+  - input: |
+      Fatigués des mauvais traitements cruels qu'ils subissent de la part de leur belle-mère, qui est une sorcière maléfique, un frère et une soeur s'enfuient de la maison, errent dans la campagne et passent la nuit dans les bois. Au matin, le garçon a soif, alors les enfants partent à la recherche d'une source d'eau claire. Cependant, leur belle-mère a déjà découvert leur fuite et a ensorcelé toutes les sources de la forêt. Le garçon est sur le point de boire de l'une d'elles, quand sa soeur entend son bruit de ruissellement dire, "quiconque boit de moi deviendra un tigre" (ou lion).
+      Désespérément, la fille supplie son frère de ne pas boire de la source, de peur qu'il ne se transforme en tigre et ne l'attaque. Alors ils continuent leur chemin, mais quand ils arrivent à la deuxième source, la fille l'entend dire, "quiconque boit de moi deviendra un loup". Encore une fois, elle essaie désespérément d'empêcher son frère d'en boire. À contrecoeur, il accepte finalement ses supplications mais insiste pour boire de la prochaine source qu'ils rencontreront. Et ils arrivent à la troisième source, et la fille entend l'eau murmurer, "quiconque boit de moi deviendra un cerf". Mais avant qu'elle ne puisse arrêter son frère, il en a déjà bu, et s'est transformé en cerf.
+      Alors que le sentiment initial de désespoir passe, les enfants décident de vivre dans les bois pour toujours. La fille prend soin de son frère et attache sa chaîne d'or autour de son cou. Ils vont vivre dans une petite maison au fond des bois et y vivent heureux pendant quelques années, jusqu'à ce qu'ils soient dérangés un jour par une partie de chasse et le roi lui-même qui a suivi l'étrange cerf jusqu'à la maison. En voyant la belle fille, il lui demande immédiatement de l'épouser et elle accepte. Ainsi elle devient reine et ils vivent tous heureux dans le château du roi. Le temps passe et la reine donne naissance à un fils.
+      La sorcière, cependant, découvre bientôt qu'ils sont toujours vivants et complote contre eux. Une nuit, elle tue la reine et la remplace par sa propre fille défigurée, qu'elle a transformée en copie physique d'elle. Quand le fantôme de la reine visite secrètement le chevet de son bébé pendant trois nuits consécutives, le roi s'en rend compte et le plan maléfique de sa belle-mère est exposé.
+      La reine revient à la vie quand le roi l'embrasse, et sa belle-famille est jugée pour ses crimes. La fille de la sorcière est bannie dans les bois où elle est dévorée par des animaux sauvages, et la méchante belle-mère elle-même est brûlée sur le bûcher. Au moment exact de la mort de la sorcière, le cerf redevient humain, et enfin la famille est réunie, et ils vécurent heureux pour toujours.
+    output: |
+      | # | Fonction | Comment elle apparaît dans le conte |
+      |---|----------|-------------------------------------|
+      | 0 | **Situation initiale** | Un frère et une soeur vivent avec leur méchante belle-mère (une sorcière) |
+      | 8 | **Méfait** | La belle-mère maltraite cruellement les enfants |
+      | 10 | **Entreprise réparatrice** | Les enfants décident de s'enfuir |
+      | 11 | **Départ** | Le frère et la soeur fuient dans la campagne |
+      | 6 | **Tromperie** | La belle-mère a ensorcelé toutes les sources de la forêt |
+      | 2 | **Interdiction** | La soeur entend les avertissements des sources ("quiconque boit deviendra un tigre/loup") |
+      | 13 | **Réaction du héros** | La soeur réussit à arrêter son frère deux fois |
+      | 3 | **Transgression** | Le frère boit de la troisième source avant qu'elle puisse l'arrêter |
+      | 8 | **Méfait** | Le frère est transformé en cerf |
+      | 19 | **Réparation** (partielle) | Ils décident de vivre dans la forêt ensemble; la soeur prend soin du frère-cerf |
+      | 0 | **Situation initiale** (deuxième phase) | Ils vivent dans une petite maison dans les bois |
+      | 4 | **Interrogation** | Une partie de chasse du roi les dérange; le roi suit l'étrange cerf |
+      | 27 | **Reconnaissance** | Le roi voit la belle fille |
+      | 31 | **Mariage** | Le roi épouse la soeur |
+      | 1 | **Éloignement** (implicite) | Le temps passe; la reine donne naissance à un fils |
+      | 4 | **Interrogation** | La sorcière découvre qu'ils sont toujours vivants |
+      | 6 | **Tromperie** | La sorcière complote contre la reine |
+      | 8 | **Méfait** | La sorcière tue la reine et substitue sa propre fille défigurée |
+      | 12 | **Méfait** (substitution) | La fille transformée prend la place de la reine |
+      | 9 | **Appel** | Le fantôme de la reine visite son bébé chaque nuit |
+      | 27 | **Reconnaissance** | Le roi surprend le fantôme de la reine au chevet du bébé |
+      | 19 | **Réparation** | Le roi embrasse le fantôme; la reine revient à la vie |
+      | 28 | **Découverte** | Le plan maléfique de la belle-mère est exposé |
+      | 30 | **Châtiment** | La fille de la sorcière est bannie et dévorée par des animaux sauvages; la sorcière est brûlée sur le bûcher |
+      | 19 | **Réparation** (finale) | Au moment de la mort de la sorcière, le cerf redevient humain |
+      | 31 | **Mariage** (réunion) | La famille est réunie et vit heureusement pour toujours |
+
+# Guidage de la chaîne de pensée
+thinking_process: |
+  Premièrement, lisez attentivement le synopsis. Prenez votre temps pour identifier les fonctions narratives potentielles (candidates).
+  Deuxièmement, pour chaque fonction narrative candidate, reliez-la à prompts\narrative-function-extractor\Propp.md.
+  Troisièmement, pour chaque fonction narrative candidate, reliez-la aux exemples.
+  Quatrièmement, écrivez le nom de la fonction de Propp et la Justification.
+
+template: |
+  Vous devez baser vos connaissances sur les fonctions narratives de Propp.
+  Ces fonctions sont définies dans le MORPHOLOGY_OF_THE_FOLK_TALE.pdf.
+  Vous devez garder ce livre en cache et en mémoire.
+
+  # Les 31 fonctions narratives de Vladimir Propp
+  *de* Morphologie du conte, 1928
+
+  Voici la **liste canonique des fonctions narratives de Propp**, dans leur **ordre standard**.
+  Chaque fonction est définie comme une **action significative pour la progression du récit**, indépendante de la psychologie des personnages.
+  Des exemples sont donnés en **termes génériques de conte populaire** et, quand c'est utile, en **équivalents narratifs modernes**.
+
+  Important: Pour chaque paragraphe ci-dessous, le nom de la fonction de Propp est le titre (sans la numérotation initiale)
+
+  ---
+
+  ## 0. Situation initiale
+  **Définition:** Introduction de la famille, du héros ou du contexte social.
+  **Exemple:** "Il était une fois un pauvre bûcheron et ses trois fils."
+  **Exemple moderne:** Établir la vie ordinaire du protagoniste avant la perturbation.
+
+  ---
+
+  ## 1. Éloignement
+  **Définition:** Un membre de la famille quitte le foyer ou est absent.
+  **Exemple:** Les parents quittent la maison, laissant les enfants seuls.
+  **Exemple moderne:** Un parent meurt, disparaît, ou le héros vit seul.
+
+  ---
+
+  ## 2. Interdiction
+  **Définition:** Un avertissement ou un ordre est donné au héros.
+  **Exemple:** "N'ouvre pas cette porte."
+  **Exemple moderne:** "On ne parle pas du Fight Club."
+
+  ---
+
+  ## 3. Transgression
+  **Définition:** L'interdiction est violée.
+  **Exemple:** Le héros ouvre la porte interdite.
+  **Exemple moderne:** Le protagoniste enfreint une règle, déclenchant des conséquences.
+
+  ---
+
+  ## 4. Interrogation
+  **Définition:** L'agresseur cherche des informations sur la victime ou le héros.
+  **Exemple:** Une sorcière demande où vivent les enfants.
+  **Exemple moderne:** Un antagoniste espionne ou enquête sur le héros.
+
+  ---
+
+  ## 5. Délation
+  **Définition:** L'agresseur reçoit des informations sur la victime.
+  **Exemple:** La sorcière apprend l'emplacement des enfants.
+  **Exemple moderne:** Un traître révèle la faiblesse du héros.
+
+  ---
+
+  ## 6. Tromperie
+  **Définition:** L'agresseur tente de tromper la victime.
+  **Exemple:** Le loup se déguise en grand-mère.
+  **Exemple moderne:** Une arnaque, une fausse promesse ou une manipulation.
+
+  ---
+
+  ## 7. Complicité
+  **Définition:** La victime est trompée et aide involontairement l'agresseur.
+  **Exemple:** Le Petit Chaperon Rouge révèle sa destination.
+  **Exemple moderne:** Le héros fait confiance à la mauvaise personne.
+
+  ---
+
+  ## 8. Méfait **ou** Manque
+  **Définition:**
+  - **Méfait:** L'agresseur cause du tort.
+  - **Manque:** Quelque chose d'important manque ou est désiré.
+  **Exemple (méfait):** Une princesse est enlevée.
+  **Exemple (manque):** Le héros manque d'argent, de liberté, d'amour ou d'identité.
+
+  ---
+
+  ## 9. Appel
+  **Définition:** Le manque ou le méfait est rendu public; le héros est envoyé.
+  **Exemple:** Le roi annonce que la princesse a disparu.
+  **Exemple moderne:** Le héros apprend la vérité de l'injustice.
+
+  ---
+
+  ## 10. Entreprise réparatrice
+  **Définition:** Le héros décide d'agir.
+  **Exemple:** "Je vais sauver la princesse."
+  **Exemple moderne:** Le protagoniste s'engage dans une ligne de conduite.
+
+  ---
+
+  ## 11. Départ
+  **Définition:** Le héros quitte le foyer.
+  **Exemple:** Le héros part en voyage.
+  **Exemple moderne:** Entrer dans un nouveau monde, emploi, prison ou état d'esprit.
+
+  ---
+
+  ## 12. Première fonction du donateur
+  **Définition:** Le héros est mis à l'épreuve, interrogé ou attaqué par un donateur.
+  **Exemple:** Un vieil homme demande de la nourriture au héros.
+  **Exemple moderne:** Un mentor teste les valeurs du héros.
+
+  ---
+
+  ## 13. Réaction du héros
+  **Définition:** Le héros répond à l'épreuve du donateur.
+  **Exemple:** Le héros partage son dernier morceau de pain.
+  **Exemple moderne:** Le héros montre du courage, de la bonté ou de l'intelligence.
+
+  ---
+
+  ## 14. Réception d'un objet magique
+  **Définition:** Le héros obtient un objet magique, un auxiliaire ou un pouvoir.
+  **Exemple:** Une épée, un anneau, un cheval ou un sort.
+  **Exemple moderne:** Des compétences, des connaissances, des alliés ou des ressources.
+
+  ---
+
+  ## 15. Déplacement
+  **Définition:** Le héros est conduit à l'emplacement de l'objet de la quête.
+  **Exemple:** Un oiseau guide le héros vers le château.
+  **Exemple moderne:** Une carte, un indice ou le conseil d'un mentor.
+
+  ---
+
+  ## 16. Combat
+  **Définition:** Le héros et l'agresseur s'engagent dans un combat direct.
+  **Exemple:** Un combat à l'épée avec le dragon.
+  **Exemple moderne:** Confrontation physique, légale, psychologique ou idéologique.
+
+  ---
+
+  ## 17. Marque
+  **Définition:** Le héros est marqué ou blessé.
+  **Exemple:** Une cicatrice ou un anneau donné comme preuve.
+  **Exemple moderne:** Traumatisme, réputation ou marque symbolique.
+
+  ---
+
+  ## 18. Victoire
+  **Définition:** L'agresseur est vaincu.
+  **Exemple:** Le dragon est tué.
+  **Exemple moderne:** L'antagoniste est démasqué, maîtrisé ou neutralisé.
+
+  ---
+
+  ## 19. Réparation
+  **Définition:** Le manque ou méfait initial est résolu.
+  **Exemple:** La princesse est libérée.
+  **Exemple moderne:** La justice est rétablie, la vérité révélée.
+
+  ---
+
+  ## 20. Retour
+  **Définition:** Le héros rentre chez lui.
+  **Exemple:** Le héros revient de la quête.
+  **Exemple moderne:** Retourner dans la société après transformation.
+
+  ---
+
+  ## 21. Poursuite
+  **Définition:** Le héros est poursuivi.
+  **Exemple:** L'agresseur poursuit le héros.
+  **Exemple moderne:** Autorités, ennemis ou conséquences se rapprochent.
+
+  ---
+
+  ## 22. Secours
+  **Définition:** Le héros est secouru contre la poursuite.
+  **Exemple:** Une rivière ou un auxiliaire sauve le héros.
+  **Exemple moderne:** Un allié intervient ou un piège est évité.
+
+  ---
+
+  ## 23. Arrivée incognito
+  **Définition:** Le héros arrive chez lui sans être reconnu.
+  **Exemple:** Le héros apparaît comme un mendiant.
+  **Exemple moderne:** Vivre sous un pseudonyme ou une identité cachée.
+
+  ---
+
+  ## 24. Imposture
+  **Définition:** Un faux héros présente des prétentions non fondées.
+  **Exemple:** Un imposteur prétend avoir tué le dragon.
+  **Exemple moderne:** Quelqu'un s'attribue le mérite du travail du héros.
+
+  ---
+
+  ## 25. Tâche difficile
+  **Définition:** Un défi est posé au héros.
+  **Exemple:** Résoudre une énigme, accomplir un exploit impossible.
+  **Exemple moderne:** Test final, épreuve ou preuve de valeur.
+
+  ---
+
+  ## 26. Accomplissement
+  **Définition:** La tâche difficile est résolue.
+  **Exemple:** L'énigme est résolue correctement.
+  **Exemple moderne:** Le héros réussit le test final.
+
+  ---
+
+  ## 27. Reconnaissance
+  **Définition:** Le héros est reconnu par une marque ou un acte.
+  **Exemple:** La cicatrice prouve la véritable identité.
+  **Exemple moderne:** La vérité sur le protagoniste est révélée.
+
+  ---
+
+  ## 28. Découverte
+  **Définition:** Le faux héros ou l'agresseur est démasqué.
+  **Exemple:** L'imposteur est démasqué.
+  **Exemple moderne:** La corruption ou la tromperie est révélée.
+
+  ---
+
+  ## 29. Transfiguration
+  **Définition:** Le héros reçoit une nouvelle apparence.
+  **Exemple:** Nouveaux vêtements, habits royaux.
+  **Exemple moderne:** Élévation sociale, confiance ou changement intérieur.
+
+  ---
+
+  ## 30. Châtiment
+  **Définition:** L'agresseur est puni.
+  **Exemple:** Exécution, exil, emprisonnement.
+  **Exemple moderne:** Conséquences légales ou chute morale.
+
+  ---
+
+  ## 31. Mariage
+  **Définition:** Le héros est récompensé (souvent mariage ou ascension).
+  **Exemple:** Le héros épouse la princesse et hérite du trône.
+  **Exemple moderne:** Liberté, paix, accomplissement ou nouvelle vie stable.
+
+  ---
+
+  ## Notes
+  - Toutes les histoires ne contiennent pas les 31 fonctions.
+  - Les fonctions apparaissent toujours dans **cet ordre**, bien que beaucoup puissent être omises.
+  - Les fonctions décrivent **ce qui se passe**, pas *qui le fait* ou *pourquoi*.
+
+  ---
+
+  Veuillez considérer l'intrigue suivante:
+
+  {text}
+
+  Identifiez les fonctions narratives (selon la classification de Propp).
+
+  Votre réponse doit suivre ce format:
+  | # | Fonction | Comment elle apparaît dans le conte |
+  |---|----------|-------------------------------------|
+  | 0 | **Nom de la première fonction identifiée** | comment cette première fonction apparaît |
+  | 1 | **Nom de la deuxième fonction identifiée** | comment cette deuxième fonction apparaît |
+  | 2 | **...** | ... |

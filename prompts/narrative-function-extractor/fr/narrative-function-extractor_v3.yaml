@@ -1,0 +1,82 @@
+name: narrative-function-extractor_v3
+description: Un prompt pour identifier les fonctions narratives dans un synopsis de film en utilisant plusieurs fichiers de référence mis en cache
+version: "3.0"
+
+# Référencer plusieurs fichiers pour la mise en cache des prompts
+# Ces fichiers seront mis en cache et réutilisés à travers les appels API
+cached_files:
+  - MORPHOLOGY_OF_THE_FOLK_TALE/01_Eloignement.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/02_Interdiction.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/03_Transgression.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/04_Interrogation.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/05_Delation.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/06_Tromperie.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/07_Complicite.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/08_Mefait_ou_Manque.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/09_Appel.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/10_Entreprise_reparatrice.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/11_Depart.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/12_Premiere_fonction_du_donateur.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/13_Reaction_du_heros.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/14_Reception_de_l_objet_magique.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/15_Deplacement.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/16_Combat.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/17_Marque.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/18_Victoire.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/19_Reparation.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/20_Retour.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/21_Poursuite.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/22_Secours.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/23_Arrivee_incognito.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/24_Imposture.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/25_Tache_difficile.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/26_Accomplissement.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/27_Reconnaissance.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/28_Decouverte.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/29_Transfiguration.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/30_Chatiment.md
+  - MORPHOLOGY_OF_THE_FOLK_TALE/31_Mariage.md
+
+system: (Pas encore défini)
+
+# Règles que le modèle doit suivre
+rules:
+  - Avant de faire quoi que ce soit, vérifiez que vous avez accès aux 31 fichiers .md, décrivant les fonctions narratives.
+  - Si vous n'avez pas accès aux 31 fichiers .md, générez simplement un avertissement et arrêtez
+  - Chacun des 31 fichiers .md décrit une fonction narrative.
+  - Pour chaque fonction narrative, le "nom de la fonction" est défini dans son fichier .md. Soyez très précis lorsque vous référencez les noms des fonctions
+  - Pour qu'une fonction narrative soit correctement identifiée dans le cadre de Propp, elle devrait apparaître dans sa position canonique par rapport aux autres fonctions présentes dans le conte. Une fonction apparaissant "dans le désordre" indiquerait soit un élément structurel différent, soit une déviation nécessitant une explication spéciale, soit potentiellement une mauvaise identification de la fonction elle-même.
+
+# Compétences à appliquer
+skills:
+  - (Pas encore défini)
+
+# Guidage de la chaîne de pensée
+thinking_process: |
+  Lisez le conte populaire une première fois dans son ensemble pour saisir l'intrigue et le sens complet.
+  Puis itérez à travers chacun des 31 fichiers .md.
+  Pour chacune de ces fonctions narratives:
+   - évaluez si elles s'appliquent ou non au conte,
+   - cette évaluation doit avoir un niveau de confiance (de 0 à 1)
+   - justifiez votre évaluation
+
+template: |
+  Considérez le conte populaire suivant:
+  """
+  {text}
+  """
+
+  Identifiez les fonctions narratives.
+
+  Votre réponse doit contenir 2 parties...
+  Partie 1 est le tableau détaillé:
+  * chaque ligne est la fonction candidate. (il y aura donc 31 lignes)
+  * colonne 1 : nom de la fonction
+  * colonne 2 : applicable. Doit être un score de confiance
+  * colonne 3 : justification (si elle s'applique ou non)
+
+  Partie 2 est le résumé:
+  Gardez uniquement les fonctions narratives avec un score de confiance > 0.84
+  Pour chacune de ces fonctions:
+   - écrivez une ligne complète: "Trouvé: nom de la fonction",
+   - puis écrivez un saut de ligne

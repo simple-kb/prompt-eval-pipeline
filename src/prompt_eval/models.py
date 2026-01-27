@@ -163,6 +163,9 @@ class EvalResult(BaseModel):
     tokens_out: int = Field(0, description="Output token count")
     error: str | None = Field(None, description="Error message if evaluation failed")
     timestamp: datetime = Field(default_factory=datetime.now)
+    # Test case metadata for HTML highlighting
+    test_case_inputs: dict[str, Any] = Field(default_factory=dict, description="Original test case inputs")
+    expected_contains: list[str] = Field(default_factory=list, description="Expected strings from test case")
 
 
 class EvalRun(BaseModel):
