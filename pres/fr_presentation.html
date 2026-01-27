@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Evaluation pour l'analyse des contes de fées</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: rgb(250, 249, 245);
+            color: #1a1a1a;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            scroll-snap-align: start;
+        }
+
+        .slides-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }
+
+        /* Slide 1: Title */
+        .slide-title {
+            background: rgb(250, 249, 245);
+            text-align: center;
+        }
+
+        .slide-title h1 {
+            font-size: 3.2rem;
+            color: #1a1a1a;
+            margin-bottom: 40px;
+        }
+
+        .slide-title .subtitle {
+            font-size: 1.5rem;
+            color: #2a2a2a;
+            max-width: 900px;
+            line-height: 1.8;
+            margin-bottom: 60px;
+            text-align: left;
+        }
+
+        .slide-title .author {
+            font-size: 1.2rem;
+            color: #3a3a3a;
+            margin-top: 40px;
+        }
+
+        .fairy-icon {
+            font-size: 4rem;
+            margin-bottom: 30px;
+        }
+
+        .title-images {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .title-images img {
+            height: 120px;
+            width: auto;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        /* Slide 2: Agenda */
+        .slide-agenda {
+            background: rgb(250, 249, 245);
+        }
+
+        .slide-agenda h2 {
+            font-size: 2.8rem;
+            color: #1a1a1a;
+            margin-bottom: 50px;
+        }
+
+        .agenda-list {
+            list-style: none;
+            max-width: 800px;
+        }
+
+        .agenda-list li {
+            font-size: 1.6rem;
+            padding: 20px 30px;
+            margin: 15px 0;
+            background: rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #DA7856;
+            border-radius: 0 10px 10px 0;
+            transition: all 0.3s ease;
+            color: #2a2a2a;
+        }
+
+        .agenda-list li:hover {
+            background: rgba(0, 0, 0, 0.1);
+            transform: translateX(10px);
+        }
+
+        .agenda-list li::before {
+            content: attr(data-num);
+            color: #DA7856;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        /* Navigation */
+        .nav-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            color: #3a3a3a;
+            font-size: 0.9rem;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 20px;
+            left: 30px;
+            color: #3a3a3a;
+            font-size: 0.9rem;
+        }
+
+        /* Two-column slides */
+        .slide-two-col {
+            background: rgb(250, 249, 245);
+            padding: 40px 60px;
+            overflow: hidden;
+        }
+
+        .slide-two-col h2 {
+            font-size: 2.4rem;
+            color: #1a1a1a;
+            margin-bottom: 40px;
+            text-align: center;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .two-col-content {
+            display: flex;
+            width: 100%;
+            gap: 40px;
+            align-items: center;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .two-col-content .col-text,
+        .two-col-content .col-image {
+            flex: 1;
+            width: 50%;
+            min-height: 0;
+        }
+
+        .two-col-content .col-text {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: #2a2a2a;
+        }
+
+        .two-col-content .col-text p {
+            text-align: justify;
+        }
+
+        .two-col-content .col-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-height: 100%;
+        }
+
+        .two-col-content .col-image img {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Scrollable two-column slide */
+        .slide-two-col-scroll .two-col-content {
+            align-items: flex-start;
+        }
+
+        .slide-two-col-scroll .col-scroll {
+            max-height: 70vh;
+            overflow-y: auto;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #2a2a2a;
+        }
+
+        .slide-two-col-scroll .col-scroll:first-child {
+            flex: 2;
+            width: 40%;
+        }
+
+        .slide-two-col-scroll .col-scroll:last-child {
+            flex: 3;
+            width: 60%;
+        }
+
+        .slide-two-col-scroll .col-scroll p {
+            text-align: justify;
+        }
+
+        .slide-two-col-scroll .col-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .slide-two-col-scroll .col-scroll::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+
+        .slide-two-col-scroll .col-scroll::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .slide-two-col-scroll .col-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Results table styling */
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: 6px 8px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .results-table th {
+            background: rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .results-table .row-correct {
+            background-color: rgba(34, 197, 94, 0.1);
+        }
+
+        .results-table td:first-child {
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .results-table td:last-child {
+            text-align: center;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="slides-container">
+        <!-- Slide 1: Title -->
+        <section class="slide slide-title">
+            <div class="title-images">
+                <img src="img/catamania.png" alt="Catamania">
+                <img src="img/claude.png" alt="Claude">
+                <img src="img/Vladimir_Propp.webp" alt="Vladimir Propp">
+            </div>
+            <h1><i>Prompt Evaluation</i><br>pour l'analyse des contes de fées</h1>
+            <div class="subtitle">
+                <ul>
+                    <li>
+                        Validez la qualité de vos prompts avant la production :
+                        itérations en <i>prompt engineering</i>, tests unitaires, tests de non-régression.
+                    </li>
+                    <li>
+                        Découvrez un pipeline d'évaluation
+                        appliqué à l'analyse des contes selon la méthode de Vladimir Propp (1928).
+                    </li>
+                </ul>
+            </p>
+            <p class="author">🧙 Avec Baba Yaga</p>
+        </section>
+
+        <!-- Slide 2: Agenda -->
+        <section class="slide slide-agenda">
+            <h2>📋 Agenda</h2>
+            <ul class="agenda-list">
+                <li data-num="1.">Un conte russe, "Les Oies sauvages"</li>
+                <li data-num="2.">L'analyse des fonctions narratives</li>
+                <li data-num="3.">Le prompt evaluation, pourquoi, comment</li>
+                <li data-num="4.">Un pipeline de prompt evaluation pour l'analyse des fonctions narratives</li>
+            </ul>
+        </section>
+
+        <!-- Slide 3: Les Oies sauvages - 1 -->
+        <section class="slide slide-two-col">
+            <h2>1. Un conte russe. Les Oies sauvages - 1/4</h2>
+            <div class="two-col-content">
+                <div class="col-text">
+                    <p>Des parents villageois qui s'en vont au travail (ou à la foire) confient leur très jeune fils à la garde de leur sœur, une fillette. Celle-ci ne tarde pas à relâcher sa surveillance et des oies sauvages (ou des cygnes) se saisissent du bébé assis sur l'herbe et l'emportent.</p>
+                </div>
+                <div class="col-image">
+                    <img src="img/oies_sauvages_1.jpg" alt="Les Oies sauvages">
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Les Oies sauvages - 2 -->
+        <section class="slide slide-two-col">
+            <h2>1. Un conte russe. Les Oies sauvages - 2/4</h2>
+            <div class="two-col-content">
+                <div class="col-text">
+                    <p>La fillette part à leur recherche et rencontre successivement en chemin un four à pain, un pommier sauvage et une rivière de lait aux berges de kissel. Chacun d'eux lui propose avant de la guider, qui un petit pain de seigle, qui une pomme aigrelette, qui du kissel arrosé de lait, mais elle dédaigne toutes ces offres.</p>
+                </div>
+                <div class="col-image">
+                    <img src="img/oies_sauvages_2.png" alt="Kissel">
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Les Oies sauvages - 3 -->
+        <section class="slide slide-two-col">
+            <h2>1. Un conte russe. Les Oies sauvages - 3/4</h2>
+            <div class="two-col-content">
+                <div class="col-text">
+                    <p>C'est un hérisson (qu'elle a, par prudence, évité de maltraiter) qui l'oriente finalement vers l'endroit où les oies sauvages ont déposé son petit frère : il s'agit de l'isba de Baba Yaga, où l'enfant joue avec des pommes d'or. En cachette, la fillette parvient à saisir son petit frère et à s'enfuir avec lui, mais les oies sauvages la repèrent bientôt et se mettent à tourner, menaçantes, au-dessus d'elle.</p>
+                </div>
+                <div class="col-image">
+                    <img src="img/oies_sauvages_3.jpg" alt="Baba Yaga">
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Les Oies sauvages - 4 -->
+        <section class="slide slide-two-col">
+            <h2>1. Un conte russe. Les Oies sauvages - 4/4</h2>
+            <div class="two-col-content">
+                <div class="col-text">
+                    <p>Elle croise alors à nouveau, dans l'ordre inverse, la rivière, le pommier et le four à pain, desquels elle implore successivement de l'aide pour se cacher. Chacun d'eux le fera, mais seulement après qu'elle aura accepté leur proposition initiale : dans son affolement, elle n'a garde cette fois de jouer la dégoûtée. Ayant échappé aux oies, la fillette rejoint sa maison avec son petit frère au moment même où rentrent ses parents.</p>
+                </div>
+                <div class="col-image">
+                    <img src="img/oies_sauvages_4.jpg" alt="Les Oies sauvages">
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Analyse des fonctions narratives -->
+        <section class="slide slide-two-col slide-two-col-scroll">
+            <h2>2. L'analyse des fonctions narratives</h2>
+            <div class="two-col-content">
+                <div class="col-scroll">
+                    <p>Des parents villageois qui s'en vont au travail (ou à la foire) confient leur très jeune fils à la garde de leur sœur, une fillette. Celle-ci ne tarde pas à relâcher sa surveillance et des oies sauvages (ou des cygnes) se saisissent du bébé assis sur l'herbe et l'emportent. La fillette part à leur recherche et rencontre successivement en chemin un four à pain, un pommier sauvage et une rivière de lait aux berges de kissel. Chacun d'eux lui propose avant de la guider, qui un petit pain de seigle, qui une pomme aigrelette, qui du kissel arrosé de lait, mais elle dédaigne toutes ces offres. C'est un hérisson (qu'elle a, par prudence, évité de maltraiter) qui l'oriente finalement vers l'endroit où les oies sauvages ont déposé son petit frère : il s'agit de l'isba de Baba Yaga, où l'enfant joue avec des pommes d'or. En cachette, la fillette parvient à saisir son petit frère et à s'enfuir avec lui, mais les oies sauvages la repèrent bientôt et se mettent à tourner, menaçantes, au-dessus d'elle. Elle croise alors à nouveau, dans l'ordre inverse, la rivière, le pommier et le four à pain, desquels elle implore successivement de l'aide pour se cacher. Chacun d'eux le fera, mais seulement après qu'elle aura accepté leur proposition initiale : dans son affolement, elle n'a garde cette fois de jouer la dégoûtée. Ayant échappé aux oies, la fillette rejoint sa maison avec son petit frère au moment même où rentrent ses parents.</p>
+                </div>
+                <div class="col-scroll">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Fonction</th>
+                                <th>Justification</th>
+                                <th>Confiance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="row-correct">
+                                <td>01. Éloignement</td>
+                                <td>Les parents partent au travail (ou à la foire), laissant les enfants seuls. Forme classique β¹ d'éloignement.</td>
+                                <td>0.95</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>02. Interdiction</td>
+                                <td>Les parents confient le bébé à la garde de la fillette, impliquant l'interdiction de le laisser sans surveillance. Forme atténuée γ².</td>
+                                <td>0.90</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>03. Transgression</td>
+                                <td>La fillette "relâche sa surveillance", violant l'ordre implicite de garder son frère.</td>
+                                <td>0.92</td>
+                            </tr>
+                            <tr>
+                                <td>04. Interrogation</td>
+                                <td>Aucune tentative de reconnaissance par l'agresseur. Les oies agissent directement.</td>
+                                <td>0.10</td>
+                            </tr>
+                            <tr>
+                                <td>05. Délation</td>
+                                <td>Aucune information transmise à l'agresseur.</td>
+                                <td>0.10</td>
+                            </tr>
+                            <tr>
+                                <td>06. Tromperie</td>
+                                <td>Les oies ne tentent pas de tromper ; elles agissent par force directe.</td>
+                                <td>0.10</td>
+                            </tr>
+                            <tr>
+                                <td>07. Complicité</td>
+                                <td>La victime ne se laisse pas tromper ; l'enlèvement est un acte de force.</td>
+                                <td>0.10</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>08. Méfait</td>
+                                <td>Les oies sauvages enlèvent le bébé (A¹ - enlèvement d'une personne). Méfait central déclenchant l'action.</td>
+                                <td>0.98</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>09. Appel</td>
+                                <td>Le malheur est constaté par la fillette elle-même. Forme B⁴ combinée avec B³ (initiative propre).</td>
+                                <td>0.88</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>10. Entreprise réparatrice</td>
+                                <td>La fillette décide de partir à la recherche de son frère. Décision volontaire de contre-action (C).</td>
+                                <td>0.92</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>11. Départ</td>
+                                <td>La fillette quitte la maison pour chercher son frère. Départ classique (↑).</td>
+                                <td>0.95</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>12. Première fonction du donateur</td>
+                                <td>Le four, le pommier et la rivière proposent chacun de la nourriture (D¹ - mise à l'épreuve).</td>
+                                <td>0.92</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>13. Réaction du héros</td>
+                                <td>La fillette refuse les offres (E¹ négative). Mais elle ne maltraite pas le hérisson (E⁷ positive).</td>
+                                <td>0.90</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>14. Réception de l'objet magique</td>
+                                <td>Le hérisson lui indique le chemin vers l'isba de Baba Yaga (F² - l'information est indiquée).</td>
+                                <td>0.87</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>15. Déplacement</td>
+                                <td>Le hérisson indique le chemin (G⁴ - la route est montrée).</td>
+                                <td>0.90</td>
+                            </tr>
+                            <tr>
+                                <td>16. Combat</td>
+                                <td>Aucun combat direct entre la fillette et les oies ou Baba Yaga.</td>
+                                <td>0.10</td>
+                            </tr>
+                            <tr>
+                                <td>17. Marque</td>
+                                <td>La fillette ne reçoit aucune marque distinctive.</td>
+                                <td>0.10</td>
+                            </tr>
+                            <tr>
+                                <td>18. Victoire</td>
+                                <td>Pas de victoire par combat. Récupération par ruse/discrétion.</td>
+                                <td>0.15</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>19. Réparation</td>
+                                <td>La fillette saisit son petit frère et s'enfuit (K¹ - l'objet de la quête est saisi).</td>
+                                <td>0.95</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>20. Retour</td>
+                                <td>La fillette s'enfuit avec son frère pour rentrer chez elle (↓).</td>
+                                <td>0.95</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>21. Poursuite</td>
+                                <td>Les oies sauvages "se mettent à tourner, menaçantes, au-dessus d'elle" (Pr¹ - poursuite aérienne).</td>
+                                <td>0.95</td>
+                            </tr>
+                            <tr class="row-correct">
+                                <td>22. Secours</td>
+                                <td>La rivière, le pommier et le four cachent la fillette (Rs⁴ - le héros se cache).</td>
+                                <td>0.95</td>
+                            </tr>
+                            <tr>
+                                <td>23. Arrivée incognito</td>
+                                <td>La fillette rentre directement chez elle, sans déguisement.</td>
+                                <td>0.10</td>
+                            </tr>
+                            <tr>
+                                <td>24. Imposture</td>
+                                <td>Aucun faux héros ne présente de prétentions.</td>
+                                <td>0.10</td>
+                            </tr>
+                            <tr>
+                                <td>25. Tâche difficile</td>
+                                <td>Aucune tâche difficile proposée après son retour.</td>
+                                <td>0.10</td>
+                            </tr>
+                            <tr>
+                                <td>26. Accomplissement</td>
+                                <td>Pas de tâche à accomplir.</td>
+                                <td>0.10</td>
+                            </tr>
+                            <tr>
+                                <td>27. Reconnaissance</td>
+                                <td>Pas de scène de reconnaissance formelle.</td>
+                                <td>0.20</td>
+                            </tr>
+                            <tr>
+                                <td>28. Découverte</td>
+                                <td>Aucun faux héros à démasquer.</td>
+                                <td>0.10</td>
+                            </tr>
+                            <tr>
+                                <td>29. Transfiguration</td>
+                                <td>La fillette ne reçoit pas de nouvelle apparence.</td>
+                                <td>0.10</td>
+                            </tr>
+                            <tr>
+                                <td>30. Châtiment</td>
+                                <td>Les oies/Baba Yaga ne sont pas punies explicitement.</td>
+                                <td>0.15</td>
+                            </tr>
+                            <tr>
+                                <td>31. Mariage</td>
+                                <td>Pas de mariage ; conte centré sur une enfant.</td>
+                                <td>0.10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="nav-hint">Scroll ↓</div>
+
+    <script>
+        // Update slide number on scroll
+        const slides = document.querySelectorAll('.slide');
+        const container = document.querySelector('.slides-container');
+
+        container.addEventListener('scroll', () => {
+            const scrollPos = container.scrollTop;
+            const windowHeight = window.innerHeight;
+            const currentSlide = Math.round(scrollPos / windowHeight) + 1;
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const scrollAmount = window.innerHeight;
+            if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                container.scrollBy({ top: scrollAmount, behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                e.preventDefault();
+                container.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+            }
+        });
+    </script>
+</body>
+</html>
