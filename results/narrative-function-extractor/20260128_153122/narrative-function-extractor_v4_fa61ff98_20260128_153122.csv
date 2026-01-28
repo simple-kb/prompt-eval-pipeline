@@ -1,0 +1,4 @@
+run_id,prompt_name,test_case,passed,latency_ms,tokens_in,tokens_out,error,metric_contains
+fa61ff98,narrative-function-extractor_v4,Les Oies sauvages,True,32427.06860000908,748,1702,,1.0
+fa61ff98,narrative-function-extractor_v4,Morozko,False,37390.37179999286,682,1935,,0.0
+fa61ff98,narrative-function-extractor_v4,Vassilissa-la-très-belle,False,43812.37789998704,1879,2415,,0.0

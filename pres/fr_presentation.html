@@ -340,6 +340,43 @@
             max-height: 85vh;
             object-fit: contain;
         }
+
+        /* Demo slide */
+        .slide-demo {
+            background: rgb(250, 249, 245);
+            padding: 40px 60px;
+        }
+
+        .slide-demo h2 {
+            font-size: 2.4rem;
+            color: #1a1a1a;
+            margin-bottom: 60px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .slide-demo .demo-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-demo .demo-content a {
+            font-size: 3rem;
+            color: #DA7856;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 20px 60px;
+            border: 3px solid #DA7856;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .slide-demo .demo-content a:hover {
+            background: #DA7856;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -372,7 +409,7 @@
             <ul class="agenda-list">
                 <li data-num="1.">Un conte russe, "Les Oies sauvages"</li>
                 <li data-num="2.">L'analyse des fonctions narratives</li>
-                <li data-num="3.">Le prompt evaluation, pourquoi, comment</li>
+                <li data-num="3.">Le <i>prompt evaluation</i>, pourquoi, comment</li>
                 <li data-num="4.">Un pipeline de prompt evaluation pour l'analyse des fonctions narratives</li>
             </ul>
         </section>
@@ -617,7 +654,7 @@
 
         <!-- Slide 9: Prompt Evaluation 1 -->
         <section class="slide slide-image">
-            <h2><span class="orange">3.</span> Le prompt evaluation, pourquoi, comment</h2>
+            <h2><span class="orange">3.</span> Le <i>prompt evaluation</i>, pourquoi, comment</h2>
             <div class="image-container">
                 <a href="img/prompt_evaluation_1.drawio.svg" target="_blank">
                     <img src="img/prompt_evaluation_1.drawio.svg" alt="Prompt Evaluation 1">
@@ -627,7 +664,7 @@
 
         <!-- Slide 10: Prompt Evaluation 2 -->
         <section class="slide slide-image">
-            <h2><span class="orange">3.</span> Le prompt evaluation, pourquoi, comment</h2>
+            <h2><span class="orange">3.</span> Le <i>prompt evaluation</i>, pourquoi, comment</h2>
             <div class="image-container">
                 <a href="img/prompt_evaluation_2.drawio.svg" target="_blank">
                     <img src="img/prompt_evaluation_2.drawio.svg" alt="Prompt Evaluation 2">
@@ -637,7 +674,7 @@
 
         <!-- Slide 11: Prompt Evaluation 3 -->
         <section class="slide slide-image">
-            <h2><span class="orange">3.</span> Le prompt evaluation, pourquoi, comment</h2>
+            <h2><span class="orange">3.</span> Le <i>prompt evaluation</i>, pourquoi, comment</h2>
             <div class="image-container">
                 <a href="img/prompt_evaluation_3.drawio.svg" target="_blank">
                     <img src="img/prompt_evaluation_3.drawio.svg" alt="Prompt Evaluation 3">
@@ -647,7 +684,7 @@
 
         <!-- Slide 12: Prompt Evaluation 4 -->
         <section class="slide slide-image">
-            <h2><span class="orange">3.</span> Le prompt evaluation, pourquoi, comment</h2>
+            <h2><span class="orange">3.</span> Le <i>prompt evaluation</i>, pourquoi, comment</h2>
             <div class="image-container">
                 <a href="img/prompt_evaluation_4.drawio.svg" target="_blank">
                     <img src="img/prompt_evaluation_4.drawio.svg" alt="Prompt Evaluation 4">
@@ -657,10 +694,28 @@
 
         <!-- Slide 13: Prompt Evaluation 5 -->
         <section class="slide slide-image">
-            <h2><span class="orange">3.</span> Le prompt evaluation, pourquoi, comment</h2>
+            <h2><span class="orange">3.</span> Le <i>prompt evaluation</i>, pourquoi, comment</h2>
             <div class="image-container">
                 <a href="img/prompt_evaluation_5.drawio.svg" target="_blank">
                     <img src="img/prompt_evaluation_5.drawio.svg" alt="Prompt Evaluation 5">
+                </a>
+            </div>
+        </section>
+
+        <!-- Slide 14: Demo -->
+        <section class="slide slide-demo">
+            <h2><span class="orange">4.</span> Un pipeline de <i>prompt evaluation</i> pour l'analyse des fonctions narratives</h2>
+            <div class="demo-content">
+                <a href="https://github.com/simple-kb/prompt-eval-pipeline" target="_blank">Démo</a>
+            </div>
+        </section>
+
+        <!-- Slide 15: Prompt Evaluation detail -->
+        <section class="slide slide-image">
+            <h2><span class="orange">4.</span> Un pipeline de <i>prompt evaluation</i> pour l'analyse des fonctions narratives</h2>
+            <div class="image-container">
+                <a href="img/prompt_evaluation_detail.drawio.svg" target="_blank">
+                    <img src="img/prompt_evaluation_detail.drawio.svg" alt="Prompt Evaluation detail">
                 </a>
             </div>
         </section>

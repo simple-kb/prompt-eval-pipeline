@@ -78,11 +78,10 @@ template: |
   * colonne 1: nom de la fonction
   * colonne 2: justification (si elle s'applique ou non).
   Si le score de confiance est entre {confidence_low} et {confidence_high}, alors tu dois être très prudent, reconsidérer le score et fournir plus de justifications.
-  Si le score de confiance est toujours {confidence_threshold}, alors soit l'abaisser (pour les cas limites) soit l'augmenter (quand la fonction est justifiée). Puis met à jour la colonne de confiance (colonne 2) avec la nouvelle valeur
   * colonne 3: applicable. Ceci doit contenir le score de confiance que tu viens de calculer et réévaluer.
 
   Partie 2 est la séquence résultante:
   Lis chaque ligne du tableau détaillé.
-  Garde uniquement les fonctions avec un score de confiance supérieur à {confidence_threshold}.
+  Garde uniquement les fonctions avec un score de confiance supérieur ou égal à {confidence_threshold}.
   Concatène ces numéros de fonctions avec un séparateur virgule.
   Écris cette séquence concaténée.
