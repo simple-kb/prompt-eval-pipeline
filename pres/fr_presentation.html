@@ -61,6 +61,10 @@
             margin-top: 40px;
         }
 
+        .slide-title ul li::marker {
+            color: #DA7856;
+        }
+
         .fairy-icon {
             font-size: 4rem;
             margin-bottom: 30px;
@@ -202,8 +206,9 @@
 
         .slide-two-col-scroll .col-scroll {
             max-height: 70vh;
+            padding-right: 15px;
             overflow-y: auto;
-            font-size: 1rem;
+            font-size: 1.2rem;
             line-height: 1.6;
             color: #2a2a2a;
         }
@@ -244,7 +249,7 @@
         .results-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 1rem;
+            font-size: 1.2rem;
         }
 
         .results-table th,
@@ -267,12 +272,73 @@
 
         .results-table td:first-child {
             font-weight: 500;
-            white-space: nowrap;
         }
 
         .results-table td:last-child {
             text-align: center;
             font-weight: 600;
+        }
+
+        /* Iframe slide */
+        .slide-iframe {
+            background: rgb(250, 249, 245);
+            padding: 40px 60px;
+        }
+
+        .slide-iframe h2 {
+            font-size: 2.4rem;
+            color: #1a1a1a;
+            margin-bottom: 30px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .slide-iframe .iframe-container {
+            flex: 1;
+            width: 100%;
+            min-height: 0;
+        }
+
+        .slide-iframe iframe {
+            width: 83.33%;
+            height: 83.33%;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transform: scale(1.2);
+            transform-origin: 0 0;
+        }
+
+        span.orange {
+            color: #DA7856;
+        }
+
+        /* Centered image slide */
+        .slide-image {
+            background: rgb(250, 249, 245);
+            padding: 20px 40px;
+        }
+
+        .slide-image h2 {
+            font-size: 2.4rem;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .slide-image .image-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 0;
+        }
+
+        .slide-image .image-container img {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
         }
     </style>
 </head>
@@ -298,12 +364,11 @@
                     </li>
                 </ul>
             </p>
-            <p class="author">🧙 Avec Baba Yaga</p>
         </section>
 
         <!-- Slide 2: Agenda -->
         <section class="slide slide-agenda">
-            <h2>📋 Agenda</h2>
+            <h2>📋 Au programme</h2>
             <ul class="agenda-list">
                 <li data-num="1.">Un conte russe, "Les Oies sauvages"</li>
                 <li data-num="2.">L'analyse des fonctions narratives</li>
@@ -314,7 +379,7 @@
 
         <!-- Slide 3: Les Oies sauvages - 1 -->
         <section class="slide slide-two-col">
-            <h2>1. Un conte russe. Les Oies sauvages - 1/4</h2>
+            <h2><span class="orange">1.</span> Un conte russe. Les Oies sauvages - 1/4</h2>
             <div class="two-col-content">
                 <div class="col-text">
                     <p>Des parents villageois qui s'en vont au travail (ou à la foire) confient leur très jeune fils à la garde de leur sœur, une fillette. Celle-ci ne tarde pas à relâcher sa surveillance et des oies sauvages (ou des cygnes) se saisissent du bébé assis sur l'herbe et l'emportent.</p>
@@ -327,7 +392,7 @@
 
         <!-- Slide 4: Les Oies sauvages - 2 -->
         <section class="slide slide-two-col">
-            <h2>1. Un conte russe. Les Oies sauvages - 2/4</h2>
+            <h2><span class="orange">1.</span> Un conte russe. Les Oies sauvages - 2/4</h2>
             <div class="two-col-content">
                 <div class="col-text">
                     <p>La fillette part à leur recherche et rencontre successivement en chemin un four à pain, un pommier sauvage et une rivière de lait aux berges de kissel. Chacun d'eux lui propose avant de la guider, qui un petit pain de seigle, qui une pomme aigrelette, qui du kissel arrosé de lait, mais elle dédaigne toutes ces offres.</p>
@@ -340,7 +405,7 @@
 
         <!-- Slide 5: Les Oies sauvages - 3 -->
         <section class="slide slide-two-col">
-            <h2>1. Un conte russe. Les Oies sauvages - 3/4</h2>
+            <h2><span class="orange">1.</span> Un conte russe. Les Oies sauvages - 3/4</h2>
             <div class="two-col-content">
                 <div class="col-text">
                     <p>C'est un hérisson (qu'elle a, par prudence, évité de maltraiter) qui l'oriente finalement vers l'endroit où les oies sauvages ont déposé son petit frère : il s'agit de l'isba de Baba Yaga, où l'enfant joue avec des pommes d'or. En cachette, la fillette parvient à saisir son petit frère et à s'enfuir avec lui, mais les oies sauvages la repèrent bientôt et se mettent à tourner, menaçantes, au-dessus d'elle.</p>
@@ -353,7 +418,7 @@
 
         <!-- Slide 6: Les Oies sauvages - 4 -->
         <section class="slide slide-two-col">
-            <h2>1. Un conte russe. Les Oies sauvages - 4/4</h2>
+            <h2><span class="orange">1.</span> Un conte russe. Les Oies sauvages - 4/4</h2>
             <div class="two-col-content">
                 <div class="col-text">
                     <p>Elle croise alors à nouveau, dans l'ordre inverse, la rivière, le pommier et le four à pain, desquels elle implore successivement de l'aide pour se cacher. Chacun d'eux le fera, mais seulement après qu'elle aura accepté leur proposition initiale : dans son affolement, elle n'a garde cette fois de jouer la dégoûtée. Ayant échappé aux oies, la fillette rejoint sa maison avec son petit frère au moment même où rentrent ses parents.</p>
@@ -364,9 +429,17 @@
             </div>
         </section>
 
-        <!-- Slide 7: Analyse des fonctions narratives -->
+        <!-- Slide 7: Morphologie du conte (Wikipedia) -->
+        <section class="slide slide-iframe">
+            <h2><span class="orange">2.</span> L'analyse des fonctions narratives</h2>
+            <div class="iframe-container">
+                <iframe src="https://fr.wikipedia.org/wiki/Morphologie_du_conte" title="Morphologie du conte - Wikipedia"></iframe>
+            </div>
+        </section>
+
+        <!-- Slide 8: Analyse des fonctions narratives -->
         <section class="slide slide-two-col slide-two-col-scroll">
-            <h2>2. L'analyse des fonctions narratives</h2>
+            <h2><span class="orange">2.</span> L'analyse des fonctions narratives</h2>
             <div class="two-col-content">
                 <div class="col-scroll">
                     <p>Des parents villageois qui s'en vont au travail (ou à la foire) confient leur très jeune fils à la garde de leur sœur, une fillette. Celle-ci ne tarde pas à relâcher sa surveillance et des oies sauvages (ou des cygnes) se saisissent du bébé assis sur l'herbe et l'emportent. La fillette part à leur recherche et rencontre successivement en chemin un four à pain, un pommier sauvage et une rivière de lait aux berges de kissel. Chacun d'eux lui propose avant de la guider, qui un petit pain de seigle, qui une pomme aigrelette, qui du kissel arrosé de lait, mais elle dédaigne toutes ces offres. C'est un hérisson (qu'elle a, par prudence, évité de maltraiter) qui l'oriente finalement vers l'endroit où les oies sauvages ont déposé son petit frère : il s'agit de l'isba de Baba Yaga, où l'enfant joue avec des pommes d'or. En cachette, la fillette parvient à saisir son petit frère et à s'enfuir avec lui, mais les oies sauvages la repèrent bientôt et se mettent à tourner, menaçantes, au-dessus d'elle. Elle croise alors à nouveau, dans l'ordre inverse, la rivière, le pommier et le four à pain, desquels elle implore successivement de l'aide pour se cacher. Chacun d'eux le fera, mais seulement après qu'elle aura accepté leur proposition initiale : dans son affolement, elle n'a garde cette fois de jouer la dégoûtée. Ayant échappé aux oies, la fillette rejoint sa maison avec son petit frère au moment même où rentrent ses parents.</p>
@@ -539,6 +612,56 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: Prompt Evaluation 1 -->
+        <section class="slide slide-image">
+            <h2><span class="orange">3.</span> Le prompt evaluation, pourquoi, comment</h2>
+            <div class="image-container">
+                <a href="img/prompt_evaluation_1.drawio.svg" target="_blank">
+                    <img src="img/prompt_evaluation_1.drawio.svg" alt="Prompt Evaluation 1">
+                </a>
+            </div>
+        </section>
+
+        <!-- Slide 10: Prompt Evaluation 2 -->
+        <section class="slide slide-image">
+            <h2><span class="orange">3.</span> Le prompt evaluation, pourquoi, comment</h2>
+            <div class="image-container">
+                <a href="img/prompt_evaluation_2.drawio.svg" target="_blank">
+                    <img src="img/prompt_evaluation_2.drawio.svg" alt="Prompt Evaluation 2">
+                </a>
+            </div>
+        </section>
+
+        <!-- Slide 11: Prompt Evaluation 3 -->
+        <section class="slide slide-image">
+            <h2><span class="orange">3.</span> Le prompt evaluation, pourquoi, comment</h2>
+            <div class="image-container">
+                <a href="img/prompt_evaluation_3.drawio.svg" target="_blank">
+                    <img src="img/prompt_evaluation_3.drawio.svg" alt="Prompt Evaluation 3">
+                </a>
+            </div>
+        </section>
+
+        <!-- Slide 12: Prompt Evaluation 4 -->
+        <section class="slide slide-image">
+            <h2><span class="orange">3.</span> Le prompt evaluation, pourquoi, comment</h2>
+            <div class="image-container">
+                <a href="img/prompt_evaluation_4.drawio.svg" target="_blank">
+                    <img src="img/prompt_evaluation_4.drawio.svg" alt="Prompt Evaluation 4">
+                </a>
+            </div>
+        </section>
+
+        <!-- Slide 13: Prompt Evaluation 5 -->
+        <section class="slide slide-image">
+            <h2><span class="orange">3.</span> Le prompt evaluation, pourquoi, comment</h2>
+            <div class="image-container">
+                <a href="img/prompt_evaluation_5.drawio.svg" target="_blank">
+                    <img src="img/prompt_evaluation_5.drawio.svg" alt="Prompt Evaluation 5">
+                </a>
             </div>
         </section>
     </div>
