@@ -377,6 +377,115 @@
             background: #DA7856;
             color: white;
         }
+
+        /* AI Interaction List (3 ways to interact) */
+        .ai-interaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .ai-interaction-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+        }
+
+        .ai-interaction-row.highlighted {
+            opacity: 1;
+        }
+
+        .ai-icon-box {
+            width: 100px;
+            height: 100px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .ai-icon-box img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .ai-interaction-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .ai-interaction-text strong {
+            font-size: 1.4rem;
+            color: #1a1a1a;
+        }
+
+        .ai-interaction-text span {
+            font-size: 1.1rem;
+            color: #2a2a2a;
+        }
+
+        /* Override justify for AI interaction slides */
+        .slide-ai-interaction .col-text p {
+            text-align: left;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .slides-container {
+                height: auto;
+                overflow: visible;
+                scroll-snap-type: none;
+            }
+
+            .slide {
+                width: 100%;
+                height: auto;
+                min-height: 100vh;
+                page-break-after: always;
+                page-break-inside: avoid;
+                scroll-snap-align: none;
+            }
+
+            .slide:last-child {
+                page-break-after: auto;
+            }
+
+            .nav-hint {
+                display: none;
+            }
+
+            .slide-number {
+                display: none;
+            }
+
+            .slide-iframe iframe {
+                display: none;
+            }
+
+            .slide-iframe::after {
+                content: "Voir: https://fr.wikipedia.org/wiki/Morphologie_du_conte";
+                font-size: 1.2rem;
+                color: #666;
+            }
+
+            .two-col-content .col-image img {
+                max-height: 50vh;
+            }
+
+            .slide-two-col-scroll .col-scroll {
+                max-height: none;
+                overflow: visible;
+            }
+        }
     </style>
 </head>
 <body>
@@ -410,7 +519,8 @@
                 <li data-num="1.">Un conte russe, "Les Oies sauvages"</li>
                 <li data-num="2.">L'analyse des fonctions narratives</li>
                 <li data-num="3.">Le <i>prompt evaluation</i>, pourquoi, comment</li>
-                <li data-num="4.">Un pipeline de prompt evaluation pour l'analyse des fonctions narratives</li>
+                <li data-num="4.">Un pipeline de <i>prompt evaluation</i> pour l'analyse des fonctions narratives</li>
+                <li data-num="5">Les cas d'usage de l'IA selon Anthropic : pertinent ?</li>
             </ul>
         </section>
 
@@ -717,6 +827,146 @@
                 <a href="img/prompt_evaluation_detail.drawio.svg" target="_blank">
                     <img src="img/prompt_evaluation_detail.drawio.svg" alt="Prompt Evaluation detail">
                 </a>
+            </div>
+        </section>
+
+        <!-- Slide 16: Les cas d'usage de l'IA selon Anthropic : pertinent ? -->
+        <section class="slide slide-two-col slide-ai-interaction">
+            <h2>Les cas d'usage de l'IA selon Anthropic : pertinent ?</h2>
+            <div class="two-col-content">
+                <div class="col-text">
+                    <p><strong>L'IA travaille pour vous en suivant des instructions explicites.</strong></p>
+                    <p style="margin-top: 20px;">Dans ce mode, vous définissez précisément ce que l'IA doit faire, étape par étape. L'IA exécute les tâches de manière répétitive et fiable, sans prendre d'initiatives.</p>
+                    <p style="margin-top: 20px;">
+                        L'humain déclenche l'interaction.
+                        Pas d'itérations / collaboration.
+                    </p>
+                    <p style="margin-top: 20px;"><em>Exemples :</em> Générer des rapports standardisés, trier des emails selon des règles simples, envoyer des messages de notification.</p>
+                </div>
+                <div class="col-image">
+                    <div class="ai-interaction-list">
+                        <div class="ai-interaction-row highlighted">
+                            <div class="ai-icon-box" style="background: #7a9a6d;">
+                                <img src="img/automation_icon.png" alt="Automation">
+                            </div>
+                            <div class="ai-interaction-text">
+                                <strong>Automation</strong>
+                                <span>AI does work for you following explicit instructions.</span>
+                            </div>
+                        </div>
+                        <div class="ai-interaction-row">
+                            <div class="ai-icon-box" style="background: #a8c4c4;">
+                                <img src="img/augmentation_icon.png" alt="Augmentation">
+                            </div>
+                            <div class="ai-interaction-text">
+                                <strong>Augmentation</strong>
+                                <span>You and the AI collaboratively work together.</span>
+                            </div>
+                        </div>
+                        <div class="ai-interaction-row">
+                            <div class="ai-icon-box" style="background: #6b9ac4;">
+                                <img src="img/agency_icon.png" alt="Agency">
+                            </div>
+                            <div class="ai-interaction-text">
+                                <strong>Agency</strong>
+                                <span>AI works independently on your behalf.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 17: Trois façons d'interagir avec l'IA - Augmentation -->
+        <section class="slide slide-two-col slide-ai-interaction">
+            <h2>Les cas d'usage de l'IA selon Anthropic : pertinent ?</h2>
+            <div class="two-col-content">
+                <div class="col-text">
+                    <p><strong>Vous et l'IA collaborez ensemble.</strong></p>
+                    <p style="margin-top: 20px;">Ce mode favorise une interaction bidirectionnelle où l'humain et l'IA travaillent en tandem. L'IA propose des suggestions, l'humain les affine et les valide. Les deux parties apportent leurs forces respectives au processus.</p>
+                    
+                        L'humain déclenche l'interaction.
+                        Itérations / collaboration.
+                    </p>
+                    <p style="margin-top: 20px;"><em>Exemples :</em> co-rédaction de documents, brainstorming assisté, révision de code avec suggestions, création artistique collaborative.</p>
+                </div>
+                <div class="col-image">
+                    <div class="ai-interaction-list">
+                        <div class="ai-interaction-row">
+                            <div class="ai-icon-box" style="background: #7a9a6d;">
+                                <img src="img/automation_icon.png" alt="Automation">
+                            </div>
+                            <div class="ai-interaction-text">
+                                <strong>Automation</strong>
+                                <span>AI does work for you following explicit instructions.</span>
+                            </div>
+                        </div>
+                        <div class="ai-interaction-row highlighted">
+                            <div class="ai-icon-box" style="background: #a8c4c4;">
+                                <img src="img/augmentation_icon.png" alt="Augmentation">
+                            </div>
+                            <div class="ai-interaction-text">
+                                <strong>Augmentation</strong>
+                                <span>You and the AI collaboratively work together.</span>
+                            </div>
+                        </div>
+                        <div class="ai-interaction-row">
+                            <div class="ai-icon-box" style="background: #6b9ac4;">
+                                <img src="img/agency_icon.png" alt="Agency">
+                            </div>
+                            <div class="ai-interaction-text">
+                                <strong>Agency</strong>
+                                <span>AI works independently on your behalf.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 18: Trois façons d'interagir avec l'IA - Agentique -->
+        <section class="slide slide-two-col slide-ai-interaction">
+            <h2>Les cas d'usage de l'IA selon Anthropic : pertinent ?</h2>
+            <div class="two-col-content">
+                <div class="col-text">
+                    <p><strong>L'IA travaille de manière autonome en votre nom.</strong></p>
+                    <p style="margin-top: 20px;">Dans ce mode, l'IA dispose d'une plus grande latitude pour prendre des décisions et agir de façon indépendante. Elle peut planifier, exécuter et ajuster ses actions pour atteindre un objectif défini, avec une supervision humaine minimale.</p>
+                    
+                        L'agent déclenche l'interaction.
+                    </p>
+                    <p style="margin-top: 20px;"><em>Exemples :</em> agents autonomes de recherche, assistants personnels proactifs, systèmes de gestion automatisée, robots conversationnels autonomes.</p>
+                </div>
+                <div class="col-image">
+                    <div class="ai-interaction-list">
+                        <div class="ai-interaction-row">
+                            <div class="ai-icon-box" style="background: #7a9a6d;">
+                                <img src="img/automation_icon.png" alt="Automation">
+                            </div>
+                            <div class="ai-interaction-text">
+                                <strong>Automation</strong>
+                                <span>AI does work for you following explicit instructions.</span>
+                            </div>
+                        </div>
+                        <div class="ai-interaction-row">
+                            <div class="ai-icon-box" style="background: #a8c4c4;">
+                                <img src="img/augmentation_icon.png" alt="Augmentation">
+                            </div>
+                            <div class="ai-interaction-text">
+                                <strong>Augmentation</strong>
+                                <span>You and the AI collaboratively work together.</span>
+                            </div>
+                        </div>
+                        <div class="ai-interaction-row highlighted">
+                            <div class="ai-icon-box" style="background: #6b9ac4;">
+                                <img src="img/agency_icon.png" alt="Agency">
+                            </div>
+                            <div class="ai-interaction-text">
+                                <strong>Agency</strong>
+                                <span>AI works independently on your behalf.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>

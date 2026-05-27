@@ -73,11 +73,12 @@ test_cases:
 metrics:
   - type: contains
     case_sensitive: false
-  
-  # Uncomment to add LLM-based evaluation (uses more API calls)
-  # - type: llm_judge
-  #   criteria: |
-  #     Evaluate the summary on:
-  #     1. Accuracy - Does it capture the main points?
-  #     2. Conciseness - Is it appropriately brief?
-  #     3. Clarity - Is it easy to understand?
+
+  - type: llm_judge
+    model: claude-sonnet-4-5-20250929
+    criteria: |
+      Evaluate the quality of the Propp narrative function analysis on these criteria:
+      1. Accuracy — Were the correct narrative functions identified?
+      2. Justifications — Are the explanations for presence/absence relevant and well-grounded?
+      3. Format — Is the response clearly structured (analysis table, final sequence)?
+      4. Consistency — Are the confidence scores consistent with the given justifications?

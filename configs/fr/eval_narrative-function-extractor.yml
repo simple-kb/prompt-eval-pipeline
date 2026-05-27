@@ -51,10 +51,11 @@ metrics:
   - type: contains
     case_sensitive: false
 
-  # Décommenter pour ajouter une évaluation basée sur LLM (utilise plus d'appels API)
-  # - type: llm_judge
-  #   criteria: |
-  #     Évaluer le résumé sur:
-  #     1. Exactitude - Capture-t-il les points principaux?
-  #     2. Concision - Est-il suffisamment bref?
-  #     3. Clarté - Est-il facile à comprendre?
+  - type: llm_judge
+    model: claude-sonnet-4-5-20250929
+    criteria: |
+      Évaluer la qualité de l'analyse des fonctions narratives de Propp sur ces critères :
+      1. Exactitude — Les bonnes fonctions narratives ont-elles été identifiées ?
+      2. Justifications — Les explications de présence/absence sont-elles pertinentes et bien fondées ?
+      3. Format — La réponse est-elle structurée de façon claire (tableau, séquence finale) ?
+      4. Cohérence — Les scores de confiance sont-ils cohérents avec les justifications données ?

@@ -166,6 +166,7 @@ class EvalResult(BaseModel):
     # Test case metadata for HTML highlighting
     test_case_inputs: dict[str, Any] = Field(default_factory=dict, description="Original test case inputs")
     expected_contains: list[str] = Field(default_factory=list, description="Expected strings from test case")
+    metric_justifications: dict[str, str] = Field(default_factory=dict, description="Justification text from LLM judge per metric")
 
 
 class EvalRun(BaseModel):

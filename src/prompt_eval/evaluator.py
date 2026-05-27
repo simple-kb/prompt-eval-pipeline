@@ -16,7 +16,7 @@ from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn
 from rich.table import Table
 
 from prompt_eval.models import Prompt, TestCase, EvalResult, EvalRun
-from prompt_eval.metrics import Metric, Contains
+from prompt_eval.metrics import Metric, Contains, LLMJudge
 
 
 class Evaluator:
@@ -119,17 +119,24 @@ class Evaluator:
         
         # Calculate metrics
         metric_scores = {}
+        metric_justifications = {}
         for metric in metrics:
             try:
-                metric_scores[metric.name] = metric.score(output, test_case)
+                if isinstance(metric, LLMJudge):
+                    score, justification = metric.score_with_justification(output, test_case)
+                    metric_scores[metric.name] = score
+                    if justification:
+                        metric_justifications[metric.name] = justification
+                else:
+                    metric_scores[metric.name] = metric.score(output, test_case)
             except Exception as e:
                 metric_scores[metric.name] = 0.0
                 if self.verbose:
                     self.console.print(f"[yellow]Warning: Metric {metric.name} failed: {e}[/yellow]")
-        
+
         # Determine pass/fail (all metrics must pass with >= evaluation_threshold)
         passed = all(score >= self.evaluation_threshold for score in metric_scores.values()) and error is None
-        
+
         return EvalResult(
             test_case=test_case.name,
             prompt_name=prompt.name,
@@ -144,6 +151,7 @@ class Evaluator:
             error=error,
             test_case_inputs=test_case.inputs,
             expected_contains=test_case.expected_contains,
+            metric_justifications=metric_justifications,
         )
     
     def evaluate(

@@ -138,11 +138,11 @@ class RegexMatch(Metric):
 
 class LLMJudge(Metric):
     """Use an LLM to judge the quality of the output."""
-    
+
     name = "llm_judge"
-    
+
     def __init__(
-        self, 
+        self,
         criteria: str = "Is the response helpful, accurate, and well-formatted?",
         model: str = "claude-sonnet-4-20250514",
         client: Anthropic | None = None
@@ -150,9 +150,9 @@ class LLMJudge(Metric):
         self.criteria = criteria
         self.model = model
         self.client = client or Anthropic()
-    
-    def score(self, output: str, test_case) -> float:
-        # Build the judging prompt
+
+    def score_with_justification(self, output: str, test_case) -> tuple[float, str]:
+        """Score the output and return both a numeric score and a justification string."""
         judge_prompt = f"""You are evaluating an AI assistant's response.
 
 TASK/INPUT:
@@ -169,18 +169,36 @@ Score the response from 0.0 to 1.0, where:
 - 0.5 = Partially meets the criteria
 - 1.0 = Fully meets the criteria
 
-Respond with ONLY a number between 0.0 and 1.0, nothing else."""
+Respond in exactly this format:
+SCORE: <number between 0.0 and 1.0>
+JUSTIFICATION: <your explanation>"""
 
         try:
             response = self.client.messages.create(
                 model=self.model,
-                max_tokens=10,
+                max_tokens=300,
                 messages=[{"role": "user", "content": judge_prompt}]
             )
-            score_text = response.content[0].text.strip()
-            return float(score_text)
+            text = response.content[0].text.strip()
+            lines = text.splitlines()
+            score = 0.5
+            justification = ""
+            for i, line in enumerate(lines):
+                if line.startswith("SCORE:"):
+                    score = float(line.split(":", 1)[1].strip())
+                elif line.startswith("JUSTIFICATION:"):
+                    justification = line.split(":", 1)[1].strip()
+                    # Capture any continuation lines
+                    if i + 1 < len(lines):
+                        justification += " " + " ".join(l.strip() for l in lines[i + 1:] if l.strip())
+                    break
+            return score, justification
         except (ValueError, IndexError):
-            return 0.5  # Default to middle score on parse failure
+            return 0.5, ""
+
+    def score(self, output: str, test_case) -> float:
+        score, _ = self.score_with_justification(output, test_case)
+        return score
 
 
 class CompositeMetric(Metric):

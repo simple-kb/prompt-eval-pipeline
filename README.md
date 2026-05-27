@@ -7,6 +7,10 @@ To quickly understand how this project works, review these two files:
 * Prompt evaluation pipeline: [prompts/narrative-function-extractor/narrative-function-extractor_v3.yaml](./configs/eval_narrative-function-extractor.yml)
 * Sample results: [results/narrative-function-extractor/20260107_114239/narrative-function-extractor_v3_e94a9b0d_20260107_114239.html](./results/narrative-function-extractor/20260107_114239/narrative-function-extractor_v3_e94a9b0d_20260107_114239.html)
 
+## (FR) Support de présentation du meetup janvier 2026
+
+![Présentation HTML téléchargeable](./pres/fr_presentation.html?raw=true)
+
 ## Features
 
 - **Declarative Configuration**: Define everything in YAML - no code required

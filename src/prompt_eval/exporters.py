@@ -385,6 +385,11 @@ class ResultsExporter:
                 f"**Metrics:** {result.metrics}",
                 "",
             ])
+            if result.metric_justifications:
+                lines.append("**Judge Justifications:**")
+                for metric_name, justification in result.metric_justifications.items():
+                    lines.append(f"- `{metric_name}`: {justification}")
+                lines.append("")
             if result.error:
                 lines.append(f"**Error:** {result.error}")
                 lines.append("")
@@ -518,6 +523,15 @@ class ResultsExporter:
         <p><strong>Output:</strong></p>
         <div>{output_html}</div>
         <p><strong>Metrics:</strong> {result.metrics}</p>
+"""
+            if result.metric_justifications:
+                html += """        <p><strong>Judge Justifications:</strong></p>
+        <ul>
+"""
+                for metric_name, justification in result.metric_justifications.items():
+                    html += f"""            <li><code>{metric_name}</code>: {justification}</li>
+"""
+                html += """        </ul>
 """
             if result.error:
                 html += f"""        <p><strong>Error:</strong> {result.error}</p>

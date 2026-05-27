@@ -8,7 +8,13 @@
       "Bash(cat:*)",
       "Bash(pip install:*)",
       "WebFetch(domain:fr.wikipedia.org)",
-      "WebFetch(domain:apps.glendon.yorku.ca)"
+      "WebFetch(domain:apps.glendon.yorku.ca)",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__navigate_page",
+      "Bash(powershell -Command \"& ''C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe'' --headless --disable-gpu --print-to-pdf=''c:\\\\Users\\\\a.vergnaud\\\\dev\\\\prompt-eval-pipeline\\\\pres\\\\fr_presentation.pdf'' ''file:///c:/Users/a.vergnaud/dev/prompt-eval-pipeline/pres/fr_presentation.html''\")",
+      "Bash(powershell -Command:*)",
+      "mcp__filesystem__directory_tree",
+      "mcp__filesystem__list_directory"
     ]
   }
 }
