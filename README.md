@@ -9,7 +9,11 @@ To quickly understand how this project works, review these two files:
 
 ## (FR) Support de présentation du meetup janvier 2026
 
-![Présentation HTML téléchargeable](./pres/fr_presentation.html?raw=true)
+![Présentation PDF](./pres/fr_presentation_full.pdf?raw=true)
+
+Vue d'ensemble :
+
+![schema](./pres/img/prompt_evaluation_5.drawio.svg)
 
 ## Features
 
